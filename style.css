@@ -1,0 +1,18 @@
+header {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background:#222;
+}
+
+.header__h1 {
+    color:#922;
+    margin:auto;
+}
+
+
+.btn-conf {
+    font-size: 30px;
+    margin-right:50px; 
+}
