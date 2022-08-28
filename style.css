@@ -1,18 +1,362 @@
+:root {
+    --background-header:rgb(153, 34, 34);
+    --background-fondo:rgb(0, 24, 73);
+    --letras-settings:rgb(20,20,20);
+}
+
+.main {
+    display:flex;
+    flex-direction: column;
+}
+
 header {
+    position:relative;
+    z-index:10;
     height: 60px;
     display: flex;
+    justify-content:center;
     align-items: center;
-    justify-content: space-between;
-    background:#222;
+    background:var(--background-header);
 }
+
 
 .header__h1 {
-    color:#922;
+    color:#fff;
     margin:auto;
+    font-family: 'Lobster';
+    font-size:40px;
+}
+
+.modal-conf {
+    display:none;
+    align-items:center;
+    justify-content: center;
+    position:fixed;
+    width: 100%;
+    height:100%;
+    background:rgba(0, 0, 0, 0.5);
+    z-index:200;
+    transition:background 1s;
+}
+
+.modal-active {
+    display:flex;
+}
+
+.container-settings {
+    display:flex;
+    flex-direction:column;
+    overflow-y: auto;
+    width: 21em;
+    height:21em;
+    background:rgb(255,255,255);
+    border-radius:8px;
+    position:fixed;
+    z-index:100;
+}
+
+.section-times {
+    width:21em;
+    height:80px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    position:relative;
+    border-bottom:1px solid #00000077;
+}
+
+.section__p {
+    font-family:'noto sans';
+    font-weight: bold;
+    color:var(--letras-settings);
+}
+
+.container-times {
+    width:21em;
+    display:flex;
+    justify-content:center;
+    padding-bottom:10px;
+    gap:50px;
+}
+
+.container-times__conf {
+    display:flex;
+    align-items:center;
+    width:5em;
+    height:30px;
+}
+
+.container-times__input {
+    width:2em;
+    height:1em;
+}
+
+.container-times__p {
+    font-size:12px;
+    font-family:cursive;
+    font-weight: bold;
+    color:var(--letras-settings);
+}
+
+/* seccion de sonidos en el modal */
+
+.section-sounds {
+    width:100%;
+    height:80px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    border-bottom:1px solid rgba(20,20,20,0.5);
+}
+
+.container-sounds {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:10px;
+    width:100%;
+}
+
+.selected {
+    width:5em;
+    height:30px;
+    background:rgb(170,170,170);
+    position: relative;
+    z-index:1000;
+}
+
+.selected__div-view {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    cursor:pointer;
+}
+
+.selected__p {
+    flex:2;
+    padding:3px;
+}
+
+.selected__img-arrow {
+    width:10px;
+    padding:3px;
+    height:10px;
+    flex:1;
+}
+
+.selected__div-option {
+    background:rgb(180,180,180);
+    margin-top:-3px;
+    display:none;
+    width:5em;
+}
+
+.selected__ul {
+    list-style: none;
+     width:100px;
+}
+
+.selected__li {
+    width:100%;
+    border:none;
+    outline:none;
+    cursor:pointer;
+    transition:background 0.4s;
+}
+
+.selected__li-p {
+    padding:3px;
+}
+
+.selected__li:hover  {
+    background:rgb(170,170,170);
+}
+
+.container-sounds__img-speaker {
+    width:30px;
+    height:30px;
+}
+
+.container-sounds__input-range {
+    width:10em;
+}
+
+/* seccion de configuracion de auto start short break */
+
+.section-break {
+    width:100%;
+    height:50px;
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid #00000077;
+}
+
+.section-break__p {
+    padding:10px;
+    flex:2;
+}
+
+.section-break__div-flex {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex:1;
+}
+
+.section-break__div-check {
+    cursor:pointer;
+    width:3em;
+    border-radius:20px;
+    height:30px;
+    background:rgb(150, 150, 150);
+    padding:5px;
+}
+
+.section-break__div-circle {
+    border-radius:100%;
+    width:30px;
+    height:30px;
+    background:rgb(255,255,255);
 }
 
 
-.btn-conf {
-    font-size: 30px;
-    margin-right:50px; 
+.section-break__div-flex-long {
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex:1;
+}
+
+.section-break__div-check-long {
+    cursor:pointer;
+    width:3em;
+    border-radius:20px;
+    height:30px;
+    background:rgb(150, 150, 150);
+    padding:5px;
+}
+
+.section-break__div-circle-long {
+    border-radius:100%;
+    width:30px;
+    height:30px;
+    background:rgb(255,255,255);
+}
+
+.footer-conf {
+    display:flex;
+    align-items:center;
+    justify-content: flex-end;
+    gap:10px;
+    height:50px;
+    width: 100%;
+    position:absolute;
+    bottom:0px;
+}
+
+.footer-conf__button {
+    background:var(--background-fondo);
+    border:none;
+    outline:none;
+    padding:5px;
+    border-radius:3px;
+    color:rgb(255, 255, 255);
+}
+
+.footer-conf__div-btn {
+    padding-right:20px;
+}
+
+.footer-conf__button:nth-child(1) {
+    cursor:pointer;
+}
+
+.footer-conf__button-ok-verifcad {
+    cursor:pointer;
+}
+
+.settings {
+    text-align: center;
+    position: absolute;
+    order:50;
+    right:40px;
+    padding: 5px;
+    background:rgba(54, 13, 13, 0.5);
+    border-radius:10px;
+    color:#fff;
+    font-family: 'noto sans';
+    cursor:pointer;
+}
+
+.btn-config {
+    font-size:10px;
+    color:#fff;
+}
+
+.card-time {
+    width: 400px;
+    height:300px;
+    margin:50px auto;
+    display:flex;
+    flex-direction: column;
+    gap:20px;
+    align-items: center;
+    justify-content: center;
+    background:rgb(153, 34, 34);
+    border-radius:8px;
+}
+
+.mode {
+    display:flex;
+    gap:10px;
+    
+}
+
+.mode p {
+    font-size:18px;
+    font-weight: bold;
+    font-family:'noto sans';
+    padding:5px;
+    border-radius:8px;
+    cursor:pointer;
+    transition:background 0.6s;
+}
+
+.mode-active {
+    background:rgba(255,255,255,0.1);
+}
+
+.container-time {
+    display:flex;
+    gap:5px;
+}
+
+.container-time .minutes, .seconds {
+    text-align:center;
+    padding:5px;
+    width: 100px;
+    height: 100px;
+    font-size:90px;
+    background:rgba(54, 13, 13, 0.5);
+    color:#fff;
+    border-radius:10px;
+}
+
+.two-points {
+    font-size:95px;
+    color:#fff;
+}
+
+.btn-start {
+    width: 150px;
+    height:80px;
+    font-family: 'noto sans';
+    font-size:40px;
+    background:rgb(122, 27, 27);
+    border:none;
+    outline:none;
+    padding:5px;
+    border-radius:10px;
+    cursor:pointer;
 }
