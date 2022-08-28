@@ -9,7 +9,6 @@ export default class Alarm {
         this.seconds = document.querySelector(".seconds");
         this.btnStartOrStop = document.querySelector(".btn-start");
         this.timeSections = document.querySelectorAll(".times");
-        this.body = document.querySelector(".main");
         this.timeSections.forEach(section => section.addEventListener("click",(e)=> this.onClickTime(e.target)));
     }
 
