@@ -268,12 +268,17 @@ header {
     padding-right:20px;
 }
 
-.footer-conf__button:nth-child(1) {
+.button-cerrar {
     cursor:pointer;
 }
 
-.footer-conf__button-ok-verifcad {
+.button-ok {
+    background:rgba(0, 24, 73,0.4);
+} 
+
+.ok-verifcad {
     cursor:pointer;
+    background:rgb(0, 24, 73)
 }
 
 .settings {

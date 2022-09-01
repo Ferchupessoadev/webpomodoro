@@ -43,7 +43,7 @@ export default class Alarm {
             default:
                 this.timeMinutes.innerHTML = "x";
                 this.seconds.innerHTML = "x";
-                console.log("deja de intentar hackear la página papito");
+                console.log("deja de intentar hackear la página pelutudo");
         }      
     }
 }
