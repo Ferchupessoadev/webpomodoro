@@ -1,6 +1,7 @@
-import Clock from './clock.js'
-import Alarm from './alarm.js'
-import Settings from './settings.js'
+"use strict";
+import Clock from './clock.js';
+import Alarm from './alarm.js';
+import Settings from './settings.js';
 
 addEventListener("DOMContentLoaded",()=>{
     const alarm = new Alarm();

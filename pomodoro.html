@@ -20,6 +20,7 @@
 </head> 
 <body>
     <main class="main">
+        <div id="sonidos"></div>
         <section class="modal-conf">
             <div class="container-settings">
                 <div class="section-times">
@@ -27,7 +28,7 @@
                     <div class="container-times">
                         <div class="container-times__conf">
                             <input class="container-times__input" type="number" name="" id="" min="1" max="60">
-                            <p class="container-times__p">study</p>
+                            <p class="container-times__p">Pomodoro</p>
                         </div>
                         <div class="container-times__conf">
                             <input class="container-times__input" type="number" name="" id="" min="1" max="60">
@@ -40,24 +41,26 @@
                     </div>
                 </div>
                     <div class="section-sounds">
-                        <p class="section__p">sounds</p> 
+                        <div class="sounds-div"></div>
+                        <p class="section__p-sound">sounds</p> 
                         <div class="container-sounds">
-                            <div class="sound">
-                                <div class="selected">
+                            <div class="selected">
+                                <div> 
+                                    <p style="margin-top:-15px;color:#fff;">Select alert sound</p>
                                     <div class="selected__div-view">
                                         <p class="selected__p">Digital</p>
                                         <img src="img/downarrow.svg" class="selected__img-arrow">
-                                    </div>
-                                    <div class="selected__div-option">
-                                        <ul class="selected__ul">
-                                            <li class="selected__li"><p class="selected__li-p">Digital</p></li>
-                                            <li class="selected__li"><p class="selected__li-p">Bell</p></li> 
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
                             <img class="container-sounds__img-speaker" src="img/sound-speaker.svg" alt="">
                         </div>
+                        <div class="selected__div-option">
+                                <ul class="selected__ul">
+                                    <li class="selected__li"><p class="selected__li-p">Digital</p></li>
+                                    <li class="selected__li"><p class="selected__li-p">Bell</p></li> 
+                                </ul>
+                            </div>
                     </div>
                     <div class="section-break">
                         <p class="section-break__p">Auto Start short break</p>
@@ -70,10 +73,10 @@
                     </div> 
                     <div class="section-break">
                             <p class="section-break__p">Auto Start long break</p>
-                            <div class="section-break__div-flex-long">
-                                <div class="section-break__div-check-long"> 
-                                        <div class="section-break__div-color-long"></div> 
-                                        <div class="section-break__div-circle-long"></div>
+                            <div class="section-break__div-flex">
+                                <div class="section-break__div-check"> 
+                                    <div class="section-break__div-color"></div> 
+                                    <div class="section-break__div-circle"></div>
                                 </div>
                             </div>
                         </div> 
@@ -90,17 +93,34 @@
             <p class="settings"><i class="fa-solid fa-gear btn-conf" class="btn-config"></i>settings</p>
         </header>
         <section class="card-time">
-            <div class="mode">
-                <p class="times mode-active">Time study</p>
-                <p class="times">Short break</p>
-                <p class="times">Long break</p>
+            <div class="container-timer">
+                <div class="mode">
+                    <p class="times mode-active">Pomodoro</p>
+                    <p class="times">Short break</p>
+                    <p class="times">Long break</p>
+                </div>
+                <div class="container-time">
+                    <div class="minutes">25</div>
+                    <div class="two-points">:</div>
+                    <div class="seconds">00</div>
+                </div>
+                <div class="container-timer__div-btn">
+                    <button class="btn-start">START</button>
+                    <button id="reload-timer" class="btn-reload"><i class="fa-solid fa-rotate-right"></i></button> 
+                </div>
             </div>
-            <div class="container-time">
-                <div class="minutes">45</div>
-                <div class="two-points">:</div>
-                <div class="seconds">00</div>
+        </section>
+        <section class="modal-alert">
+            <div class="modal__data-container">
+                <p class="modal__p" id="msg-alert"></p>
+                <div class="modal__container-btn">
+                    <button class="modal__button modal__button-si">Si, aceptar</button>
+                    <button class="modal__button modal__button-no">No, cancelar</button>
+                </div>
             </div>
-            <button class="btn-start">START</button>
+        </section>
+        <section class="section-what-is-pomo">
+            <h2 class="section__h2">¿que es la técnica Pomodoro?</h2>
         </section>
     </main>
     <script src="js/app.js" type="module"></script>
