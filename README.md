@@ -8,6 +8,9 @@
 git clone https://github.com/fernando14377/web-pomodoro
 
 ```
+**abren xampp control panel y inician el servidor web **
+
+![xampp-init-server](https://user-images.githubusercontent.com/107710139/210186976-3ec0e117-9c56-49b7-8663-85d085ea46ab.png)
 
 # screenshot
 
