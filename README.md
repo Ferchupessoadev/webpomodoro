@@ -1,7 +1,7 @@
 # web pomodoro
 un simple web para aprender JS con funcionalidades de temporizadores para estudiar con la técnica pomodoro.
 
-_*web en escritorio_*_
+*_Web en escritorio**
 ![Captura de pantalla de 2022-12-31 21-57-03](https://user-images.githubusercontent.com/107710139/210158451-87649768-7774-4c61-be7e-e08223e024f4.png)
 
 
