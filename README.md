@@ -2,7 +2,7 @@
 **un simple web para aprender :books: JS con funcionalidades de temporizadores para estudiar con la técnica pomodoro :tomato:.**
 
 ## poner en marcha la web
-**se descargan xampp desde la web oficial <a href="https://www.apachefriends.org/es/" target=""_BLANK>apachefriends.org</a>**
+**se descargan xampp desde la web oficial <a href="https://www.apachefriends.org/es/" target="_BLANK">apachefriends.org</a>**
 
 
 
