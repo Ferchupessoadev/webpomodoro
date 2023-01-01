@@ -3,13 +3,11 @@
 
 ## poner en marcha la web
 * se descargan xampp desde la web oficial [apachefriends.org]("https://www.apachefriends.org/es/")
-* clonan el repositorio
+* clonan el repositorio en la carpeta htdocs de xampp
 ```
 git clone https://github.com/fernando14377/web-pomodoro
 
 ```
-
-
 
 # screenshot
 
