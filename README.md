@@ -1,5 +1,5 @@
 # web pomodoro
-*un simple web para aprender JS con funcionalidades de temporizadores para estudiar con la técnica pomodoro.*
+**un simple web para aprender JS con funcionalidades de temporizadores para estudiar con la técnica pomodoro.**
 
 # Web en escritorio
 
