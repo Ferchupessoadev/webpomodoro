@@ -1,7 +1,7 @@
 # web pomodoro
 **un simple web para aprender JS con funcionalidades de temporizadores para estudiar con la técnica pomodoro.**
 
-## screenshot
+# screenshot
 
 ### Web en escritorio
 
