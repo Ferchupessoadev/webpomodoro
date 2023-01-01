@@ -7,9 +7,9 @@ const spanChangeAlertString = "Estas seguro/a que desea cambiar de lapso de tiem
 
 class Alarm {
     constructor() {
-	    this.main = document.querySelector(".main");
+	this.main = document.querySelector(".main");
         this.soundHTML = document.getElementById("sonidos");
-        this.sound = "bell";//valor del efecto por defecto.
+        this.sound = "bell.mp3";//valor del efecto por defecto.
         this.setting = null;
         this.timeInProcess = false;
         this.timeRunning = false;
@@ -37,14 +37,14 @@ class Alarm {
         this.time = 0;
         this.interval;
         this.sound;
-        this.MILISEGUNDOS = 10;
-        this.timeSection = null;
-        this.modeAlert = "time sections";
+        this.MILISEGUNDOS = 1000;
+        this.timeSection = "Pomodoro";
         this.killInterval = false;
         this.timerEnd = false;
         this.oneSeg = 59;
         this.timeActual = null;
         this.soundProcess;
+        this.soundRunning;
     }
 
     setSettings(setting) {
@@ -52,10 +52,15 @@ class Alarm {
         this.times = this.setting.getTimes();
     }
 
+    pause() {
+        this.userClickedTwice = true;
+        this.timeRunning = false;
+        this.killInterval = true;
+    }
 
     changeSound(sound) {
         this.sound = sound;
-        console.log(this.sound)
+        (this.sound == "bell") ? this.sound = this.sound+".mp3" : this.sound = this.sound + ".ogg"; 
     }
 
     colocarContadoresEnCero() {
@@ -65,34 +70,11 @@ class Alarm {
         this.wasFalseTimeRunning = false;
         this.userClickedTwice = false;
         this.timeRunning = false;
-        this.soundInProcess = false;    
+        this.soundInProcess = false; 
+        this.timeInProcess = false;   
     }
 
-    pause() {
-        clearInterval(this.interval)
-        this.userClickedTwice = true;
-        this.timeRunning = false;
-        this.killInterval = true;
-    }
 
-    disminuirSeg() {
-        this.contSeg++;
-        this.secondsText -= 1;
-    }
-
-    
-    checkStopSound(userChosenSound) {
-        if(!this.killInterval) this.soundHTML.innerHTML = `<audio src="./sounds/${userChosenSound}" autoplay></audio>`;
-        else {
-            (this.timeActual.toString().length < 2) ? this.timeMinutes.innerHTML = `0${this.timeActual}` : this.timeMinutes.innerHTML = `${this.timeActual}`;
-            this.seconds.innerHTML = "00";
-            this.timerEnd = false;
-            this.killInterval = false;
-            this.soundInProcess = false;
-            this.timeInProcess = false;
-            clearInterval(this.soundProcess);
-        }
-    }
 
 
     disminuirMin(){
@@ -103,28 +85,20 @@ class Alarm {
             this.seconds.textContent = `${this.secondsText}`;
             this.timeMinutes.innerHTML = this.time;
             this.colocarContadoresEnCero();
-            let userChosenSound;
-            if (this.sound == "digital") userChosenSound = "digital.ogg";
-            else if (this.sound == "bell") userChosenSound = "bell.mp3";
-            this.checkStopSound(userChosenSound);
             this.soundInProcess = true;
-            this.soundProcess = setInterval(()=> {this.checkStopSound(userChosenSound)},1000);
-        }
-        if (!this.timerEnd) {
+            this.soundHTML.innerHTML = `<audio src="./sounds/${this.sound}" autoplay></audio>`
+            this.soundRunning = setInterval(()=> {
+                if(!this.killInterval) this.soundHTML.innerHTML = `<audio src="./sounds/${this.sound}" autoplay></audio>`;
+                else this.stopSoundAlert()
+            },1000);
+        } else if (!this.timerEnd) {
             this.time -= 1;
             this.secondsText = this.oneSeg;
             this.contSeg = 0;
         }  
     }
 
-    mostrarTiempo() {
-        // mostrar segundos restantes.
-        (this.secondsText.toString().length < 2) ? this.seconds.innerHTML = `0${this.secondsText}` : this.seconds.innerHTML = this.secondsText;
-        
-        // mostrar minutos restantes.
-        (this.time.toString().length < 2) ? this.timeMinutes.innerHTML = `0${this.time}` : this.timeMinutes.innerHTML = this.time;
-    }
-    
+
 
 
     timer(time) {  
@@ -132,34 +106,42 @@ class Alarm {
         this.killInterval = false;
         if (!this.userClickedTwice) {
             this.time = this.timeActual;
-            (this.timeActual == 1) ? ((this.contSeg = 0),(this.time -= 1),(this.secondsText = this.oneSeg)): this.contSeg = this.oneSeg;
-            
+            (this.timeActual == 1) ? ((this.contSeg = 0),(this.time -= 1),(this.secondsText = this.oneSeg)): this.contSeg = this.oneSeg;    
         }
         this.userClickedTwice = false;
         this.interval = setInterval(()=>{
-                (this.timerEnd) ? clearInterval(this.interval): this.timerEnd = false;
-                (this.contSeg < this.oneSeg) ? this.disminuirSeg() : this.disminuirMin();
-                this.mostrarTiempo();
+            (this.timerEnd) ? clearInterval(this.interval): this.timerEnd = false;
+            if (this.contSeg < this.oneSeg)  {
+                // decrease by one second.
+                this.contSeg++; 
+                this.secondsText -= 1
+            } else this.disminuirMin();
+            // mostrar segundos restantes.
+            (this.secondsText.toString().length < 2) ? this.seconds.innerHTML = `0${this.secondsText}` : this.seconds.innerHTML = this.secondsText;
+            
+            // mostrar minutos restantes.
+            (this.time.toString().length < 2) ? this.timeMinutes.innerHTML = `0${this.time}` : this.timeMinutes.innerHTML = this.time;
         },this.MILISEGUNDOS);
     }
  
 
 
-    toogleBtnStart(e) {
+    toogleBtnStart() {
         if (!this.timeRunning && !this.wasFalseTimeRunning) {
             //correr tiempo.
-            if (!this.timerEnd) {
-                this.timeInProcess = true;
-                this.timeRunning = true;
-                this.btnStart.textContent = `STOP`;
-                this.times = this.setting.getTimes();
-                let indexTime;
-                this.timeSections.forEach((time,index) => (time.className == "times mode-active") ? indexTime = index: indexTime = indexTime);
-                this.timer(this.times[indexTime]); 
-            } else {
+            if (this.timerEnd) {
                 this.btnStart.textContent = `START`;
                 this.killInterval = true;
+                return;
             }
+            this.timeInProcess = true;
+            this.timeRunning = true;
+            this.btnStart.textContent = `STOP`;
+            this.times = this.setting.getTimes();
+            let indexTime;
+            this.timeSections.forEach((time,index) => (time.className == "times mode-active") ? indexTime = index: indexTime = indexTime);
+            this.timer(this.times[indexTime]); 
+            
         } else {
             //Frenar tiempo.
             clearInterval(this.interval)
@@ -171,42 +153,43 @@ class Alarm {
         }
     }
 
-
-    reloadTimer() {
-        if (this.timeInProcess) {
-            (this.timeActual.toString().length < 2) ? this.timeMinutes.innerHTML = `0${this.timeActual}` : this.timeMinutes.innerHTML = `${this.timeActual}`;
-            this.seconds.innerHTML = "00";
-            this.timeInProcess = false;
-            this.btnStart.textContent = `START`;
-            this.killInterval = true;
-            this.soundInProcess = false;
-            this.btnReload.style.animation = `rotateReload 1s ease-in-out`;
-            setTimeout(()=>{
-                this.btnReload.style.animation = "none";
-            },1200);
-
-            if (this.soundInProcess) {   
-                clearInterval(this.soundProcess);
-            } else {
-                clearInterval(this.interval);
-                this.colocarContadoresEnCero();
-                
-            }
-        } else {
-            this.btnReload.style.animation = `rotateReload 1s ease-in-out`;
-            setTimeout(()=>{
-                this.btnReload.style.animation = "none";
-            },1200);
-        }
+    reloadAnimation() {
+        this.btnReload.style.animation = `rotateReload 1s ease-in-out`;
+        setTimeout(()=>{
+            this.btnReload.style.animation = "none";
+        },1200);
     }
 
+    stopSoundAlert() {
+        (this.timeActual.toString().length < 2) ? this.timeMinutes.innerHTML = `0${this.timeActual}` : this.timeMinutes.innerHTML = `${this.timeActual}`;
+        this.seconds.innerHTML = "00";
+        this.timerEnd = false;
+        this.killInterval = false;
+        this.soundInProcess = false;
+        this.btnStart.textContent = "START";
+        clearInterval(this.soundRunning);
+    }
+
+    reloadTimer() {
+        this.reloadAnimation();
+        if (this.timeInProcess) {
+            clearInterval(this.interval); 
+            (this.timeActual.toString().length < 2) ? this.timeMinutes.innerHTML = `0${this.timeActual}` : this.timeMinutes.innerHTML = `${this.timeActual}`;
+            this.seconds.innerHTML = "00";
+            this.btnStart.textContent = `START`;
+            this.timeRunning = false;
+            this.timeInProcess = false;
+            this.killInterval = false;
+            this.timerEnd = false;
+            this.colocarContadoresEnCero();
+        } else if (this.soundInProcess) {
+            this.stopSoundAlert();
+        } 
+    }
+    
+    
     changeTimes(times) {
         this.times = times;
-        console.log(this.times);
-        (this.times[indiceTimeStudy].toString().length < 2) ? this.timeMinutes.textContent = `0${this.times[indiceTimeStudy]}`:this.timeMinutes.textContent = `${this.times[indiceTimeStudy]}`;
-        this.timeSections[indiceTimeStudy].classList.add("mode-active");
-        this.timeSections[indiceTimeShortBreak].classList.remove("mode-active");
-        this.timeSections[indiceTimeLongBreak].classList.remove("mode-active");
         this.seconds.textContent = "00";
         this.secondsText = 60;
         this.btnStart.textContent = `START`;
@@ -219,15 +202,11 @@ class Alarm {
 
 
     cambiarTiempoEnAlerta() {
-        this.modal.style.display = "none";
+        if(this.modeAlert == "settings")  this.setting.onClickForOpenModal();
         this.colocarContadoresEnCero();
-        if (this.modeAlert == "settings") {
-            this.setting.onClickForOpenModal(this.setting.times)
-        } else {
-            this.timeInProcess = false;
-            this.onClickTime(this.timeSection);    
-            this.btnStart.textContent = "START";
-        }
+        this.onClickTime(this.timeSection);
+        this.btnStart.textContent = "START";
+        this.modal.style.display = "none";
     }
 
     noCambiarTiempoEnAlerta() {
@@ -241,10 +220,10 @@ class Alarm {
         this.timeSection = timeSection;
         this.modeAlert = modo;
         const textModal = this.modal.firstElementChild.firstElementChild;
-        (this.modeAlert == "settings")  ? textModal.innerHTML = alertConfString : textModal.innerHTML = spanChangeAlertString;     
+        (modo == "settings")  ? textModal.innerHTML = alertConfString : textModal.innerHTML = spanChangeAlertString;     
     }
 
-    cambiarEstadoTiempo(timeSection) {
+    changeStatusOfTime(timeSection) {
         this.seconds.innerHTML = "00";
         this.timeSections.forEach(section => section.classList.remove("mode-active"));
         timeSection.classList.add("mode-active");
@@ -262,14 +241,16 @@ class Alarm {
                 case "Pomodoro":this.changeTimeSection(times,indiceTimeStudy);break;
                 case "Short break":this.changeTimeSection(times,indiceTimeShortBreak);break;
                 case "Long break":this.changeTimeSection(times,indiceTimeLongBreak);break;
-            } 
-            this.cambiarEstadoTiempo(timeSection)
-        } else {
-            if (!this.soundInProcess) {
-                (!this.timeRunning) ? this.wasFalseTimeRunning = true : this.wasFalseTimeRunning = false;
-                this.pause()
-                this.openModalOfAlert(timeSection,"time sections");
             }
+            this.changeStatusOfTime(timeSection);
+            this.timeSection = timeSection;
+        } else if (!this.soundInProcess) {
+            (!this.timeRunning) ? this.wasFalseTimeRunning = true : this.wasFalseTimeRunning = false;
+            clearInterval(this.interval);
+            // we pause the timer.
+            this.pause()
+            // open the modal of alert because is the time running.
+            this.openModalOfAlert(timeSection,"time sections");
         }    
     }
 }

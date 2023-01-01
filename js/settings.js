@@ -69,16 +69,17 @@ export default class Settings {
     }
 
     onClickForCloseModal() {
-        if (this.alarm.timeInProcess) {
+        if (!this.alarm.timeInProcess) {
             this.modal.classList.remove("modal-active");
-            (this.times[indiceTimeStudy].toString().length < 2) ? this.alarm.timeMinutes.innerHTML = `0${this.times[indiceTimeStudy]}`: this.alarm.timeMinutes.innerHTML = this.times[indiceTimeStudy];
-            this.alarm.seconds.innerHTML = "00";
-            this.alarm.btnStart.innerHTML = "START";
-            console.log(this.alarm.btnStart.innerHTML)
-            this.alarm.cambiarEstadoTiempo(this.alarm.timeSection);
-            this.alarm.colocarContadoresEnCero();
-            this.timeInProcess = false;
-        } else  this.modal.classList.remove("modal-active");
+            return;
+        }
+        this.modal.classList.remove("modal-active");
+        (this.times[indiceTimeStudy].toString().length < 2) ? this.alarm.timeMinutes.innerHTML = `0${this.times[indiceTimeStudy]}`: this.alarm.timeMinutes.innerHTML = this.times[indiceTimeStudy];
+        this.alarm.seconds.innerHTML = "00";
+        this.alarm.btnStart.innerHTML = "START";
+        this.alarm.cambiarEstadoTiempo(this.alarm.timeSection);
+        this.alarm.colocarContadoresEnCero();
+        this.alarm.timeInProcess = false;
     }
 
     onClickForOpenSelectedOption() {
@@ -88,15 +89,17 @@ export default class Settings {
     }
 
     openModalConf() {
-        if(this.alarm.timeRunning || this.alarm.timeInProcess) {
-            clearInterval(this.alarm.interval);  
-            let indexTime;
-            this.alarm.timeSections.forEach((time,index) => (time.className == "times mode-active") ? indexTime = index : indexTime)
-            this.alarm.userClickedTwice = true; 
-            (!this.alarm.timeRunning) ? this.alarm.wasFalseTimeRunning = true : this.alarm.wasFalseTimeRunning = false;
-            this.alarm.pause();
-            this.alarm.openModalOfAlert(this.times[indexTime],"settings");
-        } else this.onClickForOpenModal(this.times);
+        if(!this.alarm.timeRunning && !this.alarm.timeInProcess) {
+            this.onClickForOpenModal(this.times);
+            return;
+        }
+        clearInterval(this.alarm.interval);  
+        let indexTime;
+        this.alarm.timeSections.forEach((time,index) => (time.className == "times mode-active") ? indexTime = index : indexTime)
+        this.alarm.userClickedTwice = true; 
+        (!this.alarm.timeRunning) ? this.alarm.wasFalseTimeRunning = true : this.alarm.wasFalseTimeRunning = false;
+        this.alarm.pause();
+        this.alarm.openModalOfAlert(this.alarm.timeSection,"settings");
     }
 
     changeTrueOrFalseOfTimes(index,varTrueOrfalse) {
@@ -107,7 +110,7 @@ export default class Settings {
         }
     }
 
-    // este metodo valida los datos introducidos en las entradas del modal de configuracion.
+    // este metodo valida los datos introducidos en las entradas del modal de configuracion solo se permiten numero entre 1 y 60.
     checkValue(inputValue,indexOfTimes) {
         let isValided = false;
         if(parseInt(inputValue) >= 1 && parseInt(inputValue) <= 60) isValided = true; 
@@ -122,14 +125,15 @@ export default class Settings {
         }
     } 
 
-    //cambia los tiempos de estudio y descanso del temporizador.
+    //cambia los tiempos de estudio y descanso del temporizador y cierra el modal.
     changeTimes() {
         if(this.changeValues) {
             this.times[indiceTimeStudy] = parseInt(this.inputsConf[indiceTimeStudy].value);
             this.times[indiceTimeShortBreak] = parseInt(this.inputsConf[indiceTimeShortBreak].value);
             this.times[indiceTimeLongBreak] = parseInt(this.inputsConf[indiceTimeLongBreak].value);
-            this.onClickSetting.onClickForCloseModal();
+            this.onClickForCloseModal();
             this.alarm.changeTimes(this.times);
+            this.alarm.onClickTime(this.alarm.timeSection)
         }      
     }
 }
