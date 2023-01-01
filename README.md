@@ -2,7 +2,12 @@
 **un simple web para aprender :books: JS con funcionalidades de temporizadores para estudiar con la técnica pomodoro :tomato:.**
 
 ## poner en marcha la web
-***se descargan xampp desde la web oficial [apachefriends.org]("https://www.apachefriends.org/es/")**
+* se descargan xampp desde la web oficial [apachefriends.org]("https://www.apachefriends.org/es/")
+* clonan el repositorio
+```
+git clone https://github.com/fernando14377/web-pomodoro
+
+```
 
 
 
