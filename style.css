@@ -1,6 +1,4 @@
 :root {
-    --background-header:rgba(132, 30, 30,0);
-    --background-fondo:rgb(0, 24, 73);
     --letras-settings:rgb(20,20,20);
 }
 
@@ -349,7 +347,8 @@ header {
 }
 
 .settings {
-    padding: 4px;
+    padding:0px 4px;
+    padding-bottom: 2px;
     border-radius:10px;
     color:#fff;
     font-family: 'noto sans';
@@ -366,6 +365,7 @@ header {
 .card-time {
     display:flex;
     width: 100%;
+    height: calc(100vh - 60px);
 
 }
 
@@ -379,7 +379,6 @@ header {
     gap:20px;
     align-items: center;
     justify-content: center;
-    
     border-radius:10px;
 }
 
@@ -414,6 +413,8 @@ header {
 
 .container-time .minutes, .seconds {
     text-align:center;
+    min-width: 1em;
+    min-height: 1em;
     padding:5px;
     font-size:90px;
     background:rgba(255, 255, 255,0.1);
@@ -426,13 +427,11 @@ header {
     color:#fff;
 }
 
-.container-timer__div-btn {
-   
+.container-timer__div-btn {  
     display: flex;
     gap:10px;
     align-items: center;
     justify-content: center;
-    margin-top:15px;
 }
 
 
@@ -533,51 +532,113 @@ header {
     border-top:1px solid rgb(23, 245, 28);
 }
 
-#relog{
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 60px;
-    text-shadow: 0px 0px 1px #333;
-    color: white;
-}
 
-.relog-container{
-    background: rgb(13,0,36);
-    background: linear-gradient(90deg, rgba(13,0,36,1) 2%, rgba(123 25,112,0.913585417076987) 100%, rgba(0,212,255,1) 100%); 
-    padding: 25px;
-    max-width: 1000px;
-    text-align: center;
-    border-radius: 50px;;
+.card-task {
     margin:auto;
-    color:white;
-
+    width:80%;
+    height:300px;
+    background:rgb(13,0,36);
+    box-shadow: 0px 0px 23px 4px rgb(0,0,0);
+    border:2px solid #000;
+    overflow-y:auto;
 }
 
-#hora {
-    color:white;
+.nav-task {
+    height:50px;
+    display:flex;
+    align-items:center;
+    background:transparent;
+    border-bottom:1px solid #fff;
 }
 
-#fecha{
-    letter-spacing: 10px;
-    font-size: 15px;
-    color:white;
+.nav-task__h3 {
+    color:#fff;
+    margin-left:15px;
+    flex:1;
 }
+
+.nav-task__button {
+    display:flex;
+    align-items:center;
+    background:#fff;
+    padding:8px;
+    margin-right: 15px;
+    gap:5px;
+    border-radius:20px;
+    border:none;
+    cursor:pointer;
+    text-align:justify;
+}
+
+.nav-task__button:hover {
+    background-color: #ccc;
+}
+
+.nav-task__button:active {
+    background-color:#fff;
+}
+
+.nav-task__button-p {
+    font-size:20px;
+}
+
 
 footer {
     width: 100%;
     height: 60px;
-    /* background: rgb(13,0,36);
-    background: linear-gradient(90deg, rgba(13,0,36,1) 2%, rgba(123 25,112,0.913585417076987) 100%, rgba(0,212,255,1) 100%);  */
+    /*background: rgb(13,0,36);*/
+    /*background: linear-gradient(90deg, rgba(13,0,36,1) 2%, rgba(123 25,112,0.913585417076987) 100%, rgba(0,212,255,1) 100%); */
     display:flex;
+    gap:10px;
     justify-content: center;
     align-items: center;
     margin-top: auto;
 
 }
 
-footer p ,footer p i {
+footer p ,footer p i ,footer i {
     color:white;
     font-family: 'Lobster';
     font-size:20px;
+}
+
+
+footer a i:hover {
+    color:rgb(13,0,36);
+}
+
+@media screen and (max-width:800px) {
+    .header__h1 {
+        font-size: 35px;
+    }
+
+    .mode p {
+        font-size:15px;
+    }
+
+    .container-timer {
+        width:22em;
+        height:18em;
+    }
+
+     .minutes, .seconds {
+        font-size:80px;
+    }
+
+    footer p,footer p i {
+        font-size:15px;
+    }
+} 
+
+@media screen and (max-width:334px) {
+
+    .card-time {
+        margin-bottom:25px;
+    }
+
+    .mode {
+        flex-direction: column;
+    }
 }
  
 

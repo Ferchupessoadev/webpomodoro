@@ -1,7 +1,4 @@
 "use strict";
-
-
-
 const indiceTimeStudy = 0;
 const indiceTimeShortBreak = 1;
 const indiceTimeLongBreak = 2;
@@ -9,7 +6,7 @@ const indiceTimeLongBreak = 2;
 export default class Settings {
     constructor() {
         this.alarm = null;
-        this.times = [25,5,10];
+        this.times = [];
         this.changeValues = true;
         this.changeValueOfTimes = {
             changeTimeStudy:true,
@@ -27,7 +24,7 @@ export default class Settings {
         this.selectedOptions = document.querySelectorAll(".selected__li");
         this.selectedOptions.forEach(selectedOption => this.addListenerAndChangeSound(selectedOption));
         this.autoBreaksHTML = document.querySelectorAll(".section-break__div-check");
-        this.autoBreaksHTML.forEach(autoBreakHTML => autoBreakHTML.addEventListener("click", e => this.changeAutoBreakStyles(autoBreakHTML)));
+        this.autoBreaksHTML.forEach(autoBreakHTML => autoBreakHTML.addEventListener("click", e => this.changeAutoBreaks(e.target)));
         this.btnConfOk.classList.add("ok-verificad");
         this.btnConfOk.addEventListener("click",()=> this.changeTimes())
         this.modal = document.querySelector(".modal-conf");
@@ -36,36 +33,104 @@ export default class Settings {
             inputConf.value = this.times[index];
             inputConf.addEventListener("input",(e) => this.checkValue(e.target.value,index));
         });
+        this.pomodorosRunnning = 0;
         this.autoShortBreak = false;
+        this.autoLongBreak = false;
+      
     }
 
     setAlarm(alarm) {
         this.alarm = alarm;
     }
 
-    // este metodo retorna los tiempos de intervalos a el objeto alarm. 
+    toFirstUpperCase(string) {
+        const firstLetterSound = string[0].toUpperCase();
+        let endString = string.length;
+        string = string.slice(1,endString + 1);
+        string = firstLetterSound + string;
+        return string;
+    }
+
+    
+
+    rederTimes() {
+        if(localStorage.getItem("times") == null || localStorage.getItem("times") == undefined || localStorage.getItem("sound") == undefined) {
+            localStorage.setItem("times",JSON.stringify([25,5,10]));
+            this.times = [25,5,10];
+            this.alarm.timeMinutes.textContent = this.times[0];
+            localStorage.setItem("timeSection",this.alarm.timeSections[0].textContent);
+            this.alarm.renderTimeSection(localStorage.getItem("timeSection"),this.times);
+            this.alarm.seconds.textContent = "00";
+            localStorage.setItem("sound","digital");
+            let sound = "digital";
+            sound = this.toFirstUpperCase(sound)
+            this.selectedText.textContent = sound;
+        } else {
+            this.times = JSON.parse(localStorage.getItem("times"));
+            this.alarm.renderTimeSection(localStorage.getItem("timeSection"),this.times);
+            this.alarm.seconds.textContent = "00";
+            let sound = localStorage.getItem("sound");
+            sound = this.toFirstUpperCase(sound)
+            this.selectedText.textContent = sound;
+        }
+    }
+
+
     getTimes() {
         return this.times;
     }
+    
+    
 
+    saveTimesInTheDataBase() {
+        localStorage.setItem("times",JSON.stringify(this.times)); 
+    }
+
+
+    
+
+    // este metodo retorna los tiempos de intervalos a el objeto alarm. 
     addListenerAndChangeSound(selectedOption) {
         selectedOption.addEventListener("click",(e)=> {
             this.selectedText.textContent = e.target.textContent;
+            localStorage.setItem("sound",e.target.textContent.toUpperCase());
             this.onClickForOpenSelectedOption();
             this.alarm.changeSound(e.target.textContent.toLowerCase());
         })
     }
 
-    changeAutoBreakStyles(autoBreakHTML) {
-        let circleBackgroundColor = autoBreakHTML.firstElementChild;
-        let circle = autoBreakHTML.lastElementChild; 
-        circle.style.transform = "translateX(18px)";
-        circleBackgroundColor.style.background = "rgb(120,230,140)";
+    changeAutoBreaks(autoBreakHTML) {
+        let sectionBreakHTML;
+        if (autoBreakHTML.classList == "section-break__div-color" || autoBreakHTML.className == "section-break__div-circle") 
+            sectionBreakHTML = autoBreakHTML.parentElement.parentElement.parentElement 
+        else 
+            sectionBreakHTML = autoBreakHTML.parentElement.parentElement
+        let autoBreak = sectionBreakHTML.firstElementChild;
+        let autoBreakCircle = sectionBreakHTML.lastElementChild.firstElementChild.lastElementChild;
+        let autoBreakColor = sectionBreakHTML.lastElementChild.firstElementChild.firstElementChild;
+        if (autoBreak.textContent == "Auto Start short break") {
+            if (!this.autoShortBreak) {
+                this.autoShortBreak = true;
+                console.log("activar auto short break"); 
+            } else {
+                this.autoShortBreak = false;
+                console.log("desactivar auto short break");
+            }
+        } else {
+            if (!this.autoLongBreak) {
+                this.autoLongBreak = true;
+                console.log("activar auto long break");
+            } else {
+                this.autoLongBreak = false;
+                console.log("desactivar auto long break");
+            }
+        }
     }
 
     onClickForOpenModal() {
         this.modal.classList.add("modal-active");
         this.inputsConf.forEach((input,index)=> input.value = this.times[index]);
+        
     }
 
     onClickForCloseModal() {
@@ -131,6 +196,7 @@ export default class Settings {
             this.times[indiceTimeStudy] = parseInt(this.inputsConf[indiceTimeStudy].value);
             this.times[indiceTimeShortBreak] = parseInt(this.inputsConf[indiceTimeShortBreak].value);
             this.times[indiceTimeLongBreak] = parseInt(this.inputsConf[indiceTimeLongBreak].value);
+	        this.saveTimesInTheDataBase();
             this.onClickForCloseModal();
             this.alarm.changeTimes(this.times);
             this.alarm.onClickTime(this.alarm.timeSection)

@@ -30,7 +30,6 @@ class relog {
         this.hr = this.formatHora(this.fecha.getHours());
         this.min = this.formatHora(this.fecha.getMinutes());
         this.sec = this.formatHora(this.fecha.getSeconds());
-
         this.horaHTML.innerHTML = `${this.hr}:${this.min}:${this.sec}`; 
         this.diaSemana = this.dias[this.fecha.getDay()];
         this.dia = this.fecha.getDate();

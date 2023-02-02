@@ -9,7 +9,7 @@ class Alarm {
     constructor() {
 	this.main = document.querySelector(".main");
         this.soundHTML = document.getElementById("sonidos");
-        this.sound = "bell.mp3";//valor del efecto por defecto.
+        this.sound = "digital";//valor del efecto por defecto.
         this.setting = null;
         this.timeInProcess = false;
         this.timeRunning = false;
@@ -49,7 +49,9 @@ class Alarm {
 
     setSettings(setting) {
         this.setting = setting;
-        this.times = this.setting.getTimes();
+        setTimeout(()=>{
+            this.times = this.setting.getTimes();
+        },1000);
     }
 
     pause() {
@@ -60,7 +62,8 @@ class Alarm {
 
     changeSound(sound) {
         this.sound = sound;
-        (this.sound == "bell") ? this.sound = this.sound+".mp3" : this.sound = this.sound + ".ogg"; 
+        (this.sound == "bell") ? this.sound = this.sound + ".mp3" : this.sound = this.sound + ".ogg";
+        localStorage.setItem("sound",sound);
     }
 
     colocarContadoresEnCero() {
@@ -98,7 +101,10 @@ class Alarm {
         }  
     }
 
-
+    disminuirSeg() {
+        this.contSeg++; 
+        this.secondsText -= 1;
+    }
 
 
     timer(time) {  
@@ -111,11 +117,12 @@ class Alarm {
         this.userClickedTwice = false;
         this.interval = setInterval(()=>{
             (this.timerEnd) ? clearInterval(this.interval): this.timerEnd = false;
-            if (this.contSeg < this.oneSeg)  {
+            if (this.contSeg < this.oneSeg) {  
                 // decrease by one second.
-                this.contSeg++; 
-                this.secondsText -= 1
-            } else this.disminuirMin();
+                this.disminuirSeg();
+            } else {
+                this.disminuirMin();
+            }
             // mostrar segundos restantes.
             (this.secondsText.toString().length < 2) ? this.seconds.innerHTML = `0${this.secondsText}` : this.seconds.innerHTML = this.secondsText;
             
@@ -234,8 +241,22 @@ class Alarm {
         this.timeActual = times[index];
     }
 
+    renderTimeSection(timeSection,times) {
+        switch (timeSection) {
+            case "Pomodoro":this.changeTimeSection(times,indiceTimeStudy);break;
+            case "Short break":this.changeTimeSection(times,indiceTimeShortBreak);break;
+            case "Long break":this.changeTimeSection(times,indiceTimeLongBreak);break;
+        }
+        let indexOfTimeSection;
+        this.timeSections.forEach((tiSection,index) => {
+            if (tiSection.innerHTML == timeSection) indexOfTimeSection = index;
+        });
+        this.timeSections[indexOfTimeSection].classList.add("mode-active");
+        this.timeSection = this.timeSections[indexOfTimeSection];
+    }
+
     onClickTime(timeSection) {
-        const times = this.setting.getTimes();
+        let times = this.setting.getTimes();
         if(!this.timeInProcess && !this.soundInProcess) {
             switch (timeSection.innerHTML) {
                 case "Pomodoro":this.changeTimeSection(times,indiceTimeStudy);break;
@@ -244,6 +265,7 @@ class Alarm {
             }
             this.changeStatusOfTime(timeSection);
             this.timeSection = timeSection;
+            localStorage.setItem("timeSection",this.timeSection.innerHTML);
         } else if (!this.soundInProcess) {
             (!this.timeRunning) ? this.wasFalseTimeRunning = true : this.wasFalseTimeRunning = false;
             clearInterval(this.interval);

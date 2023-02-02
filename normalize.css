@@ -10,7 +10,7 @@ body {
     display:flex;
     flex-direction: column;
     min-height: 100vh;
-    gap:10px;
+    gap:5px;
     background:url(./img/background.jpg) no-repeat center center/cover;
 }
 

@@ -14,7 +14,9 @@
     <!--  noto sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Noto+Sans:wght@500&display=swap" rel="stylesheet">  
+    <link 
+	href="https://fonts.googleapis.com/css2?family=Lobster&family=Noto+Sans:wght@500&display=swap" 
+	rel="stylesheet">  
     <!--FUENTES  -->
     <!-- font awesome -->
     <script src="https://kit.fontawesome.com/f845b9182b.js" crossorigin="anonymous"></script>
@@ -94,14 +96,14 @@
     <section class="card-time">
         <div class="container-timer">
             <div class="mode">
-                <p class="times mode-active">Pomodoro</p>
+                <p class="times">Pomodoro</p>
                 <p class="times">Short break</p>
                 <p class="times">Long break</p>
             </div>
             <div class="container-time">
-                <div class="minutes">25</div>
+                <div class="minutes"></div>
                 <div class="two-points">:</div>
-                <div class="seconds">00</div>
+                <div class="seconds"></div>
             </div>
             <div class="container-timer__div-btn">
                 <button class="btn-start">START</button>
@@ -119,14 +121,18 @@
             </div>
         </div>
     </section>
-    <section id="relog">
-        <div class="relog-container" id="container">
-            <div id="hora"></div>
-            <div id="fecha"></div>
-        </div>
+    <section class="card-task">
+	<div class="nav-task">
+	    <h3 class="nav-task__h3">List todo</h3>
+	    <button class="nav-task__button"><p class="nav-task__button-p">+</p> Add Task</button>
+	</div>
     </section>
     <footer>
-        <p>made with <i class="fa-solid fa-heart"></i> by Fernando M.Pessoa</p>
+        <p>made with <i class="fa-solid fa-heart"></i> by Fernando M.Pessoa </p>
+ 	<p class="footer__pipe">|</p>
+	<a href="https://github.com/fernando14377" target="_BLANK"><i class="fa-brands fa-github"></i></a>
+	<a href="https://instagram.com/ferchupessoa" target="_BLANK"><i class="fa-brands fa-instagram"></i></a>
+	<a href="htttps://twitter.com/ferchupessoa" target="_BLANK"><i class="fa-brands fa-twitter"></i></a>
     </footer>
     <script src="js/app.js" type="module"></script>
 </body>
