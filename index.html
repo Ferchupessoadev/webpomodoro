@@ -2,15 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=500, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pomodoro</title>
         <!-- normalize -->
-    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="css/normalize.css">
     <!-- css custom -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/todo-list.css">
     <!--FUENTES  -->
-
     <!--  noto sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -90,9 +90,22 @@
             </div>
         </div>
     </section>
-    <header>
+    <header class="header">
+	<div class="icon-nav">
+	    <i class="fa-solid fa-bars"></i> 
+	    <i class="fa-solid fa-x"></i>
+	</div>
         <h1 class="header__h1">Pomodoro Timer</h1>
     </header>
+    <div class="modal-nav"></div>
+    <nav class="nav">
+	<ul class="nav__ul">
+	    <li class="nav__li"><a href="./index.html" class="nav__li-a">Inicio</a></li>
+	    <li class="nav__li"><a href="/public/activity.html" class="nav__li-a">Tu actividad</a></li>
+	    <li class="nav__li"><a href="/public/preguntasfrecuentes.html" class="nav__li-a">FAQ</a></li>
+	</ul>
+	<button class="nav__button">Terminos y Condiciones</button>
+    </nav>
     <section class="card-time">
         <div class="container-timer">
             <div class="mode">
@@ -123,17 +136,84 @@
     </section>
     <section class="card-task">
 	<div class="nav-task">
-	    <h3 class="nav-task__h3">List todo</h3>
-	    <button class="nav-task__button"><p class="nav-task__button-p">+</p> Add Task</button>
+	    <h3 class="nav-task__h3">Todo List</h3>
+	    <div class="div__container-categorias">
+		<div class="div-arrow-left div-arrow">&#60</div>
+		    <div class="div__categorias">
+			<div class="div__categoria"><p class="div__categoria-p">Todas</p></div>
+			<div class="div__categoria"><p class="div__categoria-p">Escuela</p></div>
+			<div class="div__categoria"><p class="div__categoria-p">Trabajo</p></div>
+			<div class="div__categoria"><p class="div__categoria-p">personal</p></div>
+	       <!--         <div class="div__categoria"><p class="div__categoria-p">Todas</p></div>-->
+			<!--<div class="div__categoria"><p class="div__categoria-p">Escuela</p></div>-->
+			<!--<div class="div__categoria"><p class="div__categoria-p">Trabajo</p></div>-->
+			<!--<div class="div__categoria"><p class="div__categoria-p">personal</p></div>-->
+			<!--<div class="div__categoria"><p class="div__categoria-p">Todas</p></div>-->
+			<!--<div class="div__categoria"><p class="div__categoria-p">Escuela</p></div>-->
+			<!--<div class="div__categoria"><p class="div__categoria-p">Trabajo</p></div>-->
+			<!--<div class="div__categoria"><p class="div__categoria-p">personal</p></div>-->
+		    </div>
+		<div class="div-arrow-right div-arrow">&#62</div>
+	    </div>
+	    <button class="nav-task__button"><p>+</p><p>Add Task</p></button>
+	</div>
+	<div class="container-list-todo">
+	    <div class="todo-list">
+		<div class="list-todo">
+		    <div class="container-circle"><div class="circle"></div></div>
+		    <p class="list-todo__data">Lorem ipsum dolor sit Lorem ipsum dolor sit..</p>
+		    <div class="options-responsive">
+			<i class="fa-solid fa-ellipsis-vertical"></i> 
+		    </div>
+		    <div class="options">
+			<i class="fa-solid fa-eye"></i>
+			<i class="fa-solid fa-trash"></i>
+			<i class="fa-solid fa-pen-to-square"></i>
+		    </div>
+		</div>
+		<div class="list-todo">
+		    <div class="container-circle"><div class="circle"></div></div>
+		    <p class="list-todo__data">tarea de matematica</p>
+		    <div class="options-responsive">
+			<i class="fa-solid fa-ellipsis-vertical"></i> 
+		    </div>
+		    <div class="options">
+			<i class="fa-solid fa-eye"></i>
+			<i class="fa-solid fa-trash"></i>
+			<i class="fa-solid fa-pen-to-square"></i>
+		    </div>
+		</div>
+	    </div>
+	    <div class="container-completed">
+		<div class="nav-completed">
+		    <div class="linear"></div>
+		    <div class="p-completed">completed <p class="rotate-arrow-completed">&#62</p></div>
+		    <div class="linear"></div>
+		</div>
+		<div class="todo-list">
+		    <div class="list-todo list-todo-completed">
+			<div class="container-circle"><div class="circle task-completed"></div></div>
+			<strike class="list-todo__data">tarea de matematica</strike>
+		    </div>
+		</div>
+	    </div>
 	</div>
     </section>
-    <footer>
-        <p>made with <i class="fa-solid fa-heart"></i> by Fernando M.Pessoa </p>
- 	<p class="footer__pipe">|</p>
-	<a href="https://github.com/fernando14377" target="_BLANK"><i class="fa-brands fa-github"></i></a>
-	<a href="https://instagram.com/ferchupessoa" target="_BLANK"><i class="fa-brands fa-instagram"></i></a>
-	<a href="htttps://twitter.com/ferchupessoa" target="_BLANK"><i class="fa-brands fa-twitter"></i></a>
-    </footer>
-    <script src="js/app.js" type="module"></script>
+    <div class="container-task-create" style="display: none;">
+	<div class="container-task-create__container-config">
+	    <div class="container__info-text-task">
+		<p class="info-text-task">create task</p>
+	    </div>
+	    <div class="linear-task"></div>
+	    <input minlength="1" maxlength="40" class="task-create__input task-create__input-title" type="text" placeholder="Añadir un titulo">
+	    <div class=""></div>
+	    <textarea maxlength="90" aria-valuemax="90" class="task-create__input task-create__input-description" placeholder="Añadir una descripción (opcional)"></textarea>
+	    <div class="container-btn-task">
+		<button class="container-btn-task__button">Cancelar</button>
+		<button class="container-btn-task__button">Crear</button>
+	    </div>
+	</div>
+    </div>
+    <script src="/js/app.js" type="module"></script>
 </body>
 </html>

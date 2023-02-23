@@ -1,22 +1,100 @@
 :root {
+    --background-fondo:rgb(13,0,36);
+    --background-links-a:#000120;
     --letras-settings:rgb(20,20,20);
+    --color-default-text:#fff;
+    --border-list-todo:rgba(255,0,255,0.3);
 }
-
-
 
 header {
     display: flex;
-    position:relative;
+    position:fixed;
     align-items: center;
     justify-content: center;
     width: 100%;
-    z-index:10;
+    z-index:100;
     height: 60px;
-    background:var(--background-header);
+    background:linear-gradient(to right,#00024d,#000120);
+    transition: 0.6s transform ease-in-out;
+}
+
+.icon-nav {
+    color:white;
+    font-size:25px;
+    margin-left:15px;
+    cursor:pointer;
+}
+
+.icon-nav i:last-child {
+    display:none;
+}
+
+.modal-nav {
+    display:none;
+    position:absolute;
+    width:100%;
+    min-height: 100vw;
+    z-index:40;
+    background:rgba(0, 0, 0, 0.5);
+}
+
+nav {
+    transform: translateX(-100%);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    z-index:101000;
+    position:fixed;
+    padding:50px 0px;
+    background:linear-gradient(to bottom,#00024d,#000120);
+    width:30%;
+    height:calc(100vh - 150px);
+    margin-top: 60px;
+    transition:transform 0.5s ease-in-out;
+}
+
+.nav__ul {
+    text-align:center;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    list-style: none;
+    flex:1;
+}
+
+.nav__li-a:hover{
+    border-bottom:1px solid #fff;
+    background:var(--background-links-a);
+}
+
+.nav__li-a {
+    width:100%;
+    display:inline-block;
+    background:transparent;
+    padding:10px 0px;
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    text-decoration: none;
+    color:var(--color-default-text);
+}
+
+.nav__button {
+    border:none;
+    outline:none;
+    padding:10px;
+    border-radius:10px;
+    cursor: pointer;
+    background:var(--background-fondo);
+    color:var(--color-default-text);
+}
+
+.icon-nav i {
+    color:var(--color-default-text);
 }
 
 .header__h1 {
-    color:#fff;
+    color:var(--color-default-text);
     margin:auto;
     font-family: 'Lobster';
     font-size:40px;
@@ -30,9 +108,10 @@ header {
     position:fixed;
     height:100%;
     background:transparent;
-    z-index:200;
+    z-index:2007867987;
+
     transition:background 2s;
-    color:#fff;
+    color:var(--color-default-text);
 }
 
 .modal-active {
@@ -47,7 +126,8 @@ header {
     overflow-y: auto;
     width:450px;
     height:21em;
-    color:#fff;
+    padding:10px;
+    color:var(--color-default-text);
     border-radius:8px;
     position:relative;
     z-index:100;
@@ -61,12 +141,12 @@ header {
     height:6em;
     flex-direction:column;
     align-items:center;
-    color:#fff;
+    color:var(--color-default-text);
     border-bottom:1px solid rgba(255,255,255,0.5);
 }
 
 .section__p {
-    color:#fff;
+    color:var(--color-default-text);
     font-family:'noto sans';
     font-weight: bold;
     padding:none;
@@ -79,7 +159,7 @@ header {
     gap:50px;
     font-family: "noto sans";
     background:rgb(0,0,0);
-    color:#fff;
+    color:var(--color-default-text);
 }
 
 .container-times__conf {
@@ -89,14 +169,14 @@ header {
     width:100%;
     height:3em;
     background:rgb(0,0,0);
-    color:#fff;
+    color:var(--color-default-text);
 }
 
 .container-times__input {
     width:6em;
     height:25px;
     background:rgb(0,0,0);
-    color:#fff;
+    color:var(--color-default-text);
     border: 1px solid #fff;
     border-radius:5px;
     order:10;
@@ -109,7 +189,7 @@ header {
     font-family:"noto sans";
     font-weight: bold;
     background:rgb(0,0,0);
-    color:#fff;
+    color:var(--color-default-text);
 }
 
 /* seccion de sonidos en el modal */
@@ -124,7 +204,7 @@ header {
     position:relative;
     z-index:400;
     background: #000;
-    color:#fff;
+    color:var(--color-default-text);
     
 }
 
@@ -132,7 +212,7 @@ header {
     position:relative;
     z-index:200;
     padding-bottom:28px;
-    color:#fff;
+    color:var(--color-default-text);
     font-family:'noto sans';
     font-weight: bold;
 }
@@ -155,7 +235,7 @@ header {
     justify-content: center;
     width:10em;
     height:30px;
-    color:#fff;
+    color:var(--color-default-text);
     position:relative;
     margin-top:20px;
     background:#fff;
@@ -170,7 +250,7 @@ header {
     width:10em;
     height:30px;
     background:#fff;
-    color:#fff;
+    color:var(--color-default-text);
 
 }
 
@@ -249,7 +329,7 @@ header {
 .section-break__p {
     padding:10px;
     flex:2;
-    color:white;
+    color:var(--color-default-text);
 }
 
 .section-break__div-flex {
@@ -350,7 +430,7 @@ header {
     padding:0px 4px;
     padding-bottom: 2px;
     border-radius:10px;
-    color:#fff;
+    color:var(--color-default-text);
     font-family: 'noto sans';
     cursor:pointer;
     font-size:30px;
@@ -358,14 +438,14 @@ header {
 
 .btn-config {
     font-size:30px;
-    color:#fff;
+    color:var(--color-default-text);
 }
 
 
 .card-time {
     display:flex;
     width: 100%;
-    height: calc(100vh - 60px);
+    height: calc(100vh);
 
 }
 
@@ -391,11 +471,12 @@ header {
     font-size:18px;
     font-weight: bold;
     font-family:'noto sans';
-    color:#fff;
+    color:var(--color-default-text);
     padding:5px;
     border-radius:8px;
     cursor:pointer;
     transition:background 0.6s;
+    user-select: none;
 }
 
 .mode p:hover {
@@ -418,13 +499,15 @@ header {
     padding:5px;
     font-size:90px;
     background:rgba(255, 255, 255,0.1);
-    color:#fff;
+    color:var(--color-default-text);
     border-radius:10px;
+    user-select: none;
 }
 
 .two-points {
+    user-select: none;
     font-size:95px;
-    color:#fff;
+    color:var(--color-default-text);
 }
 
 .container-timer__div-btn {  
@@ -446,6 +529,7 @@ header {
     border-radius:40px;
     background:rgba(255, 255, 255,0.1);
     cursor:pointer;
+    user-select: none;
 }
 
 .btn-reload {
@@ -461,9 +545,6 @@ header {
     border:none;
     outline: none;
 }
-
-
-
 
 .modal-alert {
     position: absolute;
@@ -490,7 +571,7 @@ header {
 .modal__p {
     flex:1;
     padding:10px 20px;
-    color:#fff;
+    color:var(--color-default-text);
     font-weight: bold;
 }
 
@@ -520,8 +601,6 @@ header {
     border-left:1px solid rgb(210, 34, 34);
 }
 
-
-
 .modal__container-btn .modal__button:nth-child(2) {
     background:rgb(23, 165, 28);
 }
@@ -532,80 +611,6 @@ header {
     border-top:1px solid rgb(23, 245, 28);
 }
 
-
-.card-task {
-    margin:auto;
-    width:80%;
-    height:300px;
-    background:rgb(13,0,36);
-    box-shadow: 0px 0px 23px 4px rgb(0,0,0);
-    border:2px solid #000;
-    overflow-y:auto;
-}
-
-.nav-task {
-    height:50px;
-    display:flex;
-    align-items:center;
-    background:transparent;
-    border-bottom:1px solid #fff;
-}
-
-.nav-task__h3 {
-    color:#fff;
-    margin-left:15px;
-    flex:1;
-}
-
-.nav-task__button {
-    display:flex;
-    align-items:center;
-    background:#fff;
-    padding:8px;
-    margin-right: 15px;
-    gap:5px;
-    border-radius:20px;
-    border:none;
-    cursor:pointer;
-    text-align:justify;
-}
-
-.nav-task__button:hover {
-    background-color: #ccc;
-}
-
-.nav-task__button:active {
-    background-color:#fff;
-}
-
-.nav-task__button-p {
-    font-size:20px;
-}
-
-
-footer {
-    width: 100%;
-    height: 60px;
-    /*background: rgb(13,0,36);*/
-    /*background: linear-gradient(90deg, rgba(13,0,36,1) 2%, rgba(123 25,112,0.913585417076987) 100%, rgba(0,212,255,1) 100%); */
-    display:flex;
-    gap:10px;
-    justify-content: center;
-    align-items: center;
-    margin-top: auto;
-
-}
-
-footer p ,footer p i ,footer i {
-    color:white;
-    font-family: 'Lobster';
-    font-size:20px;
-}
-
-
-footer a i:hover {
-    color:rgb(13,0,36);
-}
 
 @media screen and (max-width:800px) {
     .header__h1 {
@@ -625,10 +630,34 @@ footer a i:hover {
         font-size:80px;
     }
 
-    footer p,footer p i {
-        font-size:15px;
+}
+
+
+@media screen and (max-width: 700px) {
+    nav {
+	width:80%;
     }
-} 
+    
+    .icon-nav {
+	flex:1;
+    }
+
+    .header__h1 {
+	font-size:20px;
+	flex:3;
+    }
+}
+
+@media screen and (max-width: 610px) {
+    nav {
+	width:100%;
+    }
+}
+
+
+
+
+
 
 @media screen and (max-width:334px) {
 
@@ -640,7 +669,13 @@ footer a i:hover {
         flex-direction: column;
     }
 }
- 
+
+@media screen and (max-width: 550px) {
+    .container-settings {
+	width:95%;
+    }    
+}
+
 
 
 @keyframes rotateReload {
@@ -652,3 +687,4 @@ footer a i:hover {
         transform: rotate(360deg);
     }
 }
+

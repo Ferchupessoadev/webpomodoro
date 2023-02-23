@@ -1,17 +1,8 @@
 "use strict";
-import Alarm from './alarm.js';
-import Settings from './settings.js';
-import sliderNav from './components/slidernav.js';
-import TodoList from './todo-list.js';
+import managerNav from './components/slidernav.js';
 
-addEventListener("DOMContentLoaded",()=>{
-    const settings = new Settings(); 
-    const alarm = new Alarm();
-    settings.setAlarm(alarm);
-    settings.rederTimes();
-    alarm.setSettings(settings);
-    sliderNav();
-    const todoList = new TodoList();
+addEventListener("DOMContentLoaded", () => {
+    managerNav();
     const modalNav = document.querySelector(".modal-nav");
     const header = document.querySelector(".header")
     const nav = document.querySelector(".nav");
@@ -45,4 +36,5 @@ addEventListener("DOMContentLoaded",()=>{
 	body.style.overflowY = "auto";
 	navIsVisible = false;
     })
+
 })

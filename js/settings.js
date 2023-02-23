@@ -36,7 +36,8 @@ export default class Settings {
         this.pomodorosRunnning = 0;
         this.autoShortBreak = false;
         this.autoLongBreak = false;
-      
+	this.soundReference;
+	this.soundActual;
     }
 
     setAlarm(alarm) {
@@ -61,16 +62,22 @@ export default class Settings {
             localStorage.setItem("timeSection",this.alarm.timeSections[0].textContent);
             this.alarm.renderTimeSection(localStorage.getItem("timeSection"),this.times);
             this.alarm.seconds.textContent = "00";
-            localStorage.setItem("sound","digital");
+            localStorage.setItem("sound","digital.ogg");
             let sound = "digital";
+	    this.alarm.sound = sound + ".ogg";
             sound = this.toFirstUpperCase(sound)
+	    this.soundActual = sound;
             this.selectedText.textContent = sound;
         } else {
             this.times = JSON.parse(localStorage.getItem("times"));
             this.alarm.renderTimeSection(localStorage.getItem("timeSection"),this.times);
             this.alarm.seconds.textContent = "00";
             let sound = localStorage.getItem("sound");
-            sound = this.toFirstUpperCase(sound)
+	    this.alarm.sound = sound;
+            sound = this.toFirstUpperCase(sound);
+	    (sound == "Digital.ogg") ? sound = "Digital" : sound = sound;
+	    (sound == "Bell.mp3") ? sound = "Bell" : sound = sound;
+	    this.soundActual = sound;
             this.selectedText.textContent = sound;
         }
     }
@@ -86,16 +93,12 @@ export default class Settings {
         localStorage.setItem("times",JSON.stringify(this.times)); 
     }
 
-
-    
-
-    // este metodo retorna los tiempos de intervalos a el objeto alarm. 
     addListenerAndChangeSound(selectedOption) {
         selectedOption.addEventListener("click",(e)=> {
-            this.selectedText.textContent = e.target.textContent;
-            localStorage.setItem("sound",e.target.textContent.toUpperCase());
+            this.soundActual = this.selectedText.textContent;
+	    this.soundReference =  e.target.textContent;
+	    this.selectedText.textContent = this.soundReference;
             this.onClickForOpenSelectedOption();
-            this.alarm.changeSound(e.target.textContent.toLowerCase());
         })
     }
 
@@ -128,12 +131,21 @@ export default class Settings {
     }
 
     onClickForOpenModal() {
-        this.modal.classList.add("modal-active");
-        this.inputsConf.forEach((input,index)=> input.value = this.times[index]);
-        
+	if(!this.alarm.soundInProcess) {
+	    this.modal.classList.add("modal-active");
+	    this.inputsConf.forEach((input,index)=> input.value = this.times[index]);
+	    this.selectedText.textContent = this.soundActual;
+	    this.soundReference = this.soundActual;
+	}
+    }
+
+    overflowYBody(hidden) {
+	const body = document.querySelector("body");
+	body.style.overflowY = hidden;
     }
 
     onClickForCloseModal() {
+	this.overflowYBody("auto");	
         if (!this.alarm.timeInProcess) {
             this.modal.classList.remove("modal-active");
             return;
@@ -154,17 +166,24 @@ export default class Settings {
     }
 
     openModalConf() {
-        if(!this.alarm.timeRunning && !this.alarm.timeInProcess) {
-            this.onClickForOpenModal(this.times);
-            return;
-        }
-        clearInterval(this.alarm.interval);  
-        let indexTime;
-        this.alarm.timeSections.forEach((time,index) => (time.className == "times mode-active") ? indexTime = index : indexTime)
-        this.alarm.userClickedTwice = true; 
-        (!this.alarm.timeRunning) ? this.alarm.wasFalseTimeRunning = true : this.alarm.wasFalseTimeRunning = false;
-        this.alarm.pause();
-        this.alarm.openModalOfAlert(this.alarm.timeSection,"settings");
+	this.overflowYBody("hidden");
+	if(!this.alarm.timeRunning && !this.alarm.timeInProcess) {
+	    this.onClickForOpenModal(this.times);
+	    return;
+	}
+	if (this.alarm.soundInProcess) {
+	    this.alarm.stopSoundAlert();
+	    this.onClickForOpenModal(this.times);
+	    return;
+	} 
+
+	clearInterval(this.alarm.interval);
+	let indexTime;
+	this.alarm.timeSections.forEach((time,index) => (time.className == "times mode-active") ? indexTime = index : indexTime)
+	this.alarm.userClickedTwice = true; 
+	(!this.alarm.timeRunning) ? this.alarm.wasFalseTimeRunning = true : this.alarm.wasFalseTimeRunning = false;
+	this.alarm.pause();
+	this.alarm.openModalOfAlert(this.alarm.timeSection,"settings");
     }
 
     changeTrueOrFalseOfTimes(index,varTrueOrfalse) {
@@ -196,8 +215,12 @@ export default class Settings {
             this.times[indiceTimeStudy] = parseInt(this.inputsConf[indiceTimeStudy].value);
             this.times[indiceTimeShortBreak] = parseInt(this.inputsConf[indiceTimeShortBreak].value);
             this.times[indiceTimeLongBreak] = parseInt(this.inputsConf[indiceTimeLongBreak].value);
-	        this.saveTimesInTheDataBase();
+	    this.saveTimesInTheDataBase();
             this.onClickForCloseModal();
+	    localStorage.setItem("sound",this.soundReference.toUpperCase());
+	    this.soundActual = this.soundReference;
+	    this.selectedText.innerHTML = this.soundActual;
+            this.alarm.changeSound(this.soundReference.toLowerCase());
             this.alarm.changeTimes(this.times);
             this.alarm.onClickTime(this.alarm.timeSection)
         }      
