@@ -22,7 +22,8 @@
     padding: 5px;
     gap:10px;
     overflow-x:hidden;
-    width:350px;
+    width:408px;
+    position: relative;
 }
 
 
@@ -38,29 +39,75 @@
     background:rgba(255,255,255,0.1);
 }
 
+.div-arrow-left {
+    position:absolute;
+    left:20px;
+}
+
+
+.div-arrow-right {
+    position: absolute;
+    right:20px;
+}
 
 .div__categorias {
+    position: relative;
     display: flex;
     align-items:center;
-    gap:10px;
-    width:320px;
-    overflow: hidden;
+    gap:5px;
+    max-width:76%;
+    overflow:hidden;
+    margin:auto;
+    scroll-behavior:smooth;
 }
 
 .div__categoria {
     border-radius:15px;
-    background:rgba(255,255,255,0.8);
+    background:rgba(255,255,255,1);
     padding:5px 10px;
+    cursor:pointer;
 }
 
-.div__categoria-p {
-    color:#000;
+.div__categoria:hover {
+    background:rgba(255,255,255,0.8)
+}
+
+.div__categoria:active {
+    background:rgba(255,255,255,1)
+}
+
+.div__categoria p {
     user-select: none;
+    font-family:serif;
+    text-align:center;
+    width: 80px;
 }
 
-.nav-task__h3 {
+.nav-task__h2 {
+    font-size: 1.2em;
     color:var(--color-default-text);
     margin-left:15px;
+}
+
+.container-btn-add-config {
+    display:flex; align-items: center; gap:25px;
+}
+
+#config-list-todo {
+    cursor: pointer;order:1;
+} 
+
+#config-list-todo:hover > i {
+    color:#bbb;
+}
+
+#config-list-todo:active > i {
+    color:#fff;
+}
+
+#config-list-todo i {
+    font-size:30px ;
+    color: #fff;
 }
 
 .nav-task__button {
@@ -81,6 +128,7 @@
     align-items:center;
     justify-content: center;
 }
+
 
 
 .nav-task__button p:first-child {
@@ -107,8 +155,14 @@
     padding:10px;
 }
 
+.todo-list-today {
+    display: flex;
+    flex-direction:column;
+    gap:5px;
+}
 
 .list-todo {
+    cursor: pointer;
     border-radius:10px;
     padding:15px;
     align-items: center;
@@ -139,6 +193,11 @@
     color:var(--color-default-text);
     flex-grow: 1;
     user-select: none;
+    flex-wrap: nowrap;
+}
+
+.list-todo__data p {
+    color:white;
 }
 
 .options {
@@ -152,19 +211,24 @@
 
 .options-responsive {
     display:none;
+   
 }
 
 .options-responsive i {
     color:#fff;
+    padding:0px 10px; 
     cursor:pointer;
 }
 
-
-.nav-completed, .nav-day {
+.nav-tasks  {
     display: flex;
     align-items:center;
     padding:10px;
 }
+
+.nav-tasks-responsive {
+    display:none;
+} 
 
 .linear {
     width:100%;
@@ -175,7 +239,7 @@
 
 .linear:first-child {
     background: rgb(2,0,36);
-background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,28,64,1) 13%, rgba(0,212,255,1) 100%);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,28,64,1) 13%, rgba(0,212,255,1) 100%);
 }
 
 .linear:last-child {
@@ -183,11 +247,8 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,28,64,1) 13%, rgba(
     background: linear-gradient(-90deg, rgba(2,0,36,1) 0%, rgba(2,28,64,1) 13%, rgba(0,212,255,1) 100%);
 }
 
-.p-completed,.p-day {
+.p-tasks {
     color:var(--color-default-text);
-}
-
-.p-completed {
     font-family: 'Noto Sans';
     font-weight: bold;
     user-select: none;
@@ -197,7 +258,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,28,64,1) 13%, rgba(
     border-radius:10px;
 }
 
-.p-completed:hover {
+.p-tasks:hover {
     background: rgba(255,255,255,0.1);
 }
 
@@ -232,7 +293,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,28,64,1) 13%, rgba(
     display: flex;
     flex-direction:column;
     align-items:center;
-    gap:5px;
+    gap:15px;
 }
 
 .container__info-text-task {
@@ -267,6 +328,47 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,28,64,1) 13%, rgba(
     border:2px solid transparent;
 }
 
+.container-title {
+    width: 80%;
+    display: flex;
+    gap:15px;
+    align-items: center;
+    justify-content: space-between;
+    transform: translateX(-7px);
+}
+
+.container-circulo {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width:60px;
+    height: 40px;
+    border-radius: 4px;
+    gap:8px;
+    padding:0px 5px;
+    background-color:transparent;
+}
+
+.container-circulo:hover {
+    background-color: rgba(255,255,255,0.1);
+}
+
+
+.circulo-title {
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 100%;
+}
+
+.arrow-down-title {
+    font-weight: bold;
+    color:white;
+    user-select: none;
+    transform: rotate(90deg);
+}
+
 .task-create__input::placeholder {
     color:#ddd;
 }
@@ -276,8 +378,7 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,28,64,1) 13%, rgba(
 }
 
 .task-create__input-title {
-    width:80%;
-    margin-top:20px;
+    width:90%;
 }
 
 .task-create__input-description {
@@ -286,62 +387,226 @@ background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,28,64,1) 13%, rgba(
     resize:none;
 }
 
-@media screen and (max-width: 700px) {
+.select-categorias {
+    border:none;
+    width: 80%;
+    background: rgba(255,255,255,0.2);
+    padding:10px 5px;
+    color:white;
+    transform: translateX(-7px);
+}
+
+.select-categorias__option {
+    background:rgba(255,255,255,0.2);
+}
+
+.select-categorias:focus {
+    outline:2px solid #4f9;
+}
+
+.container-selected-categorias {
+    display:flex;
+    gap:15px;
+    justify-content: space-between;
+    width:80%;
+} 
+
+.flex-fecha {
+    display: flex;
+    gap:5px;
+    align-items: center;
+}
+
+.flex-fecha input {
+    padding:10px;
+}
+
+
+@media screen and (max-width:1024px) {
+    .nav-task__button p:last-child {
+        font-size:10px;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .container-circle {
+        width:10px;
+        height:10px;
+    }
+
+    .circle {
+        width:8px;
+        height:8px;
+    }
+
     .nav-task {
-	justify-content:space-evenly;
+	    padding:5px;
     }
 
     .div__categoria-p {
-	font-size:14px;
+	    font-size:14px;
     }
 
-    .nav-task__h3 {
-	display: none;
+    .nav-task__h2 {
+	    display: none;
     }
 
     .div-arrow {
-	display:none;
+	    display:none;
     }
 
     .div__container-categorias {
-	max-width: 100%;
-	overflow-x:auto;
-	gap:10px;
-	flex:2;
+        max-width: 100%;
+        gap:10px;
+        flex:4;
     }
 
     .div__categorias {
-	overflow-x: auto;
+        overflow-x: auto;
+        min-width:100%;
     }
 
     .list-todo .options {
-	display:none;
+	    display:none;
     }
 
     .options-responsive {
-	display:flex;
+        position: absolute;
+        right:10px;
+        height:50px;
+        border-radius:10px;
+        display:flex;
+        align-items:center;
+        background:#000;
+    }
+    
+    .container-options-btns {	
+        display:flex;
+        align-items:center;
+        justify-content:space-evenly;
+        width:100%;
+        height: 100%;
+        border-radius:20px;
+        background:#000;
+        display:flex;
+    }
+
+    .container-options-btns div {
+	    cursor:pointer;
+    }
+
+    .container-btn-eyes {
+        background:green;
+        width:100%;
+        height:100%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .container-btn-trash {
+        background:red;
+        width:100%;
+        height:100%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+    
+     .container-btn-pen-to-square {
+        background:blue;
+        width:100%;
+        height:100%;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+    }
+
+    .nav-tasks {
+        display: none;
+    }   
+
+    .todo-list {
+        padding:0px;
+    }
+
+    .list-todo {
+        position: relative;
+    }
+
+    .container-completed {
+        padding:10px 0px;
+    }
+
+    .container-list-todo {
+        padding:10px;
+    }
+
+    .nav-tasks-responsive {
+        display: flex;
+        align-items:center;
+        padding:10px;
+        border-top:2px solid rgb(13,0,54);
+        cursor: pointer;
+    }
+
+    .p-tasks:hover {
+        background: transparent;
+    }
+
+    .p-tasks-responsive {
+        margin-left:15px;
+        padding:5px 10px;
+    }
+
+
+    /* estilos del modal de creacion de tareas */
+    .container-task-create__container-config  {
+        width:100%;
+    }
+
+    .container-selected-categorias {
+        flex-direction: column;
+    }
+
+    .select-categorias {
+        width: 100%;
+    }
+
+    .fecha__flex-item:first-child {
+        order: 2;
+        background: rgba(255,255,255,0.1);
+        color:red;
+    }
+
+    .fecha__flex-item:last-child {
+        order:1;
     }
 }
 
 
 @media screen and (max-width: 610px) {
     .nav-task {
-	justify-content: center;
+	    justify-content: center;
+    }
+
+	.nav-task__button p:last-child {
+        font-size: 30px;
     }
 
     .nav-task__button {
-	font-size:30px;
-	padding:0px 10px;
-	width:100px;
-	height:100px;
-	width:max-content;
-	height: max-content;
-	border-radius:100%;
-	flex-basis:0px;
+        font-size:30px;
+        padding:0px 10px;
+        width:100px;
+        height:100px;
+        width:max-content;
+        height: max-content;
+        border-radius:100%;
+        flex-basis:0px;
     }
 
     .list-todo .options {
-	display:none;
+	    display:none;
     }
 
 }

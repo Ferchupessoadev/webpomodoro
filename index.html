@@ -1,219 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=500, initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Pomodoro</title>
-        <!-- normalize -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <!-- css custom -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/todo-list.css">
-    <!--FUENTES  -->
-    <!--  noto sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link 
-	href="https://fonts.googleapis.com/css2?family=Lobster&family=Noto+Sans:wght@500&display=swap" 
-	rel="stylesheet">  
-    <!--FUENTES  -->
-    <!-- font awesome -->
-    <script src="https://kit.fontawesome.com/f845b9182b.js" crossorigin="anonymous"></script>
-</head> 
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Pomodoro - Timer with Todo List</title>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<!-- normalize -->
+	<link rel="stylesheet" href="css/normalize.css">
+
+	<!-- css custom -->
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="/css/pomodoro.css">
+	<link rel="stylesheet" href="css/todo-list.css">
+	<!--FUENTES  -->
+	<!--  noto sans -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Lobster&family=Noto+Sans:wght@500&display=swap"
+		rel="stylesheet">
+	<!--FUENTES  -->
+	<!-- font awesome -->
+	<script src="https://kit.fontawesome.com/f845b9182b.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+</head>
+
 <body>
-    <div id="sonidos"></div>
-    <section class="modal-conf">
-        <div class="container-settings">
-            <div class="section-times">
-                <p class="section__p">Times</p>
-                <div class="container-times">
-                    <div class="container-times__conf">
-                        <input class="container-times__input" type="number" name="" id="" min="1" max="60">
-                        <p class="container-times__p">Pomodoro</p>
-                    </div>
-                    <div class="container-times__conf">
-                        <input class="container-times__input" type="number" name="" id="" min="1" max="60">
-                        <p class="container-times__p">short break</p>
-                    </div>
-                    <div class="container-times__conf">
-                        <input class="container-times__input" type="number" name="" id="" min="1" max="60">
-                        <p class="container-times__p">long break</p>
-                    </div>
-                </div>
-            </div>
-                <div class="section-sounds">
-                    <div class="sounds-div"></div>
-                    <p class="section__p-sound">sounds</p> 
-                    <div class="container-sounds">
-                        <div class="selected">
-                            <div> 
-                                <p style="margin-top:-15px;color:#fff;">Select alert sound</p>
-                                <div class="selected__div-view">
-                                    <p class="selected__p">Digital</p>
-                                    <img src="img/downarrow.svg" class="selected__img-arrow">
-                                </div>
-                            </div>
-                        </div>
-                        <img class="container-sounds__img-speaker" src="img/sound-speaker.svg" alt="">
-                    </div>
-                    <div class="selected__div-option">
-                            <ul class="selected__ul">
-                                <li class="selected__li"><p class="selected__li-p">Digital</p></li>
-                                <li class="selected__li"><p class="selected__li-p">Bell</p></li> 
-                            </ul>
-                        </div>
-                </div>
-                <div class="section-break">
-                    <p class="section-break__p">Auto Start short break</p>
-                    <div class="section-break__div-flex">
-                        <div class="section-break__div-check"> 
-                                <div class="section-break__div-color"></div> 
-                                <div class="section-break__div-circle"></div>
-                        </div>
-                    </div>
-                </div> 
-                <div class="section-break">
-                        <p class="section-break__p">Auto Start long break</p>
-                        <div class="section-break__div-flex">
-                            <div class="section-break__div-check"> 
-                                <div class="section-break__div-color"></div> 
-                                <div class="section-break__div-circle"></div>
-                            </div>
-                        </div>
-                    </div> 
-            <div class="footer-conf">
-                <div class="footer-conf__div-btn">
-                    <button class="footer-conf__button button-cerrar">cancelar</button>
-                    <button class="footer-conf__button button-ok">Guardar cambios</button>
-                </div>
-            </div>
-        </div>
-    </section>
-    <header class="header">
-	<div class="icon-nav">
-	    <i class="fa-solid fa-bars"></i> 
-	    <i class="fa-solid fa-x"></i>
-	</div>
-        <h1 class="header__h1">Pomodoro Timer</h1>
-    </header>
-    <div class="modal-nav"></div>
-    <nav class="nav">
-	<ul class="nav__ul">
-	    <li class="nav__li"><a href="./index.html" class="nav__li-a">Inicio</a></li>
-	    <li class="nav__li"><a href="/public/activity.html" class="nav__li-a">Tu actividad</a></li>
-	    <li class="nav__li"><a href="/public/preguntasfrecuentes.html" class="nav__li-a">FAQ</a></li>
-	</ul>
-	<button class="nav__button">Terminos y Condiciones</button>
-    </nav>
-    <section class="card-time">
-        <div class="container-timer">
-            <div class="mode">
-                <p class="times">Pomodoro</p>
-                <p class="times">Short break</p>
-                <p class="times">Long break</p>
-            </div>
-            <div class="container-time">
-                <div class="minutes"></div>
-                <div class="two-points">:</div>
-                <div class="seconds"></div>
-            </div>
-            <div class="container-timer__div-btn">
-                <button class="btn-start">START</button>
-                <button id="reload-timer" class="btn-reload"><i class="fa-solid fa-rotate-right"></i></button> 
-                <p class="settings"><i class="fa-solid fa-gear btn-conf" class="btn-config"></i></p>
-            </div>
-        </div>
-    </section>
-    <section class="modal-alert">
-        <div class="modal__data-container">
-            <p class="modal__p" id="msg-alert"></p>
-            <div class="modal__container-btn">
-                <button class="modal__button modal__button-si">Si, aceptar</button>
-                <button class="modal__button modal__button-no">No, cancelar</button>
-            </div>
-        </div>
-    </section>
-    <section class="card-task">
-	<div class="nav-task">
-	    <h3 class="nav-task__h3">Todo List</h3>
-	    <div class="div__container-categorias">
-		<div class="div-arrow-left div-arrow">&#60</div>
-		    <div class="div__categorias">
-			<div class="div__categoria"><p class="div__categoria-p">Todas</p></div>
-			<div class="div__categoria"><p class="div__categoria-p">Escuela</p></div>
-			<div class="div__categoria"><p class="div__categoria-p">Trabajo</p></div>
-			<div class="div__categoria"><p class="div__categoria-p">personal</p></div>
-	       <!--         <div class="div__categoria"><p class="div__categoria-p">Todas</p></div>-->
-			<!--<div class="div__categoria"><p class="div__categoria-p">Escuela</p></div>-->
-			<!--<div class="div__categoria"><p class="div__categoria-p">Trabajo</p></div>-->
-			<!--<div class="div__categoria"><p class="div__categoria-p">personal</p></div>-->
-			<!--<div class="div__categoria"><p class="div__categoria-p">Todas</p></div>-->
-			<!--<div class="div__categoria"><p class="div__categoria-p">Escuela</p></div>-->
-			<!--<div class="div__categoria"><p class="div__categoria-p">Trabajo</p></div>-->
-			<!--<div class="div__categoria"><p class="div__categoria-p">personal</p></div>-->
-		    </div>
-		<div class="div-arrow-right div-arrow">&#62</div>
-	    </div>
-	    <button class="nav-task__button"><p>+</p><p>Add Task</p></button>
-	</div>
-	<div class="container-list-todo">
-	    <div class="todo-list">
-		<div class="list-todo">
-		    <div class="container-circle"><div class="circle"></div></div>
-		    <p class="list-todo__data">Lorem ipsum dolor sit Lorem ipsum dolor sit..</p>
-		    <div class="options-responsive">
-			<i class="fa-solid fa-ellipsis-vertical"></i> 
-		    </div>
-		    <div class="options">
-			<i class="fa-solid fa-eye"></i>
-			<i class="fa-solid fa-trash"></i>
-			<i class="fa-solid fa-pen-to-square"></i>
-		    </div>
+	<div id="sonidos"></div>
+	<!-- seccion de configuracion de tiempos sonido e itervalos de descansos -->
+	<section class="modal-conf">
+		<div class="container-settings">
+			<div class="section-times">
+				<p class="section__p">Times</p>
+				<div class="container-times">
+					<div class="container-times__conf">
+						<input class="container-times__input" type="number" name="" id="" min="1" max="60">
+						<p class="container-times__p">Pomodoro</p>
+					</div>
+					<div class="container-times__conf">
+						<input class="container-times__input" type="number" name="" id="" min="1" max="60">
+						<p class="container-times__p">short break</p>
+					</div>
+					<div class="container-times__conf">
+						<input class="container-times__input" type="number" name="" id="" min="1" max="60">
+						<p class="container-times__p">long break</p>
+					</div>
+				</div>
+			</div>
+			<div class="section-sounds">
+				<div class="sounds-div"></div>
+				<p class="section__p-sound">sounds</p>
+				<div class="container-sounds">
+					<div class="selected">
+						<div>
+							<p style="margin-top:-15px;color:#fff;">Select alert sound</p>
+							<div class="selected__div-view">
+								<p class="selected__p">Digital</p>
+								<img src="img/downarrow.svg" class="selected__img-arrow">
+							</div>
+						</div>
+					</div>
+					<img class="container-sounds__img-speaker" src="img/sound-speaker.svg" alt="">
+				</div>
+				<div class="selected__div-option">
+					<ul class="selected__ul">
+						<li class="selected__li">
+							<p class="selected__li-p">Digital</p>
+						</li>
+						<li class="selected__li">
+							<p class="selected__li-p">Bell</p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="section-break">
+				<p class="section-break__p">Auto Start short break</p>
+				<div class="section-break__div-flex">
+					<div class="section-break__div-check">
+						<div class="section-break__div-color"></div>
+						<div class="section-break__div-circle"></div>
+					</div>
+				</div>
+			</div>
+			<div class="section-break">
+				<p class="section-break__p">Auto Start long break</p>
+				<div class="section-break__div-flex">
+					<div class="section-break__div-check">
+						<div class="section-break__div-color"></div>
+						<div class="section-break__div-circle"></div>
+					</div>
+				</div>
+			</div>
+			<div class="footer-conf">
+				<div class="footer-conf__div-btn">
+					<button class="footer-conf__button button-cerrar">cancelar</button>
+					<button class="footer-conf__button button-ok">Guardar cambios</button>
+				</div>
+			</div>
 		</div>
-		<div class="list-todo">
-		    <div class="container-circle"><div class="circle"></div></div>
-		    <p class="list-todo__data">tarea de matematica</p>
-		    <div class="options-responsive">
-			<i class="fa-solid fa-ellipsis-vertical"></i> 
-		    </div>
-		    <div class="options">
-			<i class="fa-solid fa-eye"></i>
-			<i class="fa-solid fa-trash"></i>
-			<i class="fa-solid fa-pen-to-square"></i>
-		    </div>
+	</section>
+	<!-- encabezado -->
+	<header class="header">
+		<div class="icon-nav">
+			<i class="fa-solid fa-bars"></i>
+			<i class="fa-solid fa-x"></i>
 		</div>
-	    </div>
-	    <div class="container-completed">
-		<div class="nav-completed">
-		    <div class="linear"></div>
-		    <div class="p-completed">completed <p class="rotate-arrow-completed">&#62</p></div>
-		    <div class="linear"></div>
+		<h1 class="header__h1">Pomodoro Timer</h1>
+	</header>
+	<!-- slider nav -->
+	<div class="modal-nav"></div>
+	<nav class="nav">
+		<ul class="nav__ul">
+			<li class="nav__li"><a href="./index.html" class="nav__li-a">Inicio</a></li>
+			<li class="nav__li"><a href="/public/activity.html" class="nav__li-a">Tu actividad</a></li>
+			<li class="nav__li"><a href="/public/preguntasfrecuentes.html" class="nav__li-a">FAQ</a></li>
+		</ul>
+		<button class="nav__button">Terminos y Condiciones</button>
+	</nav>
+	<!-- seccion con temporizador para el pomodoro -->
+	<section class="card-time">
+		<div class="container-timer">
+			<div class="mode">
+				<p class="times">Pomodoro</p>
+				<p class="times">Short break</p>
+				<p class="times">Long break</p>
+			</div>
+			<div class="container-time">
+				<div class="minutes"></div>
+				<div class="two-points">:</div>
+				<div class="seconds"></div>
+			</div>
+			<div class="container-timer__div-btn">
+				<button class="btn-start">START</button>
+				<button id="reload-timer" class="btn-reload"><i class="fa-solid fa-rotate-right"></i></button>
+				<p class="settings"><i class="fa-solid fa-gear btn-conf" class="btn-config"></i></p>
+			</div>
 		</div>
-		<div class="todo-list">
-		    <div class="list-todo list-todo-completed">
-			<div class="container-circle"><div class="circle task-completed"></div></div>
-			<strike class="list-todo__data">tarea de matematica</strike>
-		    </div>
+	</section>
+	<!-- cartel de alerta -->
+	<section class="modal-alert">
+		<div class="modal__data-container">
+			<p class="modal__p" id="msg-alert"></p>
+			<div class="modal__container-btn">
+				<button class="modal__button modal__button-si">Si, aceptar</button>
+				<button class="modal__button modal__button-no">No, cancelar</button>
+			</div>
 		</div>
-	    </div>
+	</section>
+	<!-- seccion de lista de tareas -->
+	<section class="card-task">
+		<!-- barra de navegacion de la lista de tareas -->
+		<div class="nav-task">
+			<h2 class="nav-task__h2">Todo List</h2>
+			<div class="div__container-categorias">
+				<div class="div-arrow-left div-arrow">&#60</div>
+				<div class="div__categorias">
+					<!--12 es el maximo de caracteres soportados por categoria.-->
+					<div class="div__categoria">
+						<p class="div__categoria-p">Todas</p>
+					</div>
+					<div class="div__categoria">
+						<p class="div__categoria-p">Escuela</p>
+					</div>
+					<div class="div__categoria">
+						<p class="div__categoria-p">Trabajo</p>
+					</div>
+					<div class="div__categoria">
+						<p class="div__categoria-p">personal</p>
+					</div>
+				</div>
+				<div class="div-arrow-right div-arrow">&#62</div>
+			</div>
+			<div class="container-btn-add-config">
+				<button class="nav-task__button" style="order:2;">
+					<p>+</p>
+					<p>Add Task</p>
+				</button>
+				<div id="config-list-todo">
+					<i class="fa-solid fa-gear btn-conf"></i>
+				</div>
+			</div>
+		</div>
+		<!-- seccion donde se visualizan todas las tareas. -->
+		<div class="container-list-todo">
+			<div class="todo-list">
+				<div class="tasks-to-future">
+					<div class="nav-tasks nav-future">
+						<div class="linear"></div>
+							<div class="p-tasks p-future">Futuro <p class="rotate-arrow-completed">&#62</p></div>
+						<div class="linear"></div>
+					</div>
+					<div class="nav-tasks-responsive nav-future-responsive">
+						<div class="p-tasks p-future-responsive">Futuro <p class="rotate-arrow-completed">&#62</p></div>
+					</div>
+					<div class="list-todo">
+						<div class="container-circle">
+							<div class="circle"></div>
+						</div>
+						<div class="list-todo__data">
+							<p>examen de matematica</p>
+						</div>
+						<div class="options-responsive">
+							<i class="fa-solid fa-ellipsis-vertical"></i>
+							<div class="container-options-btns">
+								<div class="container-btn-eyes"><i class="fa-solid fa-eye"></i></div>
+								<div class="container-btn-trash"><i class="fa-solid fa-trash"></i></div>
+								<div class="container-btn-pen-to-square"><i class="fa-solid fa-pen-to-square"></i></div>
+							</div>
+						</div>
+						<div class="options">
+							<i class="fa-solid fa-eye"></i>
+							<i class="fa-solid fa-trash"></i>
+							<i class="fa-solid fa-pen-to-square"></i>
+						</div>
+					</div>
+				</div>
+				<div class="homework-from-the-past">
+					<div class="nav-tasks nav-past">
+						<div class="linear"></div>
+							<div class="p-tasks p-past">Pasado <p class="rotate-arrow-completed">&#62</p></div>
+						<div class="linear"></div>
+					</div>
+					<div class="nav-tasks-responsive nav-past-responsive">
+						<div class="p-tasks p-past-responsive">Pasado <p class="rotate-arrow-completed">&#62</p></div>
+					</div>
+					<div class="list-todo">
+						<div class="container-circle">
+							<div class="circle"></div>
+						</div>
+						<div class="list-todo__data">
+							<p>examen de biologia</p>
+						</div>
+						<div class="options-responsive">
+							<i class="fa-solid fa-ellipsis-vertical"></i>
+							<div class="container-options-btns">
+								<div class="container-btn-eyes"><i class="fa-solid fa-eye"></i></div>
+								<div class="container-btn-trash"><i class="fa-solid fa-trash"></i></div>
+								<div class="container-btn-pen-to-square"><i class="fa-solid fa-pen-to-square"></i></div>
+							</div>
+						</div>
+						<div class="options">
+							<i class="fa-solid fa-eye"></i>
+							<i class="fa-solid fa-trash"></i>
+							<i class="fa-solid fa-pen-to-square"></i>
+						</div>
+					</div>
+				</div>
+				<!-- seccion de las tareas de hoy -->
+				<div class="todo-list-today">
+					<div class="nav-today nav-tasks">
+						<div class="linear"></div>
+							<div class="p-tasks p-today">HOY <p class="rotate-arrow-completed">&#62</p></div>
+						<div class="linear"></div>
+					</div>
+					<div class="nav-tasks-responsive nav-today-responsive">
+						<div class="p-tasks p-today-responsive">HOY <p class="rotate-arrow-completed">&#62</p></div>
+					</div>
+					<div class="list-todo">
+						<div class="container-circle">
+							<div class="circle"></div>
+						</div>
+						<div class="list-todo__data">
+							<p>Lorem ipsum</p>
+						</div>
+						<div class="options-responsive">
+							<i class="fa-solid fa-ellipsis-vertical"></i>
+							<div class="container-options-btns">
+								<div class="container-btn-eyes"><i class="fa-solid fa-eye"></i></div>
+								<div class="container-btn-trash"><i class="fa-solid fa-trash"></i></div>
+								<div class="container-btn-pen-to-square"><i class="fa-solid fa-pen-to-square"></i></div>
+							</div>
+						</div>
+						<div class="options">
+							<i class="fa-solid fa-eye"></i>
+							<i class="fa-solid fa-trash"></i>
+							<i class="fa-solid fa-pen-to-square"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- seccion donde se visualizan las tareas completadas.-->
+			<div class="container-completed">
+				<div class="nav-tasks nav-completed">
+					<div class="linear"></div>
+					<div class="p-tasks p-completed">Completado <p class="rotate-arrow-completed">&#62</p>
+					</div>
+					<div class="linear"></div>
+				</div>
+				<div class="nav-tasks-responsive nav-completed-responsive">
+					<div class="p-tasks p-completed p-completed-responsive">Completado <p class="rotate-arrow-completed">&#62</p></div>
+				</div>
+				<div class="todo-list">
+					<div class="list-todo list-todo-completed">
+						<div class="container-circle">
+							<div class="circle task-completed"></div>
+						</div>
+						<strike class="list-todo__data">tarea</strike>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- diseño del modal de creacion de tareas. -->
+	<div class="container-task-create">
+		<div class="container-task-create__container-config">
+			<div class="container__info-text-task">
+				<p class="info-text-task">create task</p>
+			</div>
+			<div class="linear-task"></div>
+			<div class="container-title">
+				<input type="text" class="task-create__input task-create__input-title" minlength="1" maxlength="40" placeholder="Añadir un titulo">
+				<div class="container-circulo">
+					<div class="circulo-title"></div>
+					<div class="arrow-down-title">&#62</div>
+				</div>
+			</div>
+			<textarea maxlength="90" aria-valuemax="90" style="width: 80%;" class="task-create__input task-create__input-description"
+				placeholder="Añadir una descripción (opcional)"></textarea>
+			<div class="container-selected-categorias">
+				<select class="select-categorias" name="categorias">
+					<option class="select-categorias__option" selected disabled>Selecciona una categoria</option>
+					<option class="select-categorias__option">Ninguna</option>
+					<option class="select-categorias__option">Escuela</option>
+					<option class="select-categorias__option">Trabajo</option>
+					<option class="select-categorias__option">Personal</option>
+				</select>
+				<div class="flex-fecha">
+					<label class="fecha__flex-item" for="date-of-the-task" style="color:white;cursor: pointer;">Fecha</label>
+					<input class="fecha__flex-item" type="date" name="" id="date-of-the-task">
+				</div>
+			</div>
+			<div class="container-btn-task">
+				<button class="container-btn-task__button">Cancelar</button>
+				<button class="container-btn-task__button">Crear</button>
+			</div>
+		</div>
 	</div>
-    </section>
-    <div class="container-task-create" style="display: none;">
-	<div class="container-task-create__container-config">
-	    <div class="container__info-text-task">
-		<p class="info-text-task">create task</p>
-	    </div>
-	    <div class="linear-task"></div>
-	    <input minlength="1" maxlength="40" class="task-create__input task-create__input-title" type="text" placeholder="Añadir un titulo">
-	    <div class=""></div>
-	    <textarea maxlength="90" aria-valuemax="90" class="task-create__input task-create__input-description" placeholder="Añadir una descripción (opcional)"></textarea>
-	    <div class="container-btn-task">
-		<button class="container-btn-task__button">Cancelar</button>
-		<button class="container-btn-task__button">Crear</button>
-	    </div>
-	</div>
-    </div>
-    <script src="/js/app.js" type="module"></script>
+	<script src="/js/app.js" type="module"></script>
 </body>
 </html>

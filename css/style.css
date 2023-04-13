@@ -314,8 +314,6 @@ nav {
     margin-top:20px;
 }
 
-
-
 /* seccion de configuracion de auto start short break */
 
 .section-break {
@@ -442,110 +440,6 @@ nav {
 }
 
 
-.card-time {
-    display:flex;
-    width: 100%;
-    height: calc(100vh);
-
-}
-
-.container-timer {
-    width: 25em;
-    height:20em;
-    padding:10px;
-    margin:auto;
-    display:flex;
-    flex-direction: column;
-    gap:20px;
-    align-items: center;
-    justify-content: center;
-    border-radius:10px;
-}
-
-.mode {
-    display:flex;
-    gap:10px;
-}
-
-.mode p {
-    font-size:18px;
-    font-weight: bold;
-    font-family:'noto sans';
-    color:var(--color-default-text);
-    padding:5px;
-    border-radius:8px;
-    cursor:pointer;
-    transition:background 0.6s;
-    user-select: none;
-}
-
-.mode p:hover {
-    background:rgba(255,255,255,0.1);
-}
-
-.mode-active {
-    background:rgba(255,255,255,0.1);
-}
-
-.container-time {
-    display:flex;
-    gap:5px;
-}
-
-.container-time .minutes, .seconds {
-    text-align:center;
-    min-width: 1em;
-    min-height: 1em;
-    padding:5px;
-    font-size:90px;
-    background:rgba(255, 255, 255,0.1);
-    color:var(--color-default-text);
-    border-radius:10px;
-    user-select: none;
-}
-
-.two-points {
-    user-select: none;
-    font-size:95px;
-    color:var(--color-default-text);
-}
-
-.container-timer__div-btn {  
-    display: flex;
-    gap:10px;
-    align-items: center;
-    justify-content: center;
-}
-
-
-.btn-start {
-    font-family: 'noto sans';
-    font-size:24px;
-    background:var(--background-header);
-    border:none;
-    outline:none;
-    width: 120px;
-    padding:5px 20px;
-    border-radius:40px;
-    background:rgba(255, 255, 255,0.1);
-    cursor:pointer;
-    user-select: none;
-}
-
-.btn-reload {
-    transform: rotate(0deg);
-    font-size: 30px;
-    background: none;
-    border:none;
-    outline: none;
-    cursor: pointer;   
-}
-
-.btn-reload:active {
-    border:none;
-    outline: none;
-}
-
 .modal-alert {
     position: absolute;
     width: 100%;
@@ -617,19 +511,6 @@ nav {
         font-size: 35px;
     }
 
-    .mode p {
-        font-size:15px;
-    }
-
-    .container-timer {
-        width:22em;
-        height:18em;
-    }
-
-     .minutes, .seconds {
-        font-size:80px;
-    }
-
 }
 
 
@@ -654,21 +535,6 @@ nav {
     }
 }
 
-
-
-
-
-
-@media screen and (max-width:334px) {
-
-    .card-time {
-        margin-bottom:25px;
-    }
-
-    .mode {
-        flex-direction: column;
-    }
-}
 
 @media screen and (max-width: 550px) {
     .container-settings {
