@@ -287,13 +287,14 @@
 }
 
 .container-task-create__container-config {
-    height:100%;
-    width:60%;
-    background:var(--background-fondo);
+    height:60%;
+    width:50%;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(2,28,64,1) 13%, rgba(0,212,255,1) 100%);
     display: flex;
     flex-direction:column;
     align-items:center;
     gap:15px;
+    position: relative;
 }
 
 .container__info-text-task {
@@ -322,7 +323,7 @@
     padding:10px 5px;
     border-radius:4px;
     color:#ddd;
-    background:rgba(255,255,255,0.2);
+    background:rgb(13,0,36);
     border:none;
     outline:none;
     border:2px solid transparent;
@@ -351,7 +352,7 @@
 }
 
 .container-circulo:hover {
-    background-color: rgba(255,255,255,0.1);
+    background: rgba(0,212,255,1);
 }
 
 
@@ -360,6 +361,43 @@
     height: 20px;
     background: red;
     border-radius: 100%;
+}
+
+.container-colors {
+    display: none;
+    grid-template-columns: repeat(3,20px);
+    grid-template-rows: repeat(3,20px);
+    gap:20px;
+    padding: 15px;
+    background: rgb(13,0,36);
+    position: absolute;
+    z-index: 900000000;
+    width: max-content;
+    height: max-content;
+    color:b;
+    top:130px;
+    right:100px;
+    border: 1px solid black;
+}
+
+.circulo-important {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 100%;
+}
+
+.triangulo {
+    position: absolute;
+    right:10px;
+    top:-20px;
+    transform: rotate(-90deg);
+    width: 0; 
+    height: 0; 
+    border-left: 20px solid rgb(13,0,36);
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent; 
 }
 
 .arrow-down-title {
@@ -390,14 +428,14 @@
 .select-categorias {
     border:none;
     width: 80%;
-    background: rgba(255,255,255,0.2);
+    background:rgb(13,0,36);
     padding:10px 5px;
     color:white;
     transform: translateX(-7px);
 }
 
 .select-categorias__option {
-    background:rgba(255,255,255,0.2);
+    background: white;
 }
 
 .select-categorias:focus {
@@ -420,6 +458,34 @@
 .flex-fecha input {
     padding:10px;
 }
+
+.container-btn-task {
+    width: 80%;
+    height: max-content;
+    padding:50px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap:30px;
+} 
+
+.container-btn-task__button {
+    cursor: pointer;
+    width: max-content;
+    padding:10px 30px;
+    outline: none;
+    border:none;
+    color:white;
+    background: rgb(13,0,36);
+}
+
+.container-btn-task__button:hover {
+    background: rgb(23, 0, 63);
+}
+
+
+
+
 
 
 @media screen and (max-width:1024px) {
@@ -563,6 +629,7 @@
     /* estilos del modal de creacion de tareas */
     .container-task-create__container-config  {
         width:100%;
+        height: 100%;
     }
 
     .container-selected-categorias {
