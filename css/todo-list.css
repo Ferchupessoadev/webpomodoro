@@ -16,6 +16,7 @@
     border-bottom:0.5px solid rgba(0,212,255,1);
 }
 
+
 .div__container-categorias {
     display:flex;
     align-items:center;
@@ -94,7 +95,8 @@
 }
 
 #config-list-todo {
-    cursor: pointer;order:1;
+    cursor: pointer;
+    order:1;
 } 
 
 #config-list-todo:hover > i {
@@ -143,16 +145,24 @@
     background-color:#fff;
 }
 
+
+
 .list-todo, .list-todo .options{
     display:flex;
     gap:20px;
+}
+
+.container-todos {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .todo-list {
     display: flex;
     flex-direction:column;
     gap:5px;
-    padding:10px;
+    width: 100%;
 }
 
 .todo-list-today {
@@ -162,11 +172,32 @@
 }
 
 .list-todo {
-    cursor: pointer;
+    cursor: auto;
+    user-select: none;
+    border-left:3px solid red;
     border-radius:10px;
     padding:15px;
+    height: 40px;
+    width: 95%;
     align-items: center;
     background:rgb(13,0,54);
+    position: relative;
+}
+
+.list-todo:active {
+    user-select: none;
+}
+
+.date-time {
+    position: absolute;
+    bottom:3px;
+    left:40px;
+    color:white;
+}
+
+.date-time__p {
+    font-size:14px;
+    color:white;
 }
 
 .container-circle {
@@ -211,7 +242,6 @@
 
 .options-responsive {
     display:none;
-   
 }
 
 .options-responsive i {
@@ -224,6 +254,18 @@
     display: flex;
     align-items:center;
     padding:10px;
+    cursor: auto;
+    user-select: none;
+}
+
+.nav-tasks-responsive {
+    cursor: auto;
+    user-select: none;
+}
+
+.nav-tasks-responsive:active {
+    user-select: none;
+    -webkit-user-select: none;
 }
 
 .nav-tasks-responsive {
@@ -273,12 +315,25 @@
 
 .list-todo-completed {
     opacity:0.5;
+    display: flex;
+    gap:20px;
+    cursor: auto;
+    user-select: none;
+    border-left:3px solid red;
+    border-radius:10px;
+    padding:15px;
+    height: 40px;
+    width: 95%;
+    align-items: center;
+    background:rgb(13,0,54);
+    position: relative;
 }
+
 
 .container-task-create {
     position: fixed;
     z-index:50000;
-    display: flex;
+    display: none;
     align-items:center;
     justify-content:center;
     background:rgba(0,0,0,0.5);
@@ -364,19 +419,16 @@
 }
 
 .container-colors {
-    display: none;
+    display: grid;
     grid-template-columns: repeat(3,20px);
     grid-template-rows: repeat(3,20px);
     gap:20px;
     padding: 15px;
     background: rgb(13,0,36);
     position: absolute;
-    z-index: 900000000;
+    z-index: 99999;
     width: max-content;
     height: max-content;
-    color:b;
-    top:130px;
-    right:100px;
     border: 1px solid black;
 }
 
@@ -398,6 +450,44 @@
     border-left: 20px solid rgb(13,0,36);
     border-top: 10px solid transparent;
     border-bottom: 10px solid transparent; 
+}
+
+.container-color-info {
+    position: absolute;
+    padding:5px 10px;
+    background: #000000;
+    width: max-content;
+    height: max-content;
+    top:120px;
+    z-index:102020;
+    border:1px solid white;
+}
+
+.info-color {
+    width: max-content;
+    height: max-content;
+    padding: 3px 5px;
+    position:relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-color__p {
+    color:white;
+}
+
+
+.triangulo-info-color {
+    position: absolute;
+    right:-5px;
+    top:-15px;
+    transform: rotate(-90deg);
+    width: 0; 
+    height: 0; 
+    border-left: 10px solid white;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent; 
 }
 
 .arrow-down-title {
@@ -426,12 +516,13 @@
 }
 
 .select-categorias {
-    border:none;
+    border:none; 
     width: 80%;
     background:rgb(13,0,36);
     padding:10px 5px;
     color:white;
     transform: translateX(-7px);
+    border-radius: 4px;
 }
 
 .select-categorias__option {
@@ -477,6 +568,7 @@
     border:none;
     color:white;
     background: rgb(13,0,36);
+    border-radius: 8px;
 }
 
 .container-btn-task__button:hover {
@@ -539,22 +631,21 @@
     .options-responsive {
         position: absolute;
         right:10px;
-        height:50px;
+        height:100%;
         border-radius:10px;
         display:flex;
         align-items:center;
-        background:#000;
+        background:transparent;
     }
     
-    .container-options-btns {	
-        display:flex;
+    .container-options-btns {
+        display:none;
         align-items:center;
         justify-content:space-evenly;
         width:100%;
         height: 100%;
         border-radius:20px;
         background:#000;
-        display:flex;
     }
 
     .container-options-btns div {
@@ -676,4 +767,16 @@
 	    display:none;
     }
 
+}
+
+.toggle-section {
+    display: none;
+}
+
+.color-placeholder-red::placeholder {
+    color:red;
+   
+}
+.color-placeholder-red {
+    border: 2px solid red;
 }

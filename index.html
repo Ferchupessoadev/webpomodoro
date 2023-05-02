@@ -25,7 +25,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
 </head>
 
-<body>
+<body class="body">
 	<div id="sonidos"></div>
 	<!-- seccion de configuracion de tiempos sonido e itervalos de descansos -->
 	<section class="modal-conf">
@@ -182,7 +182,7 @@
 			</div>
 		</div>
 		<!-- seccion donde se visualizan todas las tareas. -->
-		<div class="container-list-todo">
+		<div class="container-list-todo" >
 			<div class="todo-list">
 				<div class="tasks-to-future">
 					<div class="nav-tasks nav-future">
@@ -193,25 +193,31 @@
 					<div class="nav-tasks-responsive nav-future-responsive">
 						<div class="p-tasks p-future-responsive">Futuro <p class="rotate-arrow-completed">&#62</p></div>
 					</div>
-					<div class="list-todo">
-						<div class="container-circle">
-							<div class="circle"></div>
-						</div>
-						<div class="list-todo__data">
-							<p>examen de matematica</p>
-						</div>
-						<div class="options-responsive">
-							<i class="fa-solid fa-ellipsis-vertical"></i>
-							<div class="container-options-btns">
-								<div class="container-btn-eyes"><i class="fa-solid fa-eye"></i></div>
-								<div class="container-btn-trash"><i class="fa-solid fa-trash"></i></div>
-								<div class="container-btn-pen-to-square"><i class="fa-solid fa-pen-to-square"></i></div>
+					<!-- en el div con la clase container-todos vamos a ir metiendo con js las tareas que cree el usuario-->
+					<div class="container-todos">
+						<div class="list-todo">
+							<div class="date-time">
+								<p class="date-time__p">24/09</p>
 							</div>
-						</div>
-						<div class="options">
-							<i class="fa-solid fa-eye"></i>
-							<i class="fa-solid fa-trash"></i>
-							<i class="fa-solid fa-pen-to-square"></i>
+							<div class="container-circle">
+								<div class="circle"></div>
+							</div>
+							<div class="list-todo__data">
+								<p>examen de matematica</p>
+							</div>
+							<div class="options-responsive">
+								<i class="fa-solid fa-ellipsis-vertical"></i>
+								<div class="container-options-btns">
+									<div class="container-btn-eyes"><i class="fa-solid fa-eye"></i></div>
+									<div class="container-btn-trash"><i class="fa-solid fa-trash"></i></div>
+									<div class="container-btn-pen-to-square"><i class="fa-solid fa-pen-to-square"></i></div>
+								</div>
+							</div>
+							<div class="options">
+								<i class="fa-solid fa-eye"></i>
+								<i class="fa-solid fa-trash"></i>
+								<i class="fa-solid fa-pen-to-square"></i>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -224,7 +230,12 @@
 					<div class="nav-tasks-responsive nav-past-responsive">
 						<div class="p-tasks p-past-responsive">Pasado <p class="rotate-arrow-completed">&#62</p></div>
 					</div>
-					<div class="list-todo">
+					<!-- en el div con la clase container-todos vamos a ir metiendo con js las tareas que cree el usuario-->
+					<div class="container-todos">
+						<div class="list-todo">
+						<div class="date-time">
+							<p class="date-time__p">24/09</p>
+						</div>
 						<div class="container-circle">
 							<div class="circle"></div>
 						</div>
@@ -245,6 +256,7 @@
 							<i class="fa-solid fa-pen-to-square"></i>
 						</div>
 					</div>
+					</div>
 				</div>
 				<!-- seccion de las tareas de hoy -->
 				<div class="todo-list-today">
@@ -256,25 +268,31 @@
 					<div class="nav-tasks-responsive nav-today-responsive">
 						<div class="p-tasks p-today-responsive">HOY <p class="rotate-arrow-completed">&#62</p></div>
 					</div>
-					<div class="list-todo">
-						<div class="container-circle">
-							<div class="circle"></div>
-						</div>
-						<div class="list-todo__data">
-							<p>Lorem ipsum</p>
-						</div>
-						<div class="options-responsive">
-							<i class="fa-solid fa-ellipsis-vertical"></i>
-							<div class="container-options-btns">
-								<div class="container-btn-eyes"><i class="fa-solid fa-eye"></i></div>
-								<div class="container-btn-trash"><i class="fa-solid fa-trash"></i></div>
-								<div class="container-btn-pen-to-square"><i class="fa-solid fa-pen-to-square"></i></div>
+					<!-- en el div con la clase container-todos vamos a ir metiendo con js las tareas que cree el usuario-->
+					<div class="container-todos">
+						<div class="list-todo">
+							<div class="date-time">
+								<p class="date-time__p">24/09</p>
 							</div>
-						</div>
-						<div class="options">
-							<i class="fa-solid fa-eye"></i>
-							<i class="fa-solid fa-trash"></i>
-							<i class="fa-solid fa-pen-to-square"></i>
+							<div class="container-circle">
+								<div class="circle"></div>
+							</div>
+							<div class="list-todo__data">
+								<p>Lorem ipsum</p>
+							</div>
+							<div class="options-responsive">
+								<i class="fa-solid fa-ellipsis-vertical"></i>
+								<div class="container-options-btns">
+									<div class="container-btn-eyes"><i class="fa-solid fa-eye"></i></div>
+									<div class="container-btn-trash"><i class="fa-solid fa-trash"></i></div>
+									<div class="container-btn-pen-to-square"><i class="fa-solid fa-pen-to-square"></i></div>
+								</div>
+							</div>
+							<div class="options">
+								<i class="fa-solid fa-eye"></i>
+								<i class="fa-solid fa-trash"></i>
+								<i class="fa-solid fa-pen-to-square"></i>
+							</div>		
 						</div>
 					</div>
 				</div>
@@ -290,8 +308,12 @@
 				<div class="nav-tasks-responsive nav-completed-responsive">
 					<div class="p-tasks p-completed p-completed-responsive">Completado <p class="rotate-arrow-completed">&#62</p></div>
 				</div>
-				<div class="todo-list">
-					<div class="list-todo list-todo-completed">
+				<!-- en el div con la clase container-todos vamos a ir metiendo con js las tareas que cree el usuario-->
+				<div class="container-todos">
+					<div class="list-todo-completed">
+						<div class="date-time">
+							<p class="date-time__p">24/09</p>
+						</div>
 						<div class="container-circle">
 							<div class="circle task-completed"></div>
 						</div>
@@ -309,15 +331,20 @@
 			</div>
 			<div class="linear-task"></div>
 			<div class="container-title">
-				<input type="text" class="task-create__input task-create__input-title" minlength="1" maxlength="40" placeholder="Añadir un titulo">
+				<input type="text" 
+					class="task-create__input task-create__input-title" 
+					minlength="1" 
+					maxlength="40" 
+					placeholder="Añadir un titulo">
 				<div class="container-circulo">
-					<div class="circulo-title"></div>
+					<div class="circulo-title" id="importance-according-to-color"></div>
 					<div class="arrow-down-title">&#62</div>
 				</div>
 			</div>
 			<textarea maxlength="90" aria-valuemax="90" style="width: 80%;" class="task-create__input task-create__input-description"
 				placeholder="Añadir una descripción (opcional)"></textarea>
 			<div class="container-selected-categorias">
+				
 				<select class="select-categorias" name="categorias">
 					<option class="select-categorias__option" selected disabled>Selecciona una categoria</option>
 					<option class="select-categorias__option">Ninguna</option>
@@ -331,8 +358,8 @@
 				</div>
 			</div>
 			<div class="container-btn-task">
-				<button class="container-btn-task__button">Cancelar</button>
-				<button class="container-btn-task__button">Crear</button>
+				<button class="container-btn-task__button container-btn-task__button-close">Cancelar</button>
+				<button class="container-btn-task__button container-btn-task__button-open" id="btn-create-task">Crear</button>
 			</div>
 		</div>
 	</div>
