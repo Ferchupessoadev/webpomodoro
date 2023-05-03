@@ -4,12 +4,9 @@ class CreateTodoListCode {
         this.todoListPast = document.querySelector(".homework-from-the-past");
         this.todoListFuture = document.querySelector(".tasks-to-future");
         this.todoListCompleted = document.querySelector(".container-completed");
-        setTimeout(() => {
-            this.createTaskOfToday("test 1","blue","Personal","03/05")
-        },4000);
     }
 
-    createTaskOfToday(title,color,category,date) {
+    createTaskHTML(title,color,date) {
         // creamos el contenedor y el elemento en el que va a estar la fecha de la tarea.
         const div = document.createElement("DIV");
         div.classList.add("list-todo");
@@ -18,7 +15,11 @@ class CreateTodoListCode {
         divDateTime.classList.add("date-time");
         const dateTimeP = document.createElement("P");
         dateTimeP.classList.add("date-time__p");
-        dateTimeP.textContent = date;
+        let dateTodayTask;
+        let dateMonthsTask;
+        (date.split("/")[0].length == 1) ? dateTodayTask = `0${date.split("/")[0]}`:dateTodayTask = date.split("/")[0];
+        (date.split("/")[1].length == 1) ? dateMonthsTask = `0${date.split("/")[1]}`: dateMonthsTask = date.split("/")[1];
+        dateTimeP.textContent = `${dateTodayTask}/${dateMonthsTask}`;
         divDateTime.appendChild(dateTimeP);
         div.appendChild(divDateTime);
         // creamos y ponemos el  boton checkout.
@@ -71,7 +72,26 @@ class CreateTodoListCode {
         btnEdit.classList.add("fa-pen-to-square");
         divOptions.appendChild(btnEdit);
         div.appendChild(divOptions);
+        return div;
+    }
+
+    createTaskOfFuture(title,color,date) {
+        const div = this.createTaskHTML(title,color,date);
+        this.todoListFuture.children[2].appendChild(div);
+    }
+
+    createTaskOfPast(title,color,date) {
+        const div = this.createTaskHTML(title,color,date);
+        this.todoListPast.children[2].appendChild(div);
+    }
+
+    createTaskOfToday(title,color,date) {
+        const div = this.createTaskHTML(title,color,date);
         this.todoListToday.children[2].appendChild(div);
+   }
+
+   createTaskOfCompleted(title,color,date) {
+    
    }
 }
 

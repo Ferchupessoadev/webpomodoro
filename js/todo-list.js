@@ -175,7 +175,11 @@ class todoList {
 		const months = dateToday.getMonth()+1;
 		const today = dateToday.getDay();
 		if(ageTask === age && monthsTask === months && todayTask === today) {
-			this.createTodoListCode.createTaskOfToday();
+			this.createTodoListCode.createTaskOfToday(this.titleInput.value,this.importanceAccordingToColor.style.background,`${todayTask}/${monthsTask}`);
+		} else if (ageTask > age || monthsTask > months || todayTask > today) {
+			this.createTodoListCode.createTaskOfFuture(this.titleInput.value,this.importanceAccordingToColor.style.background,`${todayTask}/${monthsTask}`)
+		} else if (ageTask < age || monthsTask < months || todayTask < today) {
+			this.createTodoListCode.createTaskOfPast(this.titleInput.value,this.importanceAccordingToColor.style.background,`${todayTask}/${monthsTask}`)
 		}
 	}
 }
