@@ -1,19 +1,21 @@
 "use strict";
 import DriverOptionsTodoList from './components/driverOptions.js'
-
+import CreateTodoListCode from './components/createTodolist.js'
 class todoList {
     constructor() {
 		this.driverOptionsTodoList = new DriverOptionsTodoList()
-		this.body = document.querySelector(".body")
+		this.body = document.querySelector(".body");
+		this.createTodoListCode = new CreateTodoListCode();
 		this.addTaskBtn = document.querySelector(".nav-task__button");
 		this.addTaskBtn.addEventListener("click",() => this.openTaskCreationModal());
-		this.btnToCloseTheTaskCreationModal = document.querySelector(".container-btn-task__button-close")
+		this.btnToCloseTheTaskCreationModal = document.querySelector(".container-btn-task__button-close");
 		this.btnToCloseTheTaskCreationModal.addEventListener("click", e => this.closeTaskCreationModal())
 		this.createTaskBtn = document.getElementById("btn-create-task");
 		this.createTaskBtn.addEventListener("click", e => this.validateInputToCreateTheTask())
 		this.titleInput = document.querySelector(".task-create__input-title");
-		this.descriptionInput = document.querySelector("task-create__input-description");
+		this.descriptionInput = document.querySelector(".task-create__input-description");
 		this.importanceAccordingToColor = document.getElementById("importance-according-to-color");
+		this.selectCategory = document.querySelector(".select-categorias");
 		this.dateOfTask = document.getElementById("date-of-the-task");
 		this.taskOfThePresent = [];
 		this.taskOfThePast = [];
@@ -51,7 +53,6 @@ class todoList {
 		modalForCreatingTask.style.display = "flex";
 		const fecha = new Date()
 		this.dateOfTask.value = fecha.toJSON().slice(0,10);
-		console.log(fecha.getHours()+"-"+fecha.getMinutes())
     }
 
 	closeTaskCreationModal() {
@@ -139,19 +140,43 @@ class todoList {
 	}
 
 	validateInputToCreateTheTask() {
-		
-		if(this.titleInput.value == "") {
+		if(this.titleInput.value == "" || this.titleInput.value == undefined) {
 			this.titleInput.placeholder = "Campo obligatorio";
 			this.titleInput.classList.add("color-placeholder-red")
 			this.titleInput.addEventListener("click",() => {
 				this.titleInput.placeholder = "Añadir un titulo";
 				this.titleInput.classList.remove("color-placeholder-red")
 			})
+		} else if(this.descriptionInput.value == "" || this.descriptionInput.value === undefined) {
+			this.descriptionInput.placeholder = "Campo obligatorio";
+			this.descriptionInput.classList.add("color-placeholder-red")
+			this.descriptionInput.addEventListener("click",() => {
+				this.descriptionInput.placeholder = "Añadir un descripcion (opcional)";
+				this.descriptionInput.classList.remove("color-placeholder-red")
+			})
+		} else {
+			// si esta todo correcto creamos la tarea nueva.
+			this.createNewTask();
 		}
 	}
 
-	createNewTask(newTask) {
-		
+	createNewTask() {
+		const INDEXAGE = 0;
+		const INDEXMONTHS = 1;
+		const INDEXTODAY = 2;
+		// obtenemos el dia,mes y año en que hay que hacer la tarea.
+		let dateOfTheTime = this.dateOfTask.value.split("-")
+		let ageTask = parseInt(dateOfTheTime[INDEXAGE]);
+		let monthsTask = parseInt(dateOfTheTime[INDEXMONTHS]);
+		let todayTask = parseInt(dateOfTheTime[INDEXTODAY]);
+		// obtenemos el dia, el mes y el año actual.
+		const dateToday = new Date();
+		const age = dateToday.getFullYear();
+		const months = dateToday.getMonth()+1;
+		const today = dateToday.getDay();
+		if(ageTask === age && monthsTask === months && todayTask === today) {
+			this.createTodoListCode.createTaskOfToday();
+		}
 	}
 }
 
