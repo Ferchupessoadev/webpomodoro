@@ -12,6 +12,7 @@ class driverOptionsTodoList {
                     e.target.parentElement.parentElement.parentElement.children[2].classList.toggle("toggle-section")
                 } else {
                     e.target.parentElement.parentElement.children[2].classList.toggle("toggle-section");
+                    console.log(e.target.parentElement.parentElement.children[2])
                 }
             }
         })

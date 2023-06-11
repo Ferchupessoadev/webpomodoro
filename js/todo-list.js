@@ -33,6 +33,9 @@ class todoList {
 		this.arrowColors = document.querySelector(".arrow-down-title")
 		this.btnColorsImportantTask = document.querySelector(".container-circulo");
 		this.modalColorsIsVisible = false;
+		this.modalView = document.getElementById("modal-eyes");
+		this.btnCloseView = this.modalView.firstElementChild.firstElementChild;
+		this.btnCloseView.addEventListener("click", () => this.modalView.style.display = "none");
 		this.btnColorsImportantTask.addEventListener("click", () => {
 			if (!this.modalColorsIsVisible) {
 				this.modalColorsIsVisible = true;
@@ -156,17 +159,17 @@ class todoList {
 
 	createTaskOfFuture(title, color, date, id) {
 		const div = this.createTaskHTML(title, color, date, id);
-		this.todoListFuture.children[2].appendChild(div);
+		this.todoListFuture.children[2].insertAdjacentElement("afterbegin", div);
 	}
 
 	createTaskOfPast(title, color, date, id) {
 		const div = this.createTaskHTML(title, color, date, id);
-		this.todoListPast.children[2].appendChild(div);
+		this.todoListPast.children[2].insertAdjacentElement("afterbegin", div);
 	}
 
 	createTaskOfToday(title, color, date, id) {
 		const div = this.createTaskHTML(title, color, date, id);
-		this.todoListToday.children[2].appendChild(div);
+		this.todoListToday.children[2].insertAdjacentElement("afterbegin", div);
 	}
 
 	createTaskOfCompleted(title, color, date) {
@@ -215,22 +218,25 @@ class todoList {
 	openViewTask(element) {
 		let idElement = element.getAttribute("id");
 		const containerTasksTime = element.parentElement.parentElement;
-		const modalView = document.getElementById("modal-eyes");
-		const modalViewTitleContent = modalView.firstElementChild.children[1].lastElementChild;
-		const modalViewdescriptionContent = modalView.firstElementChild.children[2].lastElementChild;
+		const modalViewTitleContent = this.modalView.firstElementChild.children[1].lastElementChild;
+		const modalViewdescriptionContent = this.modalView.firstElementChild.children[2].lastElementChild;
+		const modalViewDateTime = this.modalView.firstElementChild.children[3].lastElementChild;
 		const title = element.children[2].firstElementChild.textContent;
 		modalViewTitleContent.textContent = title;
-
-		if (containerTasksTime.className == "homework-from-the-past") {
-			let index = this.taskOfThePast.findIndex((task) => task.id == idElement);
-			const description = this.taskOfThePast[index].description;
-			modalViewdescriptionContent.textContent = description;
+		const searchIndexAndShowInfo = (taskArray) => {
+			let index = taskArray.findIndex((task) => task.id == idElement);
+			modalViewdescriptionContent.textContent = taskArray[index].description;
+			modalViewDateTime.textContent = taskArray[index].dateTime;
 		}
-		modalView.style.display = "flex";
+		if (containerTasksTime.className == "homework-from-the-past") searchIndexAndShowInfo(this.taskOfThePast);
+		else if (containerTasksTime.className == "todo-list-today") searchIndexAndShowInfo(this.taskOfThePresent);
+		else if (containerTasksTime.className == "tasks-to-future") searchIndexAndShowInfo(this.taskOfTheFuture);
+		this.modalView.style.display = "flex";
+		this.modalView.style.animation = "animation-modal-view 0.1s ease";
 	}
 
 	showOrCloseModalOfColors() {
-		this.arrowColors.style.transform = "rotate(-90deg)"
+		this.arrowColors.style.transform = "rotate(-90deg)";
 		let colors = ["red", "goldenrod", "orange", "rebeccapurple", "yellow", "brown", "blue", "lightblue", "green"]
 		const divContainerColors = document.createElement("DIV");
 		divContainerColors.classList.add("container-colors");
@@ -298,88 +304,85 @@ class todoList {
 
 	renderTodoList() {
 		const todos = this.getTodosOfTheDB();
-
 		const presentTodos = todos[0] || [];
 		const pastTodos = todos[1] || [];
 		const futureTodos = todos[2] || [];
-
+		localStorage.setItem("taskPresent", JSON.stringify(this.taskOfThePresent));
+		localStorage.setItem("taskFuture", JSON.stringify(this.taskOfTheFuture));
+		localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
 		if (presentTodos.length >= 1) {
-			this.todoListToday.style.display = "block";
-			presentTodos.forEach(todo => {
-				this.createTaskOfToday(todo.title, todo.importanceAccordingToColor, todo.dateTime, todo.id);
-				this.taskOfThePresent.push(todo);
-			});
+			presentTodos.forEach(todo => this.createTask(todo, true));
 			this.idPresent = presentTodos[presentTodos.length - 1].id;
 			this.idPresent = this.idPresent + 1;
 		}
 
 		if (pastTodos.length >= 1) {
-			this.todoListPast.style.display = "block";
-			pastTodos.forEach(todo => {
-				this.createTaskOfPast(todo.title, todo.importanceAccordingToColor, todo.dateTime, todo.id);
-				this.taskOfThePast.push(todo);
-			});
+			pastTodos.forEach(todo => this.createTask(todo, true));
 			this.idPast = pastTodos[pastTodos.length - 1].id;
 			this.idPast = this.idPast + 1;
 		}
 
 		if (futureTodos.length >= 1) {
-			this.todoListFuture.style.display = "block";
-			futureTodos.forEach(todo => {
-				this.createTaskOfFuture(todo.title, todo.importanceAccordingToColor, todo.dateTime, todo.id);
-				this.taskOfTheFuture.push(todo);
-			});
+			futureTodos.forEach(todo => this.createTask(todo, true));
 			this.idFuture = futureTodos[futureTodos.length - 1].id;
 			this.idFuture = this.idFuture + 1;
 		}
 
-		if (!todos[0] && !todos[1] && !todos[2]) {
-			localStorage.setItem("taskPresent", JSON.stringify(this.taskOfThePresent));
-			localStorage.setItem("taskFuture", JSON.stringify(this.taskOfTheFuture));
-			localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
-		}
 	}
 
-	createNewTask() {
-		const dateOfTheTime = this.dateOfTask.value;
-		const [ageTask, monthsTask, todayTask] = dateOfTheTime.split("-").map(Number);
-
+	createTask(newTodoListData, isRender) {
 		const dateToday = new Date();
 		const age = dateToday.getFullYear();
 		const months = dateToday.getMonth() + 1;
 		const today = dateToday.getDate();
-
-		const newTodoListData = {
-			title: this.titleInput.value,
-			description: this.descriptionInput.value,
-			importanceAccordingToColor: this.importanceAccordingToColor.style.background,
-			category: this.selectCategory.children[this.selectCategory.selectedIndex].textContent,
-			dateTime: `${todayTask.toString().padStart(2, '0')}/${monthsTask.toString().padStart(2, '0')}`,
-			id: null,
-		};
-
-		if (ageTask === age && monthsTask === months && todayTask === today) {
-			newTodoListData.id = this.idPresent;
-			this.idPresent++;
+		console.log(today)
+		let [todayTask, monthsTask, ageTask] = newTodoListData.dateTime.split("/").map(Number);
+		console.log(newTodoListData.dateTime.split("/").map(Number))
+		console.log(ageTask)
+		if (ageTask == age && monthsTask == months && todayTask == today) {
+			if (!isRender) {
+				newTodoListData.id = this.idPresent;
+				this.idPresent++;
+			}
 			this.createTaskOfToday(newTodoListData.title, newTodoListData.importanceAccordingToColor, `${todayTask}/${monthsTask}`, newTodoListData.id);
 			this.taskOfThePresent.push(newTodoListData);
 			localStorage.setItem("taskPresent", JSON.stringify(this.taskOfThePresent));
 			this.todoListToday.style.display = "block";
 		} else if (ageTask > age || monthsTask > months || todayTask > today) {
-			newTodoListData.id = this.idFuture;
-			this.idFuture++;
+			if (!isRender) {
+				newTodoListData.id = this.idFuture;
+				this.idFuture++;
+			}
 			this.createTaskOfFuture(newTodoListData.title, newTodoListData.importanceAccordingToColor, `${todayTask}/${monthsTask}`, newTodoListData.id);
 			this.taskOfTheFuture.push(newTodoListData);
 			localStorage.setItem("taskFuture", JSON.stringify(this.taskOfTheFuture));
 			this.todoListFuture.style.display = "block";
 		} else if (ageTask < age || monthsTask < months || todayTask < today) {
-			newTodoListData.id = this.idPast;
-			this.idPast++;
+			if (!isRender) {
+				newTodoListData.id = this.idPast;
+				this.idPast++;
+			}
 			this.createTaskOfPast(newTodoListData.title, newTodoListData.importanceAccordingToColor, `${todayTask}/${monthsTask}`, newTodoListData.id);
 			this.taskOfThePast.push(newTodoListData);
 			localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
 			this.todoListPast.style.display = "block";
 		}
+	}
+
+
+	createNewTask() {
+		const dateOfTheTime = this.dateOfTask.value;
+		const [ageTask, monthsTask, todayTask] = dateOfTheTime.split("-").map(Number);
+		const newTodoListData = {
+			title: this.titleInput.value,
+			description: this.descriptionInput.value,
+			importanceAccordingToColor: this.importanceAccordingToColor.style.background,
+			category: this.selectCategory.children[this.selectCategory.selectedIndex].textContent,
+			dateTime: `${todayTask.toString().padStart(2, '0')}/${monthsTask.toString().padStart(2, '0')}/${ageTask.toString().padStart(2, "0")}`,
+			id: null,
+		};
+		this.createTask(newTodoListData, false);
+
 	}
 }
 
