@@ -27,8 +27,16 @@
     position: relative;
 }
 
+
 .div__container-categorias::-webkit-scrollbar {
-    width: 1px;
+    width: 0;
+    display: none;
+    background: transparent;
+}
+
+.div__container-categorias::-webkit-scrollbar-thumb {
+    width: 0;
+    background-color: transparent;
 }
 
 .div-arrow {
@@ -173,7 +181,7 @@
 }
 
 .todo-list-today {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 5px;
 }
@@ -336,6 +344,10 @@
     position: relative;
 }
 
+.container-completed {
+    display: none;
+}
+
 
 .container-task-create {
     position: fixed;
@@ -351,6 +363,7 @@
 .container-task-create__container-config {
     height: 60%;
     width: 50%;
+    padding: 20px;
     background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(2, 28, 64, 1) 13%, rgba(0, 212, 255, 1) 100%);
     display: flex;
     flex-direction: column;
@@ -560,7 +573,7 @@
 .container-btn-task {
     width: 80%;
     height: max-content;
-    padding: 50px;
+    padding: 20px;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -586,7 +599,7 @@
     width: 100%;
     z-index: 1000;
     height: 100%;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.8);
     position: fixed;
     display: none;
     align-items: center;
@@ -597,7 +610,7 @@
     position: relative;
     width: 40%;
     height: 60%;
-    background: #222;
+    background: var(--background-fondo);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -684,11 +697,21 @@
     color: var(--color-default-text);
 }
 
-@media screen and (max-width:1024px) {
+@media screen and (max-width:1025px) {
     .nav-task__button p:last-child {
         font-size: 10px;
     }
+
+
+
 }
+
+@media screen and (max-height:800px) and (max-width:1024px) {
+    .container-task-create__container-config {
+        height: 100%;
+    }
+}
+
 
 @media screen and (max-width: 750px) {
     .container-circle {
@@ -884,4 +907,12 @@
 
 .color-placeholder-red {
     border: 2px solid red;
+}
+
+@media screen and (max-height:500px) {
+
+    .container-task-create__container-config {
+        height: 100%;
+    }
+
 }

@@ -1,76 +1,76 @@
-
 .card-time {
-    display:flex;
+    display: flex;
     width: 100%;
-    height:100vh;
+    height: 100vh;
 
 }
 
 .container-timer {
     width: 28em;
-    height:20em;
-    padding:10px;
-    margin:auto;
-    display:flex;
+    height: 20em;
+    padding: 10px;
+    margin: auto;
+    display: flex;
     flex-direction: column;
-    gap:20px;
+    gap: 20px;
     align-items: center;
     justify-content: center;
-    border-radius:10px;
+    border-radius: 10px;
 }
 
 .mode {
-    display:flex;
-    gap:10px;
+    display: flex;
+    gap: 10px;
 }
 
 .mode p {
-    font-size:24px;
+    font-size: 20px;
     font-weight: bold;
-    font-family:'noto sans';
-    color:var(--color-default-text);
-    padding:5px;
-    border-radius:8px;
-    cursor:pointer;
-    transition:background 0.6s;
+    font-family: 'noto sans';
+    color: var(--color-default-text);
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.6s;
     user-select: none;
 }
 
 .mode p:hover {
-    background:rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .mode-active {
-    background:rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .container-time {
-    display:flex;
-    gap:5px;
+    display: flex;
+    gap: 5px;
 }
 
-.container-time .minutes, .seconds {
-    text-align:center;
+.container-time .minutes,
+.seconds {
+    text-align: center;
     width: max-content;
     height: max-content;
-    padding:10px;
+    padding: 10px;
     font-weight: bold;
-    font-size:140px;
-    background:transparent;
-    color:var(--color-default-text);
-    border-radius:10px;
+    font-size: 140px;
+    background: transparent;
+    color: var(--color-default-text);
+    border-radius: 10px;
     user-select: none;
 }
 
 .two-points {
     user-select: none;
-    font-size:95px;
-    color:var(--color-default-text);
+    font-size: 95px;
+    color: var(--color-default-text);
 }
 
-.container-timer__div-btn {  
+.container-timer__div-btn {
     display: flex;
-    gap:10px;
+    gap: 10px;
     align-items: center;
     justify-content: center;
 }
@@ -78,15 +78,15 @@
 
 .btn-start {
     font-family: 'noto sans';
-    font-size:28px;
-    background:var(--background-header);
-    border:none;
-    outline:none;
+    font-size: 28px;
+    background: var(--background-header);
+    border: none;
+    outline: none;
     width: 150px;
-    padding:5px 20px;
-    border-radius:40px;
-    background:rgba(255, 255, 255,0.1);
-    cursor:pointer;
+    padding: 5px 20px;
+    border-radius: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    cursor: pointer;
     user-select: none;
 }
 
@@ -94,38 +94,62 @@
     transform: rotate(0deg);
     font-size: 50px;
     background: none;
-    border:none;
+    border: none;
     outline: none;
-    cursor: pointer;   
+    cursor: pointer;
 }
 
 .btn-reload:active {
-    border:none;
+    border: none;
     outline: none;
 }
 
 .settings {
-    font-size:50px;
+    font-size: 50px;
 }
 
 @media screen and (max-width:800px) {
     .mode p {
-        font-size:15px;
+        font-size: 15px;
     }
 
     .container-timer {
-        width:22em;
-        height:18em;
+        width: 18rem;
+        height: 15rem;
     }
 
-     .container-time .minutes, .seconds {
-        font-size:80px;
+    .container-time .minutes,
+    .seconds {
+        font-size: 80px;
     }
 
     .container-settings {
         width: 100%;
         height: 100%;
-        padding:0;
+        padding: 0;
+    }
+
+}
+
+@media screen and (max-width:1024px) {
+    .mode p {
+        font-size: 15px;
+    }
+
+    .container-timer {
+        width: 26em;
+        height: 23em;
+    }
+
+    .container-time .minutes,
+    .seconds {
+        font-size: 80px;
+    }
+
+    .container-settings {
+        width: 100%;
+        height: 100%;
+        padding: 0;
     }
 
 }
@@ -133,47 +157,47 @@
 
 @media screen and (max-width:334px) {
     .card-time {
-        margin-bottom:25px;
+        margin-bottom: 25px;
     }
-    
+
     .mode {
-	flex-direction: column;
+        flex-direction: column;
     }
 
     .mode p {
         font-size: 15px;
     }
 
-    .container-time{
-	width:13em;
-	height:15em;
-	display:flex;
-	align-items:center;
-	justify-content:center;
+    .container-time {
+        width: 13em;
+        height: 15em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .container-time .minutes , .seconds{
-	font-size:3em;
-	width:max-content;
-	height: max-content;
-	padding:10px;
+    .container-time .minutes,
+    .seconds {
+        font-size: 3em;
+        width: max-content;
+        height: max-content;
+        padding: 10px;
     }
-    
+
     .two-points {
-	font-size:5em;
+        font-size: 5em;
     }
 
     .btn-start {
-	font-size:1.5em;
+        font-size: 1.5em;
     }
 
     .btn-reload {
-	font-size:1.5em;
+        font-size: 1.5em;
     }
 
     .settings {
-	font-size:1.5em;
+        font-size: 1.5em;
     }
 
 }
-

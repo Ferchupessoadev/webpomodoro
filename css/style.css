@@ -24,8 +24,7 @@ header {
 
 .todo-list-today,
 .homework-from-the-past,
-.tasks-to-future,
-.container-completed {
+.tasks-to-future {
     display: none;
 }
 
