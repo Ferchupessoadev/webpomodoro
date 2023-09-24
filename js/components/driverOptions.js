@@ -27,9 +27,18 @@ class driverOptionsTodoList {
   }
 
   toggleOptions(optionsResponsive) {
+    let optionsIsVisible = false;
     if (
       optionsResponsive.parentElement.lastElementChild.style.display != "flex"
-    ) {
+    )
+      optionsIsVisible = true;
+    const optionsResponsives = document.querySelectorAll(".options-responsive");
+    console.log(optionsResponsives);
+    optionsResponsives.forEach((elementOptionsResponsive) => {
+      elementOptionsResponsive.children[1].style.display = "none";
+      elementOptionsResponsive.style.background = "transparent";
+    });
+    if (optionsIsVisible) {
       optionsResponsive.parentElement.lastElementChild.style.display = "flex";
       optionsResponsive.parentElement.style.background = "#000";
     } else {

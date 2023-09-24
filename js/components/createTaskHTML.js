@@ -63,5 +63,13 @@ export default function createTaskHTML(title, color, date, id) {
   btnEdit.classList.add("fa-pen-to-square");
   divOptions.appendChild(btnEdit);
   div.appendChild(divOptions);
-  return [div, containerCircle, btnEyes, btnTrash, divOptionsResponsive];
+  return [
+    div,
+    containerCircle,
+    btnEyes,
+    btnTrash,
+    divOptionsResponsive,
+    containerBtnTrash,
+    containerBtnEyes,
+  ];
 }

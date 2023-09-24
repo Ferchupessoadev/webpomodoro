@@ -153,8 +153,7 @@
 			<div class="div__container-categorias">
 				<div class="div-arrow-left div-arrow">&#60</div>
 				<div class="div__categorias">
-					<!--12 es el maximo de caracteres soportados por categoria.-->
-					<div class="div__categoria">
+					<div class="div__categoria div__categoria-active">
 						<p class="div__categoria-p">Todas</p>
 					</div>
 					<div class="div__categoria">
@@ -270,7 +269,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- diseño del modal de creacion de tareas. -->
+	<!-- modal de creacion de tareas. -->
 	<div class="container-task-create">
 		<div class="container-task-create__container-config">
 			<div class="container__info-text-task">
@@ -306,6 +305,41 @@
 				<button class="container-btn-task__button container-btn-task__button-close">Cancelar</button>
 				<button class="container-btn-task__button container-btn-task__button-open"
 					id="btn-create-task">Crear</button>
+			</div>
+		</div>
+	</div>
+	<!-- modal para editar tarea -->
+	<div class="modal-edit-task">
+		<div class="container-edit-task">
+			<div class="container__info-text-task">
+				<p class="info-text-task">edit task</p>
+			</div>
+			<div class="linear-task"></div>
+			<div class="container-title">
+				<input type="text" class="task-edit__input task-edit__input-title" minlength="1" 
+				maxlength="40"
+				placeholder="Editar titulo">
+				<div class="container-circulo-edit">
+					<div class="circulo-title-edit" style="background: red;" id="importance-according-to-color-edit"></div>
+					<div class="arrow-down-title">&#62</div>
+				</div>
+			</div>
+			<textarea maxlength="90" aria-valuemax="90" style="width: 80%;"
+				class="task-edit__input task-edit__input-description"
+				placeholder="Editar descripción"></textarea>
+			<div class="container-selected-categorias-edit">
+				<select class="select-categorias-edit" name="categorias">
+					<option class="select-categorias__option-edit" selected disabled>Selecciona una categoria</option>
+					<option class="select-categorias__option-edit">Ninguna</option>
+					<option class="select-categorias__option-edit">Escuela</option>
+					<option class="select-categorias__option-edit">Trabajo</option>
+					<option class="select-categorias__option-edit">Personal</option>
+				</select>
+				<div class="flex-fecha">
+					<label class="fecha__flex-item" for="date-of-the-task"
+						style="color:white;cursor: pointer;">Fecha</label>
+					<input class="fecha__flex-item" type="date" name="" id="date-of-the-task-id">
+				</div>
 			</div>
 		</div>
 	</div>

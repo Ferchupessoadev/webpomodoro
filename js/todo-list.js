@@ -94,6 +94,10 @@ class todoList {
     this.dateOfTask.value = fecha.toJSON().slice(0, 10);
   }
 
+  openTaskEditingModal() {
+    this.body.style.overflowY = "hidden";
+  }
+
   closeTaskCreationModal() {
     const modalForCreatingTask = document.querySelector(
       ".container-task-create"
@@ -109,14 +113,27 @@ class todoList {
   }
 
   createTaskOfFuture(title, color, date, id) {
-    const [div, containerCircle, btnEyes, btnTrash, divOptionsResponsive] =
-      CreateTaskHTML(title, color, date, id);
+    const [
+      div,
+      containerCircle,
+      btnEyes,
+      btnTrash,
+      divOptionsResponsive,
+      containerBtnTrash,
+      containerBtnEyes,
+    ] = CreateTaskHTML(title, color, date, id);
     containerCircle.addEventListener("click", (e) =>
       this.createTaskOfCompleted(title, color, date, id)
+    );
+    containerBtnEyes.addEventListener("click", (e) =>
+      this.openViewTask(
+        e.target.parentElement.parentElement.parentElement.parentElement
+      )
     );
     btnEyes.addEventListener("click", (e) =>
       this.openViewTask(e.target.parentElement.parentElement)
     );
+    containerBtnTrash.addEventListener("click", () => this.deleteTask(div, id));
     btnTrash.addEventListener("click", (e) => this.deleteTask(div, id));
     divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
       this.driverOptionsTodoList.toggleOptions(e.target)
@@ -125,14 +142,27 @@ class todoList {
   }
 
   createTaskOfPast(title, color, date, id) {
-    const [div, containerCircle, btnEyes, btnTrash, divOptionsResponsive] =
-      CreateTaskHTML(title, color, date, id);
+    const [
+      div,
+      containerCircle,
+      btnEyes,
+      btnTrash,
+      divOptionsResponsive,
+      containerBtnTrash,
+      containerBtnEyes,
+    ] = CreateTaskHTML(title, color, date, id);
     containerCircle.addEventListener("click", (e) =>
       this.createTaskOfCompleted(title, color, date, id)
+    );
+    containerBtnEyes.addEventListener("click", (e) =>
+      this.openViewTask(
+        e.target.parentElement.parentElement.parentElement.parentElement
+      )
     );
     btnEyes.addEventListener("click", (e) =>
       this.openViewTask(e.target.parentElement.parentElement)
     );
+    containerBtnTrash.addEventListener("click", () => this.deleteTask(div, id));
     btnTrash.addEventListener("click", (e) => this.deleteTask(div, id));
     divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
       this.driverOptionsTodoList.toggleOptions(e.target)
@@ -141,14 +171,27 @@ class todoList {
   }
 
   createTaskOfToday(title, color, date, id) {
-    const [div, containerCircle, btnEyes, btnTrash, divOptionsResponsive] =
-      CreateTaskHTML(title, color, date, id);
+    const [
+      div,
+      containerCircle,
+      btnEyes,
+      btnTrash,
+      divOptionsResponsive,
+      containerBtnTrash,
+      containerBtnEyes,
+    ] = CreateTaskHTML(title, color, date, id);
     containerCircle.addEventListener("click", (e) =>
       this.createTaskOfCompleted(title, color, date, id)
+    );
+    containerBtnEyes.addEventListener("click", (e) =>
+      this.openViewTask(
+        e.target.parentElement.parentElement.parentElement.parentElement
+      )
     );
     btnEyes.addEventListener("click", (e) =>
       this.openViewTask(e.target.parentElement.parentElement)
     );
+    containerBtnTrash.addEventListener("click", () => this.deleteTask(div, id));
     btnTrash.addEventListener("click", (e) => this.deleteTask(div, id));
     divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
       this.driverOptionsTodoList.toggleOptions(e.target)
