@@ -458,7 +458,7 @@
   padding: 15px;
   background: rgb(13, 0, 36);
   position: absolute;
-  z-index: 99999;
+  z-index: 300;
   width: max-content;
   height: max-content;
   border: 1px solid black;
@@ -503,6 +503,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1400;
 }
 
 .info-color__p {
@@ -634,8 +635,8 @@
 
 .modal-edit-task {
   position: fixed;
-  z-index: 50000;
-  display: flex;
+  z-index: 100;
+  display: none;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
@@ -671,6 +672,10 @@
   border: 2px solid transparent;
 }
 
+.task-edit__input:focus {
+  border: 2px solid #4f9;
+}
+
 .task-edit__input-description {
   height: 100px;
   width: 80%;
@@ -693,8 +698,8 @@
 .circulo-title-edit {
   width: 20px;
   height: 20px;
-  background: red;
   border-radius: 100%;
+  background-color: red;
 }
 
 .container-circulo-edit:hover {
@@ -720,6 +725,31 @@
 
 .select-categorias__option-edit {
   background: white;
+}
+
+.container-btn-edit {
+  width: 80%;
+  height: max-content;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 30px;
+}
+
+.container-btn-edit__button {
+  cursor: pointer;
+  width: max-content;
+  padding: 10px 30px;
+  outline: none;
+  border: none;
+  color: white;
+  background: rgb(13, 0, 36);
+  border-radius: 8px;
+}
+
+.container-btn-edit__button:hover {
+  background: rgb(23, 0, 63);
 }
 
 @keyframes animation-modal-view {

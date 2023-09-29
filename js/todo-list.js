@@ -9,8 +9,17 @@ class todoList {
     this.todoListPast = document.querySelector(".homework-from-the-past");
     this.todoListFuture = document.querySelector(".tasks-to-future");
     this.todoListCompleted = document.querySelector(".container-completed");
-    this.driverOptionsTodoList = new DriverOptionsTodoList();
     this.body = document.querySelector(".body");
+    this.driverOptionsTodoList = new DriverOptionsTodoList();
+    this.inputTitleEdit = document.getElementById("title-edit");
+    this.inputDescriptionEdit = document.getElementById("description-edit");
+    this.btnEditTask = document.getElementById("btn-edit-task");
+    this.btnEditTask.addEventListener("click", () => this.editTask());
+    this.btnCloseEditModal = document.getElementById("btn-edit-close");
+    this.selectedCategoriasEdit = document.querySelector(
+      ".select-categorias-edit"
+    );
+    this.timeOfTheTaskEdit = document.getElementById("date-of-the-task-edit");
     this.idTask = 0;
     this.addTaskBtn = document.querySelector(".nav-task__button");
     this.addTaskBtn.addEventListener("click", () =>
@@ -33,6 +42,10 @@ class todoList {
     this.importanceAccordingToColor = document.getElementById(
       "importance-according-to-color"
     );
+    this.importanceAccordingToColorEdit = document.getElementById(
+      "importance-according-to-color-edit"
+    );
+    this.modalEdit = document.querySelector(".modal-edit-task");
     this.selectCategory = document.querySelector(".select-categorias");
     this.dateOfTask = document.getElementById("date-of-the-task");
     this.taskOfThePresent = [];
@@ -45,6 +58,9 @@ class todoList {
     this.divContainerInfoColor = null;
     this.arrowColors = document.querySelector(".arrow-down-title");
     this.btnColorsImportantTask = document.querySelector(".container-circulo");
+    this.btnColorsImportantTaskEdit = document.querySelector(
+      ".container-circulo-edit"
+    );
     this.modalColorsIsVisible = false;
     this.modalView = document.getElementById("modal-eyes");
     this.btnCloseView = this.modalView.firstElementChild.firstElementChild;
@@ -55,10 +71,21 @@ class todoList {
     this.btnColorsImportantTask.addEventListener("click", () => {
       if (!this.modalColorsIsVisible) {
         this.modalColorsIsVisible = true;
-        this.showOrCloseModalOfColors();
+        this.showOrCloseModalOfColors("task");
       } else {
         this.modalColorsIsVisible = false;
         this.arrowColors.style.transform = "rotate(90deg)";
+        this.divContainerInfoColor.remove();
+      }
+    });
+    this.btnColorsImportantTaskEdit.addEventListener("click", () => {
+      if (!this.modalColorsIsVisible) {
+        this.modalColorsIsVisible = true;
+        this.showOrCloseModalOfColors("edit");
+      } else {
+        this.modalColorsIsVisible = false;
+        document.getElementById("arrow-down-edit").style.transform =
+          "rotate(90deg)";
         this.divContainerInfoColor.remove();
       }
     });
@@ -94,8 +121,27 @@ class todoList {
     this.dateOfTask.value = fecha.toJSON().slice(0, 10);
   }
 
-  openTaskEditingModal() {
+  openTaskEditingModal(todoList) {
+    const idOfTodoList = todoList.getAttribute("id");
+
+    const containerTodosLists = todoList.parentElement.parentElement;
+    let taskArray;
+    if (containerTodosLists.className == "homework-from-the-past")
+      taskArray = this.taskOfThePast;
+    else if (containerTodosLists.className == "todo-list-today")
+      taskArray = this.taskOfThePresent;
+    else if (containerTodosLists.className == "tasks-to-future")
+      taskArray = this.taskOfTheFuture;
+    const todoListJson = taskArray.find((task) => task.id == idOfTodoList);
+
     this.body.style.overflowY = "hidden";
+    this.modalEdit.style.display = "flex";
+    this.inputTitleEdit.value = todoListJson.title;
+    this.inputDescriptionEdit.value = todoListJson.description;
+    this.selectedCategoriasEdit.value = todoListJson.category;
+    const parts = todoListJson.dateTime.split("/");
+    const fecha = `${parts[2]}-${parts[1]}-${parts[0]}`;
+    this.timeOfTheTaskEdit.value = fecha;
   }
 
   closeTaskCreationModal() {
@@ -118,11 +164,12 @@ class todoList {
       containerCircle,
       btnEyes,
       btnTrash,
+      btnEdit,
       divOptionsResponsive,
       containerBtnTrash,
       containerBtnEyes,
     ] = CreateTaskHTML(title, color, date, id);
-    containerCircle.addEventListener("click", (e) =>
+    containerCircle.addEventListener("click", () =>
       this.createTaskOfCompleted(title, color, date, id)
     );
     containerBtnEyes.addEventListener("click", (e) =>
@@ -134,7 +181,7 @@ class todoList {
       this.openViewTask(e.target.parentElement.parentElement)
     );
     containerBtnTrash.addEventListener("click", () => this.deleteTask(div, id));
-    btnTrash.addEventListener("click", (e) => this.deleteTask(div, id));
+    btnTrash.addEventListener("click", () => this.deleteTask(div, id));
     divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
       this.driverOptionsTodoList.toggleOptions(e.target)
     );
@@ -147,11 +194,12 @@ class todoList {
       containerCircle,
       btnEyes,
       btnTrash,
+      btnEdit,
       divOptionsResponsive,
       containerBtnTrash,
       containerBtnEyes,
     ] = CreateTaskHTML(title, color, date, id);
-    containerCircle.addEventListener("click", (e) =>
+    containerCircle.addEventListener("click", () =>
       this.createTaskOfCompleted(title, color, date, id)
     );
     containerBtnEyes.addEventListener("click", (e) =>
@@ -163,7 +211,7 @@ class todoList {
       this.openViewTask(e.target.parentElement.parentElement)
     );
     containerBtnTrash.addEventListener("click", () => this.deleteTask(div, id));
-    btnTrash.addEventListener("click", (e) => this.deleteTask(div, id));
+    btnTrash.addEventListener("click", () => this.deleteTask(div, id));
     divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
       this.driverOptionsTodoList.toggleOptions(e.target)
     );
@@ -176,11 +224,12 @@ class todoList {
       containerCircle,
       btnEyes,
       btnTrash,
+      btnEdit,
       divOptionsResponsive,
       containerBtnTrash,
       containerBtnEyes,
     ] = CreateTaskHTML(title, color, date, id);
-    containerCircle.addEventListener("click", (e) =>
+    containerCircle.addEventListener("click", () =>
       this.createTaskOfCompleted(title, color, date, id)
     );
     containerBtnEyes.addEventListener("click", (e) =>
@@ -192,7 +241,10 @@ class todoList {
       this.openViewTask(e.target.parentElement.parentElement)
     );
     containerBtnTrash.addEventListener("click", () => this.deleteTask(div, id));
-    btnTrash.addEventListener("click", (e) => this.deleteTask(div, id));
+    btnTrash.addEventListener("click", () => this.deleteTask(div, id));
+    btnEdit.addEventListener("click", (e) =>
+      this.openTaskEditingModal(e.target.parentElement.parentElement)
+    );
     divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
       this.driverOptionsTodoList.toggleOptions(e.target)
     );
@@ -353,8 +405,11 @@ class todoList {
     this.modalView.style.animation = "animation-modal-view 0.1s ease";
   }
 
-  showOrCloseModalOfColors() {
-    this.arrowColors.style.transform = "rotate(-90deg)";
+  showOrCloseModalOfColors(modeTaskOrEdit) {
+    modeTaskOrEdit == "task"
+      ? (this.arrowColors.style.transform = "rotate(-90deg)")
+      : (document.getElementById("arrow-down-edit").style.transform =
+          "rotate(-90deg)");
     let colors = [
       "red",
       "goldenrod",
@@ -378,17 +433,26 @@ class todoList {
       divColor.classList.add("circulo-important");
       divColor.style.background = color;
       divColor.addEventListener("click", () => {
-        this.btnColorsImportantTask.firstElementChild.style.background = color;
+        modeTaskOrEdit == "task"
+          ? (this.btnColorsImportantTask.firstElementChild.style.background =
+              color)
+          : (this.importanceAccordingToColorEdit.style.background = color);
         this.infoTextColor.remove();
         this.divContainerColors.remove();
         this.modalColorsIsVisible = false;
-        this.arrowColors.style.transform = "rotate(90deg)";
+        modeTaskOrEdit == "task"
+          ? (this.arrowColors.style.transform = "rotate(90deg)")
+          : (document.getElementById("arrow-down-edit").style.transform =
+              "rotate(90deg)");
       });
       fragmento.appendChild(divColor);
     });
     divContainerColors.appendChild(fragmento);
     divContainerColors.style.display = "grid";
-    const btnColorsRect = this.btnColorsImportantTask.getBoundingClientRect();
+    const btnColorsRect =
+      modeTaskOrEdit == "task"
+        ? this.btnColorsImportantTask.getBoundingClientRect()
+        : this.importanceAccordingToColorEdit.getBoundingClientRect();
     divContainerColors.style.left = `${btnColorsRect.left - 69.7}px`;
     divContainerColors.style.right = `${btnColorsRect.right}px`;
     divContainerColors.style.top = `${btnColorsRect.top + 60 + scrollY}px`;

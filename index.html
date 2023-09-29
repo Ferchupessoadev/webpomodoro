@@ -316,15 +316,15 @@
 			</div>
 			<div class="linear-task"></div>
 			<div class="container-title">
-				<input type="text" class="task-edit__input task-edit__input-title" minlength="1" 
+				<input type="text" class="task-edit__input task-edit__input-title" id="title-edit" minlength="1" 
 				maxlength="40"
 				placeholder="Editar titulo">
 				<div class="container-circulo-edit">
-					<div class="circulo-title-edit" style="background: red;" id="importance-according-to-color-edit"></div>
-					<div class="arrow-down-title">&#62</div>
+					<div class="circulo-title-edit" id="importance-according-to-color-edit"></div>
+					<div class="arrow-down-title" id="arrow-down-edit">&#62</div>
 				</div>
 			</div>
-			<textarea maxlength="90" aria-valuemax="90" style="width: 80%;"
+			<textarea maxlength="90" aria-valuemax="90" id="description-edit" style="width: 80%;"
 				class="task-edit__input task-edit__input-description"
 				placeholder="Editar descripción"></textarea>
 			<div class="container-selected-categorias-edit">
@@ -336,10 +336,15 @@
 					<option class="select-categorias__option-edit">Personal</option>
 				</select>
 				<div class="flex-fecha">
-					<label class="fecha__flex-item" for="date-of-the-task"
+					<label class="fecha__flex-item" for="date-of-the-task-edit"
 						style="color:white;cursor: pointer;">Fecha</label>
-					<input class="fecha__flex-item" type="date" name="" id="date-of-the-task-id">
+					<input class="fecha__flex-item" type="date" name="" id="date-of-the-task-edit">
 				</div>
+			</div>
+			<div class="container-btn-edit">
+				<button class="container-btn-edit__button container-btn-edit__button-close" id="btn-edit-close">Cancelar</button>
+				<button class="container-btn-edit__button container-btn-edit__button-edit"
+					id="btn-edit-task">Editar</button>
 			</div>
 		</div>
 	</div>

@@ -68,6 +68,7 @@ export default function createTaskHTML(title, color, date, id) {
     containerCircle,
     btnEyes,
     btnTrash,
+    btnEdit,
     divOptionsResponsive,
     containerBtnTrash,
     containerBtnEyes,
