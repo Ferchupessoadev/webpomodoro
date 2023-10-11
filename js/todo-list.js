@@ -16,11 +16,15 @@ class todoList {
     this.btnEditTask = document.getElementById("btn-edit-task");
     this.btnEditTask.addEventListener("click", () => this.editTask());
     this.btnCloseEditModal = document.getElementById("btn-edit-close");
+    this.btnCloseEditModal.addEventListener("click", () =>
+      this.closeEditModal()
+    );
     this.selectedCategoriasEdit = document.querySelector(
       ".select-categorias-edit"
     );
     this.timeOfTheTaskEdit = document.getElementById("date-of-the-task-edit");
     this.idTask = 0;
+    this.homeworkTimeInEditing;
     this.addTaskBtn = document.querySelector(".nav-task__button");
     this.addTaskBtn.addEventListener("click", () =>
       this.openTaskCreationModal()
@@ -48,10 +52,12 @@ class todoList {
     this.modalEdit = document.querySelector(".modal-edit-task");
     this.selectCategory = document.querySelector(".select-categorias");
     this.dateOfTask = document.getElementById("date-of-the-task");
+    this.dateOfTaskEdit = document.getElementById("date-of-the-task-edit");
     this.taskOfThePresent = [];
     this.taskOfThePast = [];
     this.taskOfTheFuture = [];
     this.completedTask = [];
+    this.taskArrayEdit;
     this.divContainerColors;
     this.colorOfTheTask = "red"; //default is red
     this.divContainerColors = null;
@@ -123,8 +129,8 @@ class todoList {
 
   openTaskEditingModal(todoList) {
     const idOfTodoList = todoList.getAttribute("id");
-
     const containerTodosLists = todoList.parentElement.parentElement;
+    console.log(idOfTodoList);
     let taskArray;
     if (containerTodosLists.className == "homework-from-the-past")
       taskArray = this.taskOfThePast;
@@ -133,15 +139,29 @@ class todoList {
     else if (containerTodosLists.className == "tasks-to-future")
       taskArray = this.taskOfTheFuture;
     const todoListJson = taskArray.find((task) => task.id == idOfTodoList);
-
     this.body.style.overflowY = "hidden";
     this.modalEdit.style.display = "flex";
     this.inputTitleEdit.value = todoListJson.title;
     this.inputDescriptionEdit.value = todoListJson.description;
+    this.importanceAccordingToColorEdit.style.background =
+      todoListJson.importanceAccordingToColor;
     this.selectedCategoriasEdit.value = todoListJson.category;
     const parts = todoListJson.dateTime.split("/");
     const fecha = `${parts[2]}-${parts[1]}-${parts[0]}`;
     this.timeOfTheTaskEdit.value = fecha;
+    todoListJson.inTime = containerTodosLists.className;
+
+    this.taskArrayEdit = todoListJson;
+  }
+
+  closeEditModal() {
+    this.body.style.overflowY = "auto";
+    this.modalEdit.style.display = "none";
+    this.inputTitleEdit.value = "";
+    this.inputDescriptionEdit.value = "";
+    this.importanceAccordingToColorEdit.style.background = "red";
+    this.selectedCategoriasEdit.value = "";
+    this.timeOfTheTaskEdit.value = "";
   }
 
   closeTaskCreationModal() {
@@ -464,6 +484,20 @@ class todoList {
     this.body.appendChild(divContainerColors);
   }
 
+  validateEntryToEditTheFields() {
+    const showErrorPlaceholder = (input, placeholder, clickHandler) => {
+      input.placeholder = placeholder;
+      input.classList.add("color-placeholder-red");
+      input.addEventListener("click", clickHandler);
+    };
+    if (this.inputTitleEdit.value == "" || this.inputTitleEdit === undefined) {
+      showErrorPlaceholder(this.inputTitleEdit, "Campo obligatorio", () => {
+        this.inputTitleEdit.placeholder = "Añadir un titulo";
+        this.inputTitleEdit.classList.remove("color-placeholder-red");
+      });
+    }
+  }
+
   validateInputToCreateTheTask() {
     const showErrorPlaceholder = (input, placeholder, clickHandler) => {
       input.placeholder = placeholder;
@@ -577,17 +611,54 @@ class todoList {
         JSON.stringify(this.taskOfThePresent)
       );
       this.todoListToday.style.display = "block";
-    } else if (ageTask <= age && monthsTask <= months && todayTask <= today) {
-      this.createTaskOfPast(
+    } else if (ageTask <= age && monthsTask <= months) {
+      if (todayTask < today) {
+        this.createTaskOfPast(
+          newTodoListData.title,
+          newTodoListData.importanceAccordingToColor,
+          `${todayTask}/${monthsTask}`,
+          newTodoListData.id
+        );
+        this.taskOfThePast.push(newTodoListData);
+        localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
+        this.todoListPast.style.display = "block";
+      } else if (todayTask > today) {
+        if (ageTask >= age && monthsTask >= months) {
+          this.createTaskOfFuture(
+            newTodoListData.title,
+            newTodoListData.importanceAccordingToColor,
+            `${todayTask}/${monthsTask}`,
+            newTodoListData.id
+          );
+          this.taskOfTheFuture.push(newTodoListData);
+          localStorage.setItem(
+            "taskFuture",
+            JSON.stringify(this.taskOfTheFuture)
+          );
+          this.todoListFuture.style.display = "block";
+        } else {
+          this.createTaskOfPast(
+            newTodoListData.title,
+            newTodoListData.importanceAccordingToColor,
+            `${todayTask}/${monthsTask}`,
+            newTodoListData.id
+          );
+          this.taskOfThePast.push(newTodoListData);
+          localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
+          this.todoListPast.style.display = "block";
+        }
+      }
+    } else if (ageTask >= age && monthsTask >= months) {
+      this.createTaskOfFuture(
         newTodoListData.title,
         newTodoListData.importanceAccordingToColor,
         `${todayTask}/${monthsTask}`,
         newTodoListData.id
       );
-      this.taskOfThePast.push(newTodoListData);
-      localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
-      this.todoListPast.style.display = "block";
-    } else if ((ageTask >= age && monthsTask > months) || todayTask >= today) {
+      this.taskOfTheFuture.push(newTodoListData);
+      localStorage.setItem("taskFuture", JSON.stringify(this.taskOfTheFuture));
+      this.todoListFuture.style.display = "block";
+    } else if (ageTask > age) {
       this.createTaskOfFuture(
         newTodoListData.title,
         newTodoListData.importanceAccordingToColor,
@@ -671,7 +742,61 @@ class todoList {
     todo.remove();
   }
 
-  editTask(newInfo, id) {}
+  formatNum(time) {
+    return time.toString().length == 2 ? (time = time) : (time = `0${time}`);
+  }
+
+  editTask() {
+    if (this.taskArrayEdit.inTime == "homework-from-the-past") {
+    } else if (this.taskArrayEdit.inTime == "tasks-to-future") {
+    } else if (this.taskArrayEdit.inTime == "todo-list-today") {
+      let indexElement = this.taskOfThePresent.findIndex(
+        (todo) => todo.id == this.taskArrayEdit.id
+      );
+      let idTask = this.taskOfThePresent[indexElement].id;
+      const todo = document.getElementById(idTask);
+      let dateTimeOld = this.taskOfThePresent[indexElement].dateTime;
+      let [ageTask, monthsTask, todayTask] = this.dateOfTaskEdit.value
+        .split("-")
+        .map(Number);
+      todayTask = this.formatNum(todayTask);
+      monthsTask = this.formatNum(monthsTask);
+      let dateTime = `${todayTask}/${monthsTask}/${ageTask}`;
+      const newTodoListForEdit = {
+        title: this.inputTitleEdit,
+        description: this.inputDescriptionEdit,
+        completed: false,
+        dateTime,
+        importanceAccordingToColor:
+          this.importanceAccordingToColorEdit.style.background,
+        id: idTask,
+      };
+      console.log(dateTimeOld, dateTime);
+      if (dateTime == dateTimeOld) {
+        console.log("okay");
+        todo.children[2].firstElementChild.textContent =
+          this.inputTitleEdit.value;
+        todo.style.borderLeft = `4px solid ${this.importanceAccordingToColorEdit.style.background}`;
+
+        this.taskOfThePresent[indexElement].title = this.inputTitleEdit.value;
+        this.taskOfThePresent[indexElement].description =
+          this.inputDescriptionEdit.value;
+        localStorage.setItem(
+          "taskPresent",
+          JSON.stringify(this.taskOfThePresent)
+        );
+      }
+      // this.taskOfThePresent[
+      //   idElement
+      // ].dateTime = `${todayTask}/${monthsTask}/${ageTask}`;
+      // localStorage.setItem(
+      //   "taskPresent",
+      //   JSON.stringify(this.taskOfThePresent)
+      // );
+      this.closeEditModal();
+      this.taskArrayEdit = null;
+    }
+  }
 }
 
 export default todoList;

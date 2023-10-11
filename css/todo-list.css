@@ -458,7 +458,7 @@
   padding: 15px;
   background: rgb(13, 0, 36);
   position: absolute;
-  z-index: 300;
+  z-index: 100000;
   width: max-content;
   height: max-content;
   border: 1px solid black;
@@ -1019,6 +1019,7 @@
     display: none;
   }
 }
+
 
 .toggle-section {
   display: flex;
