@@ -384,6 +384,7 @@
   align-items: center;
   gap: 15px;
   position: relative;
+  border-radius: 10px;
 }
 
 .container__info-text-task {
@@ -512,7 +513,7 @@
 
 .triangulo-info-color {
   position: absolute;
-  right: -5px;
+  left: -5px;
   top: -15px;
   transform: rotate(-90deg);
   width: 0;
@@ -659,6 +660,7 @@
   align-items: center;
   gap: 15px;
   position: relative;
+  border-radius: 10px;
 }
 
 .task-edit__input {
@@ -670,6 +672,10 @@
   border: none;
   outline: none;
   border: 2px solid transparent;
+}
+
+.task-edit__input::placeholder {
+  color: red;
 }
 
 .task-edit__input:focus {
@@ -1019,7 +1025,6 @@
     display: none;
   }
 }
-
 
 .toggle-section {
   display: flex;

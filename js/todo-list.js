@@ -13,8 +13,17 @@ class todoList {
     this.driverOptionsTodoList = new DriverOptionsTodoList();
     this.inputTitleEdit = document.getElementById("title-edit");
     this.inputDescriptionEdit = document.getElementById("description-edit");
+    this.inputTitleEdit.addEventListener("click", () => {
+      this.inputTitleEdit.style.borderColor = ""; // Restablece el color del borde
+      this.inputTitleEdit.placeholder = ""; // Restablece el placeholder
+    });
+
+    this.inputDescriptionEdit.addEventListener("click", () => {
+      this.inputDescriptionEdit.style.borderColor = ""; // Restablece el color del borde
+      this.inputDescriptionEdit.placeholder = ""; // Restablece el placeholder
+    });
     this.btnEditTask = document.getElementById("btn-edit-task");
-    this.btnEditTask.addEventListener("click", () => this.editTask());
+    this.btnEditTask.addEventListener("click", () => this.validateAndEdit()); // este metodo edita la tarea si los campos son validos.
     this.btnCloseEditModal = document.getElementById("btn-edit-close");
     this.btnCloseEditModal.addEventListener("click", () =>
       this.closeEditModal()
@@ -200,6 +209,9 @@ class todoList {
     btnEyes.addEventListener("click", (e) =>
       this.openViewTask(e.target.parentElement.parentElement)
     );
+    btnEdit.addEventListener("click", (e) =>
+      this.openTaskEditingModal(e.target.parentElement.parentElement)
+    );
     containerBtnTrash.addEventListener("click", () => this.deleteTask(div, id));
     btnTrash.addEventListener("click", () => this.deleteTask(div, id));
     divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
@@ -229,6 +241,9 @@ class todoList {
     );
     btnEyes.addEventListener("click", (e) =>
       this.openViewTask(e.target.parentElement.parentElement)
+    );
+    btnEdit.addEventListener("click", (e) =>
+      this.openTaskEditingModal(e.target.parentElement.parentElement)
     );
     containerBtnTrash.addEventListener("click", () => this.deleteTask(div, id));
     btnTrash.addEventListener("click", () => this.deleteTask(div, id));
@@ -272,129 +287,86 @@ class todoList {
   }
 
   createTaskOfCompleted(title, color, date, id) {
-    let [divCompleted, divCircle] = CreateTaskCompletedHTML(
+    // Crear elemento HTML para la tarea completada
+    const [divCompleted, divCircle] = CreateTaskCompletedHTML(
       title,
       color,
       date,
       id
     );
-    console.log(divCircle);
+
+    // Agregar el elemento al contenedor de tareas completadas
     this.todoListCompleted.children[2].insertAdjacentElement(
       "afterbegin",
       divCompleted
     );
     this.todoListCompleted.style.display = "block";
-    let lengthToday = this.todoListToday.children[2].children.length;
-    let lengthPast = this.todoListPast.children[2].children.length;
-    let lengthFuture = this.todoListFuture.children[2].children.length;
-    let finish = false;
-    for (let i = 0; i < lengthToday; i++) {
-      if (this.taskOfThePresent[i].id == id) {
-        this.completedTask.push(this.taskOfThePresent[i]);
-        this.taskOfThePresent.splice(i, 1);
-        localStorage.setItem(
-          "taskCompleted",
-          JSON.stringify(this.completedTask)
-        );
-        localStorage.setItem(
-          "taskPresent",
-          JSON.stringify(this.taskOfThePresent)
-        );
-        //si algunas de las dos secciones no tiene ninguna tarea la oculta.
-        if (this.completedTask.length < 1)
-          this.todoListCompleted.style.display = "block";
-        if (this.taskOfThePresent.length == 0)
-          this.todoListToday.style.display = "none";
-        finish = true;
-        break;
-      }
-    }
-    if (!finish) {
-      for (let i = 0; i < lengthPast; i++) {
-        if (this.taskOfThePast[i].id == id) {
-          this.completedTask.push(this.taskOfThePast[i]);
-          this.taskOfThePast.splice(i, 1);
-          localStorage.setItem(
-            "taskCompleted",
-            JSON.stringify(this.completedTask)
-          );
-          localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
-          //si algunas de las dos secciones no tiene ninguna tarea la oculta.
-          if (this.completedTask.length < 1)
-            this.todoListCompleted.style.display = "block";
-          if (this.taskOfThePast.length == 0)
-            this.todoListPast.style.display = "none";
-          finish = true;
-          break;
-        }
-      }
-    }
-    if (!finish) {
-      for (let i = 0; i < lengthFuture; i++) {
-        if (this.taskOfTheFuture[i].id == id) {
-          this.completedTask.push(this.taskOfTheFuture[i]);
-          this.taskOfTheFuture.splice(i, 1);
+
+    const findAndRemoveTask = (taskArray) => {
+      for (let i = 0; i < taskArray.length; i++) {
+        if (taskArray[i].id == id) {
+          this.completedTask.push(taskArray[i]);
+          taskArray.splice(i, 1);
           localStorage.setItem(
             "taskCompleted",
             JSON.stringify(this.completedTask)
           );
           localStorage.setItem(
-            "taskFuture",
-            JSON.stringify(this.taskOfTheFuture)
+            "taskPresent",
+            JSON.stringify(this.taskOfThePresent)
           );
+          // Si alguna de las secciones no tiene tareas, ocúltala.
           if (this.completedTask.length < 1)
             this.todoListCompleted.style.display = "block";
-          if (this.taskOfTheFuture.length == 0)
-            this.todoListFuture.style.display = "none";
-          finish = true;
+          if (taskArray.length == 0) this.todoListToday.style.display = "none";
           break;
         }
       }
+    };
+
+    findAndRemoveTask(this.taskOfThePresent) ||
+      findAndRemoveTask(this.taskOfThePast) ||
+      findAndRemoveTask(this.taskOfTheFuture);
+
+    // Eliminar la tarea completada del DOM
+    const taskElement = document.getElementById(id);
+    if (taskElement) {
+      taskElement.remove();
     }
-    document.getElementById(id).remove();
   }
 
   showColorWhenHoveringOver(colorCircle) {
-    if (colorCircle.className == "circulo-important") {
-      const divContainerInfoColor = document.createElement("DIV");
-      divContainerInfoColor.classList.add("container-color-info");
-      divContainerInfoColor.setAttribute("id", "container-info-color");
-      const divInfoColor = document.createElement("DIV");
-      divInfoColor.classList.add("info-color");
-      const infoText = document.createElement("P");
+    if (colorCircle.classList.contains("circulo-important")) {
+      const infoText = document.createElement("p");
       infoText.textContent = colorCircle.style.background;
       infoText.classList.add("info-color__p");
-      console.log(colorCircle.style.background);
-      let leftColors = {
-        red: 35,
-        goldenrod: 82,
-        orange: 60,
-        rebeccapurple: 113,
-        yellow: 55,
-        brown: 55,
-        blue: 40,
-        lightblue: 70,
-        green: 50,
-      };
-      const leftOfInfo = leftColors[colorCircle.style.background];
-      const triangulo = document.createElement("DIV");
-      triangulo.classList.add("triangulo-info-color");
+
+      const divInfoColor = document.createElement("div");
+      divInfoColor.classList.add("info-color");
       divInfoColor.appendChild(infoText);
-      divInfoColor.appendChild(triangulo);
-      this.infoTextColor = divContainerInfoColor;
+
+      const triangulo = document.createElement("div");
+      triangulo.classList.add("triangulo-info-color");
+
+      const divContainerInfoColor = document.createElement("div");
+      divContainerInfoColor.classList.add("container-color-info");
+      divContainerInfoColor.setAttribute("id", "container-info-color");
       divContainerInfoColor.appendChild(divInfoColor);
+      divInfoColor.appendChild(triangulo);
+
+      this.infoTextColor = divContainerInfoColor;
+
       const colorCircleRect = colorCircle.getBoundingClientRect();
-      divContainerInfoColor.style.left = `${
-        colorCircleRect.left - leftOfInfo
-      }px`;
-      divContainerInfoColor.style.right = `${colorCircleRect.right}px`;
+
+      divContainerInfoColor.style.left = `${colorCircleRect.left}px`;
       divContainerInfoColor.style.top = `${
         colorCircleRect.top + 30 + scrollY
       }px`;
-      divContainerInfoColor.style.bottom = `${colorCircleRect.bottom}px`;
-      colorCircle.addEventListener("mouseout", (e) =>
+
+      colorCircle.addEventListener("mouseout", () =>
         divContainerInfoColor.remove()
       );
+
       this.body.appendChild(divContainerInfoColor);
     }
   }
@@ -426,11 +398,14 @@ class todoList {
   }
 
   showOrCloseModalOfColors(modeTaskOrEdit) {
-    modeTaskOrEdit == "task"
-      ? (this.arrowColors.style.transform = "rotate(-90deg)")
-      : (document.getElementById("arrow-down-edit").style.transform =
-          "rotate(-90deg)");
-    let colors = [
+    const arrowElement =
+      modeTaskOrEdit === "task"
+        ? this.arrowColors
+        : document.getElementById("arrow-down-edit");
+
+    arrowElement.style.transform = "rotate(-90deg)";
+
+    const colors = [
       "red",
       "goldenrod",
       "orange",
@@ -441,42 +416,46 @@ class todoList {
       "lightblue",
       "green",
     ];
-    const divContainerColors = document.createElement("DIV");
+
+    const divContainerColors = document.createElement("div");
     divContainerColors.classList.add("container-colors");
     this.divContainerInfoColor = divContainerColors;
-    let fragmento = document.createDocumentFragment();
-    const triangulo = document.createElement("DIV");
+
+    const fragmento = document.createDocumentFragment();
+    const triangulo = document.createElement("div");
     triangulo.classList.add("triangulo");
     fragmento.appendChild(triangulo);
+
     colors.forEach((color) => {
-      const divColor = document.createElement("DIV");
+      const divColor = document.createElement("div");
       divColor.classList.add("circulo-important");
       divColor.style.background = color;
       divColor.addEventListener("click", () => {
-        modeTaskOrEdit == "task"
-          ? (this.btnColorsImportantTask.firstElementChild.style.background =
-              color)
-          : (this.importanceAccordingToColorEdit.style.background = color);
+        const targetElement =
+          modeTaskOrEdit === "task"
+            ? this.btnColorsImportantTask.firstElementChild
+            : this.importanceAccordingToColorEdit;
+        targetElement.style.background = color;
         this.infoTextColor.remove();
         this.divContainerColors.remove();
         this.modalColorsIsVisible = false;
-        modeTaskOrEdit == "task"
-          ? (this.arrowColors.style.transform = "rotate(90deg)")
-          : (document.getElementById("arrow-down-edit").style.transform =
-              "rotate(90deg)");
+        arrowElement.style.transform = "rotate(90deg)";
       });
       fragmento.appendChild(divColor);
     });
+
     divContainerColors.appendChild(fragmento);
     divContainerColors.style.display = "grid";
+
     const btnColorsRect =
-      modeTaskOrEdit == "task"
+      modeTaskOrEdit === "task"
         ? this.btnColorsImportantTask.getBoundingClientRect()
         : this.importanceAccordingToColorEdit.getBoundingClientRect();
     divContainerColors.style.left = `${btnColorsRect.left - 69.7}px`;
     divContainerColors.style.right = `${btnColorsRect.right}px`;
     divContainerColors.style.top = `${btnColorsRect.top + 60 + scrollY}px`;
     divContainerColors.style.bottom = `${btnColorsRect.bottom}px`;
+
     this.divContainerColors = divContainerColors;
     this.divContainerColors.addEventListener("mouseover", (e) =>
       this.showColorWhenHoveringOver(e.target)
@@ -565,18 +544,14 @@ class todoList {
     localStorage.setItem("taskFuture", JSON.stringify(this.taskOfTheFuture));
     localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
     localStorage.setItem("taskCompleted", JSON.stringify(this.completedTask));
-    if (presentTodos.length >= 1) {
+    if (presentTodos.length >= 1)
       presentTodos.forEach((todo) => this.createTask(todo));
-    }
-    if (pastTodos.length >= 1) {
+    if (pastTodos.length >= 1)
       pastTodos.forEach((todo) => this.createTask(todo));
-    }
-    if (futureTodos.length >= 1) {
+    if (futureTodos.length >= 1)
       futureTodos.forEach((todo) => this.createTask(todo));
-    }
-    if (completedTodos.length >= 1) {
+    if (completedTodos.length >= 1)
       completedTodos.forEach((todo) => this.renderTodoListCompleted(todo));
-    }
 
     if (
       presentTodos.length == 0 &&
@@ -591,14 +566,35 @@ class todoList {
   }
 
   createTask(newTodoListData) {
+    const [todayTask, monthsTask, ageTask] = newTodoListData.dateTime
+      .split("/")
+      .map(Number);
     const dateToday = new Date();
     const age = dateToday.getFullYear();
     const months = dateToday.getMonth() + 1;
     const today = dateToday.getDate();
-    let [todayTask, monthsTask, ageTask] = newTodoListData.dateTime
-      .split("/")
-      .map(Number);
-    if (ageTask == age && monthsTask == months && todayTask == today) {
+
+    if (
+      ageTask < age ||
+      (ageTask === age && monthsTask < months) ||
+      (ageTask === age && monthsTask === months && todayTask < today)
+    ) {
+      // La tarea es del pasado
+      this.createTaskOfPast(
+        newTodoListData.title,
+        newTodoListData.importanceAccordingToColor,
+        `${todayTask}/${monthsTask}`,
+        newTodoListData.id
+      );
+      this.taskOfThePast.push(newTodoListData);
+      localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
+      this.todoListPast.style.display = "block";
+    } else if (
+      ageTask === age &&
+      monthsTask === months &&
+      todayTask === today
+    ) {
+      // La tarea es del presente
       this.createTaskOfToday(
         newTodoListData.title,
         newTodoListData.importanceAccordingToColor,
@@ -611,54 +607,8 @@ class todoList {
         JSON.stringify(this.taskOfThePresent)
       );
       this.todoListToday.style.display = "block";
-    } else if (ageTask <= age && monthsTask <= months) {
-      if (todayTask < today) {
-        this.createTaskOfPast(
-          newTodoListData.title,
-          newTodoListData.importanceAccordingToColor,
-          `${todayTask}/${monthsTask}`,
-          newTodoListData.id
-        );
-        this.taskOfThePast.push(newTodoListData);
-        localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
-        this.todoListPast.style.display = "block";
-      } else if (todayTask > today) {
-        if (ageTask >= age && monthsTask >= months) {
-          this.createTaskOfFuture(
-            newTodoListData.title,
-            newTodoListData.importanceAccordingToColor,
-            `${todayTask}/${monthsTask}`,
-            newTodoListData.id
-          );
-          this.taskOfTheFuture.push(newTodoListData);
-          localStorage.setItem(
-            "taskFuture",
-            JSON.stringify(this.taskOfTheFuture)
-          );
-          this.todoListFuture.style.display = "block";
-        } else {
-          this.createTaskOfPast(
-            newTodoListData.title,
-            newTodoListData.importanceAccordingToColor,
-            `${todayTask}/${monthsTask}`,
-            newTodoListData.id
-          );
-          this.taskOfThePast.push(newTodoListData);
-          localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
-          this.todoListPast.style.display = "block";
-        }
-      }
-    } else if (ageTask >= age && monthsTask >= months) {
-      this.createTaskOfFuture(
-        newTodoListData.title,
-        newTodoListData.importanceAccordingToColor,
-        `${todayTask}/${monthsTask}`,
-        newTodoListData.id
-      );
-      this.taskOfTheFuture.push(newTodoListData);
-      localStorage.setItem("taskFuture", JSON.stringify(this.taskOfTheFuture));
-      this.todoListFuture.style.display = "block";
-    } else if (ageTask > age) {
+    } else {
+      // La tarea es del futuro
       this.createTaskOfFuture(
         newTodoListData.title,
         newTodoListData.importanceAccordingToColor,
@@ -695,50 +645,37 @@ class todoList {
   }
 
   deleteTask(todo, id) {
-    let lengthToday = this.todoListToday.children[2].children.length;
-    let lengthPast = this.todoListPast.children[2].children.length;
-    let lengthFuture = this.todoListFuture.children[2].children.length;
-
     let finish = false;
-    for (let i = 0; i < lengthToday; i++) {
-      if (this.taskOfThePresent[i].id == id) {
-        this.taskOfThePresent.splice(i, 1);
-        localStorage.setItem(
-          "taskPresent",
-          JSON.stringify(this.taskOfThePresent)
-        );
-        this.taskOfThePresent.length < 1
-          ? (this.todoListToday.style.display = "none")
-          : (this.todoListToday.style.display = "block");
-        finish = true;
-      }
-    }
-    if (!finish) {
-      for (let i = 0; i < lengthPast; i++) {
-        if (this.taskOfThePast[i].id == id) {
-          this.taskOfThePast.splice(i, 1);
-          localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
-          this.taskOfThePast.length < 1
-            ? (this.todoListPast.style.display = "none")
-            : (this.todoListPast.style.display = "block");
+    const findTaskAndDeleted = (taskArray) => {
+      taskArray.forEach((task, index) => {
+        if (task.id == id) {
           finish = true;
-        }
-      }
-    }
-    if (!finish) {
-      for (let i = 0; i < lengthFuture; i++) {
-        if (this.taskOfTheFuture[i].id == id) {
-          this.taskOfTheFuture.splice(i, 1);
+          taskArray.splice(index, 1);
+          localStorage.setItem(
+            "taskPresent",
+            JSON.stringify(this.taskOfThePresent)
+          );
+          localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
           localStorage.setItem(
             "taskFuture",
             JSON.stringify(this.taskOfTheFuture)
           );
+          this.taskOfThePresent.length < 1
+            ? (this.todoListToday.style.display = "none")
+            : (this.todoListToday.style.display = "block");
+          this.taskOfThePast.length < 1
+            ? (this.todoListPast.style.display = "none")
+            : (this.todoListPast.style.display = "block");
           this.taskOfTheFuture.length < 1
             ? (this.todoListFuture.style.display = "none")
             : (this.todoListFuture.style.display = "block");
+          return;
         }
-      }
-    }
+      });
+    };
+    findTaskAndDeleted(this.taskOfThePresent);
+    if (!finish) findTaskAndDeleted(this.taskOfThePast);
+    if (!finish) findTaskAndDeleted(this.taskOfTheFuture);
     todo.remove();
   }
 
@@ -746,16 +683,37 @@ class todoList {
     return time.toString().length == 2 ? (time = time) : (time = `0${time}`);
   }
 
-  editTask() {
-    if (this.taskArrayEdit.inTime == "homework-from-the-past") {
-    } else if (this.taskArrayEdit.inTime == "tasks-to-future") {
-    } else if (this.taskArrayEdit.inTime == "todo-list-today") {
-      let indexElement = this.taskOfThePresent.findIndex(
-        (todo) => todo.id == this.taskArrayEdit.id
-      );
-      let idTask = this.taskOfThePresent[indexElement].id;
+  validateAndEdit() {
+    const titleValue = this.inputTitleEdit.value.trim();
+    const descriptionValue = this.inputDescriptionEdit.value.trim();
+
+    if (titleValue === "") {
+      this.inputTitleEdit.placeholder = "Campo obligatorio";
+      this.inputTitleEdit.style.borderColor = "red";
+      this.inputTitleEdit.style.borderWidth = "2px";
+    } else {
+      this.inputTitleEdit.placeholder = ""; // Restablece el placeholder si es válido
+      this.inputTitleEdit.style.borderColor = ""; // Restablece el color del borde
+      if (descriptionValue === "") {
+        this.inputDescriptionEdit.placeholder = "Campo obligatorio";
+        this.inputDescriptionEdit.style.borderColor = "red";
+        this.inputDescriptionEdit.style.borderWidth = "2px";
+      } else {
+        this.inputDescriptionEdit.placeholder = ""; // Restablece el placeholder si es válido
+        this.inputDescriptionEdit.style.borderColor = ""; // Restablece el color del borde
+        this.editTask(); // Llama a la función editTask si ambos campos son válidos
+      }
+    }
+  }
+
+  editTaskForArray(taskArray) {
+    let indexElement = taskArray.findIndex(
+      (todo) => todo.id == this.taskArrayEdit.id
+    );
+    if (indexElement !== -1) {
+      let idTask = taskArray[indexElement].id;
       const todo = document.getElementById(idTask);
-      let dateTimeOld = this.taskOfThePresent[indexElement].dateTime;
+      let dateTimeOld = taskArray[indexElement].dateTime;
       let [ageTask, monthsTask, todayTask] = this.dateOfTaskEdit.value
         .split("-")
         .map(Number);
@@ -763,39 +721,42 @@ class todoList {
       monthsTask = this.formatNum(monthsTask);
       let dateTime = `${todayTask}/${monthsTask}/${ageTask}`;
       const newTodoListForEdit = {
-        title: this.inputTitleEdit,
-        description: this.inputDescriptionEdit,
+        title: this.inputTitleEdit.value,
+        description: this.inputDescriptionEdit.value,
         completed: false,
         dateTime,
         importanceAccordingToColor:
           this.importanceAccordingToColorEdit.style.background,
         id: idTask,
       };
-      console.log(dateTimeOld, dateTime);
       if (dateTime == dateTimeOld) {
-        console.log("okay");
+        // Actualizar tarea existente en taskArray
         todo.children[2].firstElementChild.textContent =
           this.inputTitleEdit.value;
         todo.style.borderLeft = `4px solid ${this.importanceAccordingToColorEdit.style.background}`;
 
-        this.taskOfThePresent[indexElement].title = this.inputTitleEdit.value;
-        this.taskOfThePresent[indexElement].description =
-          this.inputDescriptionEdit.value;
-        localStorage.setItem(
-          "taskPresent",
-          JSON.stringify(this.taskOfThePresent)
-        );
+        taskArray[indexElement].title = this.inputTitleEdit.value;
+        taskArray[indexElement].description = this.inputDescriptionEdit.value;
+        taskArray[indexElement].importanceAccordingToColor =
+          this.importanceAccordingToColorEdit.style.background;
+        localStorage.setItem("taskPresent", JSON.stringify(taskArray));
+      } else {
+        // Eliminar tarea existente en taskArray y crear una nueva
+        this.deleteTask(todo, idTask);
+        this.createTask(newTodoListForEdit);
       }
-      // this.taskOfThePresent[
-      //   idElement
-      // ].dateTime = `${todayTask}/${monthsTask}/${ageTask}`;
-      // localStorage.setItem(
-      //   "taskPresent",
-      //   JSON.stringify(this.taskOfThePresent)
-      // );
       this.closeEditModal();
       this.taskArrayEdit = null;
     }
+  }
+
+  editTask() {
+    if (this.taskArrayEdit.inTime == "homework-from-the-past")
+      this.editTaskForArray(this.taskOfThePast);
+    else if (this.taskArrayEdit.inTime == "tasks-to-future")
+      this.editTaskForArray(this.taskOfTheFuture);
+    else if (this.taskArrayEdit.inTime == "todo-list-today")
+      this.editTaskForArray(this.taskOfThePresent);
   }
 }
 
