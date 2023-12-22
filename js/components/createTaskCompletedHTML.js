@@ -16,6 +16,7 @@ function CreateTaskCompletedHTML(title, color, date, id) {
   pDateTime.textContent = `${dateTodayTask}/${dateMonthsTask}`;
   strikeText.textContent = title;
   divCompleted.style.borderLeft = `2px solid ${color}`;
+  console.log(color)
   divCompleted.setAttribute("id", id);
   divCompleted.appendChild(divDateTime);
   divDateTime.appendChild(pDateTime);

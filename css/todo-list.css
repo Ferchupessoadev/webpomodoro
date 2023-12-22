@@ -83,6 +83,7 @@
 
 .div__categoria-active {
   background: #26a;
+
   .div__categoria-p {
     color: white;
   }
@@ -116,11 +117,11 @@
   order: 1;
 }
 
-#config-list-todo:hover > i {
+#config-list-todo:hover>i {
   color: #bbb;
 }
 
-#config-list-todo:active > i {
+#config-list-todo:active>i {
   color: #fff;
 }
 
@@ -170,6 +171,7 @@
   display: none;
   flex-direction: column;
   align-items: center;
+  height: max-content;
   gap: 10px;
 }
 
@@ -178,6 +180,17 @@
   flex-direction: column;
   gap: 5px;
   width: 100%;
+}
+
+.there-is-not-tasks {
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 90px);
+}
+
+.todo-list__p-note {
+  color: rgba(255, 255, 255, 0.6);
+  display: none;
 }
 
 .todo-list-today {
@@ -296,22 +309,18 @@
 
 .linear:first-child {
   background: rgb(2, 0, 36);
-  background: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(2, 28, 64, 1) 13%,
-    rgba(0, 212, 255, 1) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(2, 28, 64, 1) 13%,
+      rgba(0, 212, 255, 1) 100%);
 }
 
 .linear:last-child {
   background: rgb(2, 0, 36);
-  background: linear-gradient(
-    -90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(2, 28, 64, 1) 13%,
-    rgba(0, 212, 255, 1) 100%
-  );
+  background: linear-gradient(-90deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(2, 28, 64, 1) 13%,
+      rgba(0, 212, 255, 1) 100%);
 }
 
 .p-tasks {
@@ -356,6 +365,11 @@
 
 .container-completed {
   display: none;
+  flex-direction: column;
+}
+
+.completed__p-nota {
+  color: white;
 }
 
 .container-task-create {
@@ -373,12 +387,10 @@
   height: 60%;
   width: 50%;
   padding: 20px;
-  background: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(2, 28, 64, 1) 13%,
-    rgba(0, 212, 255, 1) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(2, 28, 64, 1) 13%,
+      rgba(0, 212, 255, 1) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -649,12 +661,10 @@
   height: 60%;
   width: 50%;
   padding: 20px;
-  background: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(2, 28, 64, 1) 13%,
-    rgba(0, 212, 255, 1) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(2, 0, 36, 1) 0%,
+      rgba(2, 28, 64, 1) 13%,
+      rgba(0, 212, 255, 1) 100%);
   display: flex;
   flex-direction: column;
   align-items: center;

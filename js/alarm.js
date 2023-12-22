@@ -1,4 +1,3 @@
-"use strict";
 const indiceTimeStudy = 0;
 const indiceTimeShortBreak = 1;
 const indiceTimeLongBreak = 2;
@@ -46,6 +45,7 @@ class Alarm {
     this.timeActual = null;
     this.soundRunning;
     this.timeMinutesReference;
+    this.normalTitleWindow = document.title;
   }
 
   setSettings(setting) {
@@ -78,18 +78,24 @@ class Alarm {
   }
 
   timer(time) {
+    let newWindowTitle;
     this.timeMinutesReference = time;
     if (!this.userClickedTwice) this.timeActual = time * 60;
     this.interval = setInterval(() => {
       this.timeActual -= 1;
       this.time = parseInt(this.timeActual / 60);
       this.secondsText = parseInt(this.timeActual % 60);
-      this.secondsText.toString().length < 2
-        ? (this.seconds.innerHTML = `0${this.secondsText}`)
-        : (this.seconds.innerHTML = this.secondsText);
       this.time.toString().length < 2
-        ? (this.timeMinutes.innerHTML = `0${this.time}`)
-        : (this.timeMinutes.innerHTML = this.time);
+        ? (this.timeMinutes.innerHTML = `0${this.time}`,
+          newWindowTitle = `0${this.time}:`)
+        : (this.timeMinutes.innerHTML = this.time,
+          newWindowTitle = this.time + ":")
+      this.secondsText.toString().length < 2
+        ? (this.seconds.innerHTML = `0${this.secondsText}`,
+          newWindowTitle += `0${this.secondsText}`)
+        : (this.seconds.innerHTML = this.secondsText,
+          newWindowTitle += this.secondsText),
+        document.title = `${newWindowTitle} ${this.normalTitleWindow}`;
       if (this.timeActual === 0) {
         clearInterval(this.interval);
         this.timeInProcess = false;
@@ -159,6 +165,7 @@ class Alarm {
       this.timeMinutesReference.toString().length < 2
         ? (this.timeMinutes.innerHTML = `0${this.timeMinutesReference}`)
         : (this.timeMinutes.innerHTML = `${this.timeMinutesReference}`);
+      document.title = this.normalTitleWindow
       this.seconds.innerHTML = "00";
       this.btnStart.textContent = `START`;
       this.timeRunning = false;

@@ -3,7 +3,7 @@ import Alarm from "./alarm.js";
 import Settings from "./settings.js";
 import sliderNav from "./components/slidernav.js";
 import TodoList from "./todo-list.js";
-
+import { moveScrollToTimer, moveScrollToTodoList } from "./components/moveScrolls.js"
 addEventListener("DOMContentLoaded", () => {
   const settings = new Settings();
   const alarm = new Alarm();
@@ -16,6 +16,10 @@ addEventListener("DOMContentLoaded", () => {
   const header = document.querySelector(".header");
   const nav = document.querySelector(".nav");
   const body = document.querySelector("body");
+  const btnTimer = document.querySelector(".header__h1")
+  const btnTodoList = document.querySelector(".header__h2")
+  btnTimer.addEventListener("click", () => moveScrollToTimer())
+  btnTodoList.addEventListener("click", () => moveScrollToTodoList())
   let navIsVisible = false;
   const toogleBtnNav = () =>
     navIsVisible ? (navIsVisible = false) : (navIsVisible = true);

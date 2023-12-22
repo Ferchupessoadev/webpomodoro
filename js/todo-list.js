@@ -2,9 +2,10 @@
 import DriverOptionsTodoList from "./components/driverOptions.js";
 import CreateTaskHTML from "./components/createTaskHTML.js";
 import CreateTaskCompletedHTML from "./components/createTaskCompletedHTML.js";
-
+import viewTimeAndDeleteCompleted from "./components/deleteCompleted.js";
 class todoList {
   constructor() {
+    this.todoList = document.querySelector(".todo-list")
     this.todoListToday = document.getElementById("todo-list-today");
     this.todoListPast = document.querySelector(".homework-from-the-past");
     this.todoListFuture = document.querySelector(".tasks-to-future");
@@ -124,6 +125,10 @@ class todoList {
     });
 
     this.renderTodoList();
+
+    setInterval(() => {
+      viewTimeAndDeleteCompleted();
+    }, 30000)
   }
 
   openTaskCreationModal() {
@@ -187,7 +192,7 @@ class todoList {
     this.btnColorsImportantTask.firstElementChild.style.background = "red";
   }
 
-  createTaskOfFuture(title, color, date, id) {
+  handlerTasks(title, descripcion, color, date, id, todoListContainer, dateTime) {
     const [
       div,
       containerCircle,
@@ -199,7 +204,7 @@ class todoList {
       containerBtnEyes,
     ] = CreateTaskHTML(title, color, date, id);
     containerCircle.addEventListener("click", () =>
-      this.createTaskOfCompleted(title, color, date, id)
+      this.createTaskOfCompleted(title, descripcion, color, dateTime, id, div, date)
     );
     containerBtnEyes.addEventListener("click", (e) =>
       this.openViewTask(
@@ -217,82 +222,16 @@ class todoList {
     divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
       this.driverOptionsTodoList.toggleOptions(e.target)
     );
-    this.todoListFuture.children[2].insertAdjacentElement("afterbegin", div);
+    todoListContainer.children[2].insertAdjacentElement("afterbegin", div);
   }
 
-  createTaskOfPast(title, color, date, id) {
-    const [
-      div,
-      containerCircle,
-      btnEyes,
-      btnTrash,
-      btnEdit,
-      divOptionsResponsive,
-      containerBtnTrash,
-      containerBtnEyes,
-    ] = CreateTaskHTML(title, color, date, id);
-    containerCircle.addEventListener("click", () =>
-      this.createTaskOfCompleted(title, color, date, id)
-    );
-    containerBtnEyes.addEventListener("click", (e) =>
-      this.openViewTask(
-        e.target.parentElement.parentElement.parentElement.parentElement
-      )
-    );
-    btnEyes.addEventListener("click", (e) =>
-      this.openViewTask(e.target.parentElement.parentElement)
-    );
-    btnEdit.addEventListener("click", (e) =>
-      this.openTaskEditingModal(e.target.parentElement.parentElement)
-    );
-    containerBtnTrash.addEventListener("click", () => this.deleteTask(div, id));
-    btnTrash.addEventListener("click", () => this.deleteTask(div, id));
-    divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
-      this.driverOptionsTodoList.toggleOptions(e.target)
-    );
-    this.todoListPast.children[2].insertAdjacentElement("afterbegin", div);
-  }
-
-  createTaskOfToday(title, color, date, id) {
-    const [
-      div,
-      containerCircle,
-      btnEyes,
-      btnTrash,
-      btnEdit,
-      divOptionsResponsive,
-      containerBtnTrash,
-      containerBtnEyes,
-    ] = CreateTaskHTML(title, color, date, id);
-    containerCircle.addEventListener("click", () =>
-      this.createTaskOfCompleted(title, color, date, id)
-    );
-    containerBtnEyes.addEventListener("click", (e) =>
-      this.openViewTask(
-        e.target.parentElement.parentElement.parentElement.parentElement
-      )
-    );
-    btnEyes.addEventListener("click", (e) =>
-      this.openViewTask(e.target.parentElement.parentElement)
-    );
-    containerBtnTrash.addEventListener("click", () => this.deleteTask(div, id));
-    btnTrash.addEventListener("click", () => this.deleteTask(div, id));
-    btnEdit.addEventListener("click", (e) =>
-      this.openTaskEditingModal(e.target.parentElement.parentElement)
-    );
-    divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
-      this.driverOptionsTodoList.toggleOptions(e.target)
-    );
-    this.todoListToday.children[2].insertAdjacentElement("afterbegin", div);
-  }
-
-  createTaskOfCompleted(title, color, date, id) {
+  createTaskOfCompleted(title, description, color, dateTime, id, divTask, date) {
     // Crear elemento HTML para la tarea completada
     const [divCompleted, divCircle] = CreateTaskCompletedHTML(
       title,
       color,
       date,
-      id
+      id,
     );
 
     // Agregar el elemento al contenedor de tareas completadas
@@ -300,39 +239,10 @@ class todoList {
       "afterbegin",
       divCompleted
     );
-    this.todoListCompleted.style.display = "block";
-
-    const findAndRemoveTask = (taskArray) => {
-      for (let i = 0; i < taskArray.length; i++) {
-        if (taskArray[i].id == id) {
-          this.completedTask.push(taskArray[i]);
-          taskArray.splice(i, 1);
-          localStorage.setItem(
-            "taskCompleted",
-            JSON.stringify(this.completedTask)
-          );
-          localStorage.setItem(
-            "taskPresent",
-            JSON.stringify(this.taskOfThePresent)
-          );
-          // Si alguna de las secciones no tiene tareas, ocúltala.
-          if (this.completedTask.length < 1)
-            this.todoListCompleted.style.display = "block";
-          if (taskArray.length == 0) this.todoListToday.style.display = "none";
-          break;
-        }
-      }
-    };
-
-    findAndRemoveTask(this.taskOfThePresent) ||
-      findAndRemoveTask(this.taskOfThePast) ||
-      findAndRemoveTask(this.taskOfTheFuture);
-
-    // Eliminar la tarea completada del DOM
-    const taskElement = document.getElementById(id);
-    if (taskElement) {
-      taskElement.remove();
-    }
+    this.todoListCompleted.style.display = "flex";
+    this.completedTask = [...this.completedTask, { title, description, id, dateTime, color }];
+    localStorage.setItem("taskCompleted", JSON.stringify(this.completedTask));
+    this.deleteTask(divTask, id);
   }
 
   showColorWhenHoveringOver(colorCircle) {
@@ -359,9 +269,8 @@ class todoList {
       const colorCircleRect = colorCircle.getBoundingClientRect();
 
       divContainerInfoColor.style.left = `${colorCircleRect.left}px`;
-      divContainerInfoColor.style.top = `${
-        colorCircleRect.top + 30 + scrollY
-      }px`;
+      divContainerInfoColor.style.top = `${colorCircleRect.top + 30 + scrollY
+        }px`;
 
       colorCircle.addEventListener("mouseout", () =>
         divContainerInfoColor.remove()
@@ -519,6 +428,7 @@ class todoList {
   }
 
   renderTodoListCompleted(todo) {
+    console.log(todo)
     const [divCompleted, divCircle] = CreateTaskCompletedHTML(
       todo.title,
       todo.importanceAccordingToColor,
@@ -529,7 +439,7 @@ class todoList {
       "afterbegin",
       divCompleted
     );
-    this.todoListCompleted.style.display = "block";
+    this.todoListCompleted.style.display = "flex";
     this.completedTask.push(todo);
     localStorage.setItem("taskCompleted", JSON.stringify(this.completedTask));
   }
@@ -560,6 +470,9 @@ class todoList {
       completedTodos.length == 0
     ) {
       localStorage.setItem("ultimateId", 0);
+      document.querySelector(".todo-list__p-note").style.display = "inline"
+      document.querySelector(".todo-list__p-note").style.margin = "auto"
+      this.todoList.classList.add("there-is-not-tasks");
     } else {
       this.idTask = parseInt(localStorage.getItem("ultimateId")) || 0;
     }
@@ -580,11 +493,14 @@ class todoList {
       (ageTask === age && monthsTask === months && todayTask < today)
     ) {
       // La tarea es del pasado
-      this.createTaskOfPast(
+      this.handlerTasks(
         newTodoListData.title,
+        newTodoListData.description,
         newTodoListData.importanceAccordingToColor,
         `${todayTask}/${monthsTask}`,
-        newTodoListData.id
+        newTodoListData.id,
+        this.todoListPast,
+        newTodoListData.dateTime
       );
       this.taskOfThePast.push(newTodoListData);
       localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
@@ -595,11 +511,14 @@ class todoList {
       todayTask === today
     ) {
       // La tarea es del presente
-      this.createTaskOfToday(
+      this.handlerTasks(
         newTodoListData.title,
+        newTodoListData.description,
         newTodoListData.importanceAccordingToColor,
         `${todayTask}/${monthsTask}`,
-        newTodoListData.id
+        newTodoListData.id,
+        this.todoListToday,
+        newTodoListData.dateTime
       );
       this.taskOfThePresent.push(newTodoListData);
       localStorage.setItem(
@@ -609,15 +528,25 @@ class todoList {
       this.todoListToday.style.display = "block";
     } else {
       // La tarea es del futuro
-      this.createTaskOfFuture(
+      this.handlerTasks(
         newTodoListData.title,
+        newTodoListData.description,
         newTodoListData.importanceAccordingToColor,
         `${todayTask}/${monthsTask}`,
-        newTodoListData.id
+        newTodoListData.id,
+        this.todoListFuture,
+        newTodoListData.dateTime
       );
       this.taskOfTheFuture.push(newTodoListData);
       localStorage.setItem("taskFuture", JSON.stringify(this.taskOfTheFuture));
       this.todoListFuture.style.display = "block";
+    }
+
+    if (this.taskOfThePresent.length > 0
+      || this.taskOfThePast.length > 0
+      || this.taskOfTheFuture.length > 0) {
+      this.todoList.classList.remove("there-is-not-tasks")
+      document.querySelector(".todo-list__p-note").style.display = "none";
     }
   }
 
@@ -677,6 +606,13 @@ class todoList {
     if (!finish) findTaskAndDeleted(this.taskOfThePast);
     if (!finish) findTaskAndDeleted(this.taskOfTheFuture);
     todo.remove();
+    if (this.taskOfThePresent.length == 0
+      && this.taskOfThePast.length == 0
+      && this.taskOfTheFuture.length == 0
+      && this.completedTask.length == 0) {
+      this.todoList.classList.add("there-is-not-tasks");
+      document.querySelector(".todo-list__p-note").style.display = "inline";
+    }
   }
 
   formatNum(time) {

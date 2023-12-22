@@ -108,6 +108,24 @@ nav {
   margin: auto;
   font-family: "Lobster";
   font-size: 40px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.header__h2 {
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(0, 24, 73, 0.4);
+  color: white;
+  cursor: pointer;
+  user-select: none;
+  position: absolute;
+  right: 20px;
+}
+
+.header__h2:hover {
+  background: var(--background-fondo);
+  color: whitesmoke
 }
 
 .modal-conf {
