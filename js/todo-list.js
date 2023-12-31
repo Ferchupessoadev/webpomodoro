@@ -3,6 +3,7 @@ import DriverOptionsTodoList from "./components/driverOptions.js";
 import CreateTaskHTML from "./components/createTaskHTML.js";
 import CreateTaskCompletedHTML from "./components/createTaskCompletedHTML.js";
 import viewTimeAndDeleteCompleted from "./components/deleteCompleted.js";
+import toggleButtonsTodosTask from "./components/functionsOfToggle.js";
 class todoList {
   constructor() {
     this.todoList = document.querySelector(".todo-list")
@@ -123,12 +124,9 @@ class todoList {
     this.arrowLeft.addEventListener("click", () => {
       this.sliderCategorias.scrollBy(-110, 0);
     });
-
+    this.btnConfTodoList = document.getElementById("config-list-todo");
+    this.btnConfTodoList.addEventListener("click", (e) => toggleButtonsTodosTask(e.target))
     this.renderTodoList();
-
-    setInterval(() => {
-      viewTimeAndDeleteCompleted();
-    }, 30000)
   }
 
   openTaskCreationModal() {
@@ -173,7 +171,6 @@ class todoList {
     this.modalEdit.style.display = "none";
     this.inputTitleEdit.value = "";
     this.inputDescriptionEdit.value = "";
-    this.importanceAccordingToColorEdit.style.background = "red";
     this.selectedCategoriasEdit.value = "";
     this.timeOfTheTaskEdit.value = "";
   }
@@ -204,7 +201,7 @@ class todoList {
       containerBtnEyes,
     ] = CreateTaskHTML(title, color, date, id);
     containerCircle.addEventListener("click", () =>
-      this.createTaskOfCompleted(title, descripcion, color, dateTime, id, div, date)
+      this.createTaskOfCompleted(div, id)
     );
     containerBtnEyes.addEventListener("click", (e) =>
       this.openViewTask(
@@ -225,24 +222,45 @@ class todoList {
     todoListContainer.children[2].insertAdjacentElement("afterbegin", div);
   }
 
-  createTaskOfCompleted(title, description, color, dateTime, id, divTask, date) {
-    // Crear elemento HTML para la tarea completada
-    const [divCompleted, divCircle] = CreateTaskCompletedHTML(
-      title,
-      color,
-      date,
-      id,
-    );
 
-    // Agregar el elemento al contenedor de tareas completadas
-    this.todoListCompleted.children[2].insertAdjacentElement(
-      "afterbegin",
-      divCompleted
-    );
-    this.todoListCompleted.style.display = "flex";
-    this.completedTask = [...this.completedTask, { title, description, id, dateTime, color }];
-    localStorage.setItem("taskCompleted", JSON.stringify(this.completedTask));
-    this.deleteTask(divTask, id);
+  createTaskOfCompleted(element, idTask) {
+    const insertTaskCompleted = (taskArray) => {
+      const indexTask = taskArray.findIndex(task => task.id == idTask);
+      const { title, description, importanceAccordingToColor, dateTime, id } = taskArray[indexTask];
+      console.log(taskArray[indexTask])
+      const [todayTask, monthsTask, ageTask] = dateTime
+        .split("/")
+        .map(Number);
+      let date = `${todayTask}/${monthsTask}`;
+      console.log(title,
+        importanceAccordingToColor,
+        date,
+        id)
+      const [divCompleted, divCircle] = CreateTaskCompletedHTML(
+        title,
+        importanceAccordingToColor,
+        date,
+        id,
+      );
+
+      // Agregar el elemento al contenedor de tareas completadas
+      this.todoListCompleted.children[2].insertAdjacentElement(
+        "afterbegin",
+        divCompleted
+      );
+
+      this.todoListCompleted.style.display = "flex";
+      this.completedTask = [...this.completedTask, { title, description, id, dateTime, importanceAccordingToColor }];
+      localStorage.setItem("taskCompleted", JSON.stringify(this.completedTask));
+      this.deleteTask(element, id);
+    }
+    const containerTasksTime = element.parentElement.parentElement;
+    if (containerTasksTime.className == "homework-from-the-past")
+      insertTaskCompleted(this.taskOfThePast);
+    else if (containerTasksTime.className == "todo-list-today")
+      insertTaskCompleted(this.taskOfThePresent)
+    else if (containerTasksTime.className == "tasks-to-future")
+      insertTaskCompleted(this.taskOfTheFuture)
   }
 
   showColorWhenHoveringOver(colorCircle) {
@@ -428,7 +446,7 @@ class todoList {
   }
 
   renderTodoListCompleted(todo) {
-    console.log(todo)
+    console.log(todo);
     const [divCompleted, divCircle] = CreateTaskCompletedHTML(
       todo.title,
       todo.importanceAccordingToColor,
@@ -637,12 +655,17 @@ class todoList {
       } else {
         this.inputDescriptionEdit.placeholder = ""; // Restablece el placeholder si es válido
         this.inputDescriptionEdit.style.borderColor = ""; // Restablece el color del borde
-        this.editTask(); // Llama a la función editTask si ambos campos son válidos
+        if (this.taskArrayEdit.inTime == "homework-from-the-past")
+          this.editTask(this.taskOfThePast);
+        else if (this.taskArrayEdit.inTime == "tasks-to-future")
+          this.editTask(this.taskOfTheFuture);
+        else if (this.taskArrayEdit.inTime == "todo-list-today")
+          this.editTask(this.taskOfThePresent);; // Llama a la función editTask si ambos campos son válidos
       }
     }
   }
 
-  editTaskForArray(taskArray) {
+  editTask(taskArray) {
     let indexElement = taskArray.findIndex(
       (todo) => todo.id == this.taskArrayEdit.id
     );
@@ -675,6 +698,7 @@ class todoList {
         taskArray[indexElement].description = this.inputDescriptionEdit.value;
         taskArray[indexElement].importanceAccordingToColor =
           this.importanceAccordingToColorEdit.style.background;
+        console.log(this.importanceAccordingToColorEdit.style.background);
         localStorage.setItem("taskPresent", JSON.stringify(taskArray));
       } else {
         // Eliminar tarea existente en taskArray y crear una nueva
@@ -684,15 +708,6 @@ class todoList {
       this.closeEditModal();
       this.taskArrayEdit = null;
     }
-  }
-
-  editTask() {
-    if (this.taskArrayEdit.inTime == "homework-from-the-past")
-      this.editTaskForArray(this.taskOfThePast);
-    else if (this.taskArrayEdit.inTime == "tasks-to-future")
-      this.editTaskForArray(this.taskOfTheFuture);
-    else if (this.taskArrayEdit.inTime == "todo-list-today")
-      this.editTaskForArray(this.taskOfThePresent);
   }
 }
 

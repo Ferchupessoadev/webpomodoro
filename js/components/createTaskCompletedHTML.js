@@ -15,8 +15,7 @@ function CreateTaskCompletedHTML(title, color, date, id) {
   strikeText.classList.add("list-todo__data");
   pDateTime.textContent = `${dateTodayTask}/${dateMonthsTask}`;
   strikeText.textContent = title;
-  divCompleted.style.borderLeft = `2px solid ${color}`;
-  console.log(color)
+  divCompleted.style.borderLeft = `3px solid ${color}`;
   divCompleted.setAttribute("id", id);
   divCompleted.appendChild(divDateTime);
   divDateTime.appendChild(pDateTime);
