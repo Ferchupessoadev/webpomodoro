@@ -2,11 +2,12 @@
 import DriverOptionsTodoList from "./components/driverOptions.js";
 import CreateTaskHTML from "./components/createTaskHTML.js";
 import CreateTaskCompletedHTML from "./components/createTaskCompletedHTML.js";
-import viewTimeAndDeleteCompleted from "./components/deleteCompleted.js";
+// import viewTimeAndDeleteCompleted from "./components/deleteCompleted.js";
 import toggleButtonsTodosTask from "./components/functionsOfToggle.js";
-class todoList {
+import filters from "./filters.js";
+export class TodoList {
   constructor() {
-    this.todoList = document.querySelector(".todo-list")
+    this.todoList = document.querySelector(".todo-list");
     this.todoListToday = document.getElementById("todo-list-today");
     this.todoListPast = document.querySelector(".homework-from-the-past");
     this.todoListFuture = document.querySelector(".tasks-to-future");
@@ -16,16 +17,16 @@ class todoList {
     this.inputTitleEdit = document.getElementById("title-edit");
     this.inputDescriptionEdit = document.getElementById("description-edit");
     this.inputTitleEdit.addEventListener("click", () => {
-      this.inputTitleEdit.style.borderColor = ""; // Restablece el color del borde
-      this.inputTitleEdit.placeholder = ""; // Restablece el placeholder
+      this.inputTitleEdit.style.borderColor = ""; // Restablece el color del borde.
+      this.inputTitleEdit.placeholder = ""; // Restablece el placeholder.
     });
 
     this.inputDescriptionEdit.addEventListener("click", () => {
-      this.inputDescriptionEdit.style.borderColor = ""; // Restablece el color del borde
-      this.inputDescriptionEdit.placeholder = ""; // Restablece el placeholder
+      this.inputDescriptionEdit.style.borderColor = ""; // Restablece el color del borde.
+      this.inputDescriptionEdit.placeholder = ""; // Restablece el placeholder.
     });
     this.btnEditTask = document.getElementById("btn-edit-task");
-    this.btnEditTask.addEventListener("click", () => this.validateAndEdit()); // este metodo edita la tarea si los campos son validos.
+    this.btnEditTask.addEventListener("click", () => this.validateAndEdit()); // Este metodo edita la tarea si los campos son validos.
     this.btnCloseEditModal = document.getElementById("btn-edit-close");
     this.btnCloseEditModal.addEventListener("click", () =>
       this.closeEditModal()
@@ -70,7 +71,7 @@ class todoList {
     this.completedTask = [];
     this.taskArrayEdit;
     this.divContainerColors;
-    this.colorOfTheTask = "red"; //default is red
+    this.colorOfTheTask = "red"; //default is red.
     this.divContainerColors = null;
     this.divContainerInfoColor = null;
     this.arrowColors = document.querySelector(".arrow-down-title");
@@ -126,7 +127,58 @@ class todoList {
     });
     this.btnConfTodoList = document.getElementById("config-list-todo");
     this.btnConfTodoList.addEventListener("click", (e) => toggleButtonsTodosTask(e.target))
+    this.categoryButtons = document.querySelectorAll(".div__categoria");
+    this.categoryButtons.forEach(categoryButton => categoryButton.addEventListener("click", e => this.handlersFilters(categoryButton.firstElementChild)))
     this.renderTodoList();
+  }
+
+  handlersFilters(categoryButton) {
+    const INDEXTASKTODAY = 0;
+    const INDEXTASKPAST = 1;
+    const INDEXTASKFUTURE = 2;
+    // obtengo el boton.
+    const dataFilters = categoryButton.textContent; // example Escuela, Trabajo , etc.
+    const filtersDataArray = filters(dataFilters);
+    console.log(filtersDataArray)
+    
+    this.categoryButtons.forEach(categoryButton => {
+      categoryButton.classList.remove("div__categoria-active");
+      if(categoryButton.firstElementChild.textContent === dataFilters) {
+        categoryButton.classList.add("div__categoria-active")
+      }
+    })
+
+    function showFilteredTasks(tasksTimes,tasksArray) {
+      tasksArray.forEach(task => {
+        tasksTimes.forEach(tasksTime => {
+          console.log(tasksTime)
+          if(tasksTime.id == task.id) document.getElementById(tasksTime.id).style.display = "flex"
+        })
+      })
+    }
+
+    function hideAllTasks(tasksArray) {
+      tasksArray.forEach(task => document.getElementById(task.id).style.display = "none")
+    }
+
+    hideAllTasks(this.taskOfThePresent)
+    hideAllTasks(this.taskOfThePast)
+    hideAllTasks(this.taskOfTheFuture)
+
+    filtersDataArray.forEach((tasksArray, index) => {
+      if(tasksArray.length > 0) {
+        if(index === INDEXTASKTODAY) {
+          showFilteredTasks(this.taskOfThePresent,tasksArray)
+        }
+        else if(index === INDEXTASKPAST) {
+          showFilteredTasks(this.taskOfThePast,tasksArray)
+          console.log("que pasa")
+        }
+        else if(index === INDEXTASKFUTURE) {
+          showFilteredTasks(this.taskOfTheFuture,tasksArray)
+        }
+      }
+    })
   }
 
   openTaskCreationModal() {
@@ -711,4 +763,3 @@ class todoList {
   }
 }
 
-export default todoList;

@@ -66,7 +66,7 @@ export default class Settings {
     return string;
   }
 
-  rederTimes() {
+  renderTimes() {
     if (
       localStorage.getItem("times") == null ||
       localStorage.getItem("times") == undefined ||
