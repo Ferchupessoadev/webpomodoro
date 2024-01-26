@@ -2,16 +2,16 @@
 import Alarm from "./alarm.js";
 import Settings from "./settings.js";
 import sliderNav from "./components/slidernav.js";
-import TodoList from "./todo-list.js";
+import { TodoList } from "./todo-list.js";
 import { moveScrollToTimer, moveScrollToTodoList } from "./components/moveScrolls.js"
 addEventListener("DOMContentLoaded", () => {
   const settings = new Settings();
   const alarm = new Alarm();
   settings.setAlarm(alarm);
-  settings.rederTimes();
+  settings.renderTimes();
   alarm.setSettings(settings);
-  sliderNav();
   const todoList = new TodoList();
+  sliderNav();
   const modalNav = document.querySelector(".modal-nav");
   const header = document.querySelector(".header");
   const nav = document.querySelector(".nav");

@@ -557,6 +557,10 @@ nav {
   .container-settings {
     width: 95%;
   }
+
+  .container-times {
+    gap: 2px;
+  } 
 }
 
 @keyframes rotateReload {

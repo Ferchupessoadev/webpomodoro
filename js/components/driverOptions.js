@@ -14,24 +14,26 @@ class driverOptionsTodoList {
         e.target.className === "p-tasks p-completed p-completed-responsive"
       ) {
         if (e.target.className === "rotate-arrow-completed") {
-          e.target.parentElement.parentElement.parentElement.children[2].classList.toggle(
-            "toggle-section"
-          );
+          e.target.parentElement.parentElement.parentElement.children[2].classList.toggle("toggle-section");
+          console.log(e.target.parentElement.parentElement.parentElement.children[2])
         } else {
-          e.target.parentElement.parentElement.children[2].classList.toggle(
-            "toggle-section"
-          );
+          if(e.target.parentElement.parentElement.children[2].className === "container-todos") {
+            e.target.parentElement.parentElement.children[2].classList.add("toggle-section");
+          } else {
+            e.target.parentElement.parentElement.children[2].classList.remove("toggle-section");
+          }
+          console.log(e.target.parentElement.parentElement.children[2]);
         }
       }
     });
   }
-
+  //metodo para mostrar opciones de crud en modo responsive en cada tarea.
   toggleOptions(optionsResponsive) {
     let optionsIsVisible = false;
     if (
       optionsResponsive.parentElement.lastElementChild.style.display != "flex"
     )
-      optionsIsVisible = true;
+    optionsIsVisible = true;
     const optionsResponsives = document.querySelectorAll(".options-responsive");
     console.log(optionsResponsives);
     optionsResponsives.forEach((elementOptionsResponsive) => {
