@@ -129,6 +129,7 @@ export class TodoList {
     this.btnConfTodoList.addEventListener("click", (e) => toggleButtonsTodosTask(e.target))
     this.categoryButtons = document.querySelectorAll(".div__categoria");
     this.categoryButtons.forEach(categoryButton => categoryButton.addEventListener("click", e => this.handlersFilters(categoryButton.firstElementChild)))
+    this.currentFilters = "Todas";
     this.renderTodoList();
   }
 
@@ -138,6 +139,7 @@ export class TodoList {
     const INDEXTASKFUTURE = 2;
     // obtengo el boton.
     const dataFilters = categoryButton.textContent; // example Escuela, Trabajo , etc.
+    this.currentFilters = dataFilters;
     const filtersDataArray = filters(dataFilters);
     console.log(filtersDataArray)
     
@@ -549,6 +551,7 @@ export class TodoList {
   }
 
   createTask(newTodoListData) {
+    console.log(newTodoListData);
     const [todayTask, monthsTask, ageTask] = newTodoListData.dateTime
       .split("/")
       .map(Number);
@@ -739,6 +742,7 @@ export class TodoList {
         importanceAccordingToColor:
           this.importanceAccordingToColorEdit.style.background,
         id: idTask,
+        category:this.selectedCategoriasEdit.value
       };
       if (dateTime == dateTimeOld) {
         // Actualizar tarea existente en taskArray
@@ -750,8 +754,9 @@ export class TodoList {
         taskArray[indexElement].description = this.inputDescriptionEdit.value;
         taskArray[indexElement].importanceAccordingToColor =
           this.importanceAccordingToColorEdit.style.background;
-        console.log(this.importanceAccordingToColorEdit.style.background);
+        taskArray[indexElement].category = this.selectedCategoriasEdit.value;
         localStorage.setItem("taskPresent", JSON.stringify(taskArray));
+        this.handlersFilters(this.currentFilters);
       } else {
         // Eliminar tarea existente en taskArray y crear una nueva
         this.deleteTask(todo, idTask);
