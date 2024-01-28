@@ -138,17 +138,18 @@ export class TodoList {
     const INDEXTASKPAST = 1;
     const INDEXTASKFUTURE = 2;
     // obtengo el boton.
-    const dataFilters = categoryButton.textContent; // example Escuela, Trabajo , etc.
+    let dataFilters;
+    dataFilters = categoryButton.textContent; // example Escuela, Trabajo , etc.
     this.currentFilters = dataFilters;
-    const filtersDataArray = filters(dataFilters);
-    console.log(filtersDataArray)
-    
+    console.log(this.currentFilters)
     this.categoryButtons.forEach(categoryButton => {
       categoryButton.classList.remove("div__categoria-active");
       if(categoryButton.firstElementChild.textContent === dataFilters) {
         categoryButton.classList.add("div__categoria-active")
       }
     })
+    const filtersDataArray = filters(this.currentFilters);
+   
 
     function showFilteredTasks(tasksTimes,tasksArray) {
       tasksArray.forEach(task => {
@@ -756,11 +757,26 @@ export class TodoList {
           this.importanceAccordingToColorEdit.style.background;
         taskArray[indexElement].category = this.selectedCategoriasEdit.value;
         localStorage.setItem("taskPresent", JSON.stringify(taskArray));
-        this.handlersFilters(this.currentFilters);
+        this.currentFilters = this.selectedCategoriasEdit.value;
+        let categoryButton; 
+        this.categoryButtons.forEach((category) => {
+          if(category.firstElementChild.textContent === this.currentFilters) {
+            categoryButton = category.firstElementChild;
+          }
+        })
+        this.handlersFilters(categoryButton);
       } else {
         // Eliminar tarea existente en taskArray y crear una nueva
         this.deleteTask(todo, idTask);
         this.createTask(newTodoListForEdit);
+        this.currentFilters = this.selectedCategoriasEdit.value;
+        let categoryButton; 
+        this.categoryButtons.forEach((category) => {
+          if(category.firstElementChild.textContent === this.currentFilters) {
+            categoryButton = category.firstElementChild;
+          }
+        })
+        this.handlersFilters(categoryButton);
       }
       this.closeEditModal();
       this.taskArrayEdit = null;
