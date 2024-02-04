@@ -22,7 +22,6 @@ class driverOptionsTodoList {
           } else {
             e.target.parentElement.parentElement.children[2].classList.remove("toggle-section");
           }
-          console.log(e.target.parentElement.parentElement.children[2]);
         }
       }
     });

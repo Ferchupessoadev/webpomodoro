@@ -20,7 +20,6 @@ export class TodoList {
       this.inputTitleEdit.style.borderColor = ""; // Restablece el color del borde.
       this.inputTitleEdit.placeholder = ""; // Restablece el placeholder.
     });
-
     this.inputDescriptionEdit.addEventListener("click", () => {
       this.inputDescriptionEdit.style.borderColor = ""; // Restablece el color del borde.
       this.inputDescriptionEdit.placeholder = ""; // Restablece el placeholder.
@@ -125,8 +124,14 @@ export class TodoList {
     this.arrowLeft.addEventListener("click", () => {
       this.sliderCategorias.scrollBy(-110, 0);
     });
+    this.hideTasks = {
+      taskToday:false,
+      taskFuture:false,
+      taskPast:false,
+      taskCompleted:false
+    }
     this.btnConfTodoList = document.getElementById("config-list-todo");
-    this.btnConfTodoList.addEventListener("click", (e) => toggleButtonsTodosTask(e.target))
+    this.btnConfTodoList.addEventListener("click", (e) => this.hideTasks = toggleButtonsTodosTask(e.target))
     this.categoryButtons = document.querySelectorAll(".div__categoria");
     this.categoryButtons.forEach(categoryButton => categoryButton.addEventListener("click", e => this.handlersFilters(categoryButton.firstElementChild)))
     this.currentFilters = "Todas";
@@ -141,7 +146,6 @@ export class TodoList {
     let dataFilters;
     dataFilters = categoryButton.textContent; // example Escuela, Trabajo , etc.
     this.currentFilters = dataFilters;
-    console.log(this.currentFilters)
     this.categoryButtons.forEach(categoryButton => {
       categoryButton.classList.remove("div__categoria-active");
       if(categoryButton.firstElementChild.textContent === dataFilters) {
@@ -154,7 +158,6 @@ export class TodoList {
     function showFilteredTasks(tasksTimes,tasksArray) {
       tasksArray.forEach(task => {
         tasksTimes.forEach(tasksTime => {
-          console.log(tasksTime)
           if(tasksTime.id == task.id) document.getElementById(tasksTime.id).style.display = "flex"
         })
       })
@@ -175,7 +178,6 @@ export class TodoList {
         }
         else if(index === INDEXTASKPAST) {
           showFilteredTasks(this.taskOfThePast,tasksArray)
-          console.log("que pasa")
         }
         else if(index === INDEXTASKFUTURE) {
           showFilteredTasks(this.taskOfTheFuture,tasksArray)
@@ -197,7 +199,6 @@ export class TodoList {
   openTaskEditingModal(todoList) {
     const idOfTodoList = todoList.getAttribute("id");
     const containerTodosLists = todoList.parentElement.parentElement;
-    console.log(idOfTodoList);
     let taskArray;
     if (containerTodosLists.className == "homework-from-the-past")
       taskArray = this.taskOfThePast;
@@ -282,15 +283,10 @@ export class TodoList {
     const insertTaskCompleted = (taskArray) => {
       const indexTask = taskArray.findIndex(task => task.id == idTask);
       const { title, description, importanceAccordingToColor, dateTime, id } = taskArray[indexTask];
-      console.log(taskArray[indexTask])
       const [todayTask, monthsTask, ageTask] = dateTime
         .split("/")
         .map(Number);
       let date = `${todayTask}/${monthsTask}`;
-      console.log(title,
-        importanceAccordingToColor,
-        date,
-        id)
       const [divCompleted, divCircle] = CreateTaskCompletedHTML(
         title,
         importanceAccordingToColor,
@@ -501,7 +497,6 @@ export class TodoList {
   }
 
   renderTodoListCompleted(todo) {
-    console.log(todo);
     const [divCompleted, divCircle] = CreateTaskCompletedHTML(
       todo.title,
       todo.importanceAccordingToColor,
@@ -552,7 +547,6 @@ export class TodoList {
   }
 
   createTask(newTodoListData) {
-    console.log(newTodoListData);
     const [todayTask, monthsTask, ageTask] = newTodoListData.dateTime
       .split("/")
       .map(Number);
@@ -560,7 +554,6 @@ export class TodoList {
     const age = dateToday.getFullYear();
     const months = dateToday.getMonth() + 1;
     const today = dateToday.getDate();
-
     if (
       ageTask < age ||
       (ageTask === age && monthsTask < months) ||
@@ -783,4 +776,3 @@ export class TodoList {
     }
   }
 }
-
