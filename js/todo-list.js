@@ -1,132 +1,132 @@
-'use strict';
-import DriverOptionsTodoList from './components/driverOptions.js';
-import CreateTaskHTML from './components/createTaskHTML.js';
-import CreateTaskCompletedHTML from './components/createTaskCompletedHTML.js';
+"use strict";
+import DriverOptionsTodoList from "./components/driverOptions.js";
+import CreateTaskHTML from "./components/createTaskHTML.js";
+import CreateTaskCompletedHTML from "./components/createTaskCompletedHTML.js";
 // import viewTimeAndDeleteCompleted from "./components/deleteCompleted.js";
-import toggleButtonsTodosTask from './components/functionsOfToggle.js';
-import filters from './filters.js';
+import toggleButtonsTodosTask from "./components/functionsOfToggle.js";
+import filters from "./filters.js";
 export class TodoList {
     constructor() {
-        this.todoList = document.querySelector('.todo-list');
-        this.todoListToday = document.getElementById('todo-list-today');
-        this.todoListPast = document.querySelector('.homework-from-the-past');
-        this.todoListFuture = document.querySelector('.tasks-to-future');
-        this.todoListCompleted = document.querySelector('.container-completed');
-        this.body = document.querySelector('.body');
+        this.todoList = document.querySelector(".todo-list");
+        this.todoListToday = document.getElementById("todo-list-today");
+        this.todoListPast = document.querySelector(".homework-from-the-past");
+        this.todoListFuture = document.querySelector(".tasks-to-future");
+        this.todoListCompleted = document.querySelector(".container-completed");
+        this.body = document.querySelector(".body");
         this.driverOptionsTodoList = new DriverOptionsTodoList();
-        this.inputTitleEdit = document.getElementById('title-edit');
-        this.inputDescriptionEdit = document.getElementById('description-edit');
-        this.inputTitleEdit.addEventListener('click', () => {
-            this.inputTitleEdit.style.borderColor = ''; // Restablece el color del borde.
-            this.inputTitleEdit.placeholder = ''; // Restablece el placeholder.
+        this.inputTitleEdit = document.getElementById("title-edit");
+        this.inputDescriptionEdit = document.getElementById("description-edit");
+        this.inputTitleEdit.addEventListener("click", () => {
+            this.inputTitleEdit.style.borderColor = ""; // Restablece el color del borde.
+            this.inputTitleEdit.placeholder = ""; // Restablece el placeholder.
         });
-        this.inputDescriptionEdit.addEventListener('click', () => {
-            this.inputDescriptionEdit.style.borderColor = ''; // Restablece el color del borde.
-            this.inputDescriptionEdit.placeholder = ''; // Restablece el placeholder.
+        this.inputDescriptionEdit.addEventListener("click", () => {
+            this.inputDescriptionEdit.style.borderColor = ""; // Restablece el color del borde.
+            this.inputDescriptionEdit.placeholder = ""; // Restablece el placeholder.
         });
-        this.btnEditTask = document.getElementById('btn-edit-task');
-        this.btnEditTask.addEventListener('click', () =>
+        this.btnEditTask = document.getElementById("btn-edit-task");
+        this.btnEditTask.addEventListener("click", () =>
             this.validateAndEdit(),
         ); // Este metodo edita la tarea si los campos son validos.
-        this.btnCloseEditModal = document.getElementById('btn-edit-close');
-        this.btnCloseEditModal.addEventListener('click', () =>
+        this.btnCloseEditModal = document.getElementById("btn-edit-close");
+        this.btnCloseEditModal.addEventListener("click", () =>
             this.closeEditModal(),
         );
         this.selectedCategoriasEdit = document.querySelector(
-            '.select-categorias-edit',
+            ".select-categorias-edit",
         );
         this.timeOfTheTaskEdit = document.getElementById(
-            'date-of-the-task-edit',
+            "date-of-the-task-edit",
         );
         this.idTask = 0;
         this.homeworkTimeInEditing;
-        this.addTaskBtn = document.querySelector('.nav-task__button');
-        this.addTaskBtn.addEventListener('click', () =>
+        this.addTaskBtn = document.querySelector(".nav-task__button");
+        this.addTaskBtn.addEventListener("click", () =>
             this.openTaskCreationModal(),
         );
         this.btnToCloseTheTaskCreationModal = document.querySelector(
-            '.container-btn-task__button-close',
+            ".container-btn-task__button-close",
         );
-        this.btnToCloseTheTaskCreationModal.addEventListener('click', () =>
+        this.btnToCloseTheTaskCreationModal.addEventListener("click", () =>
             this.closeTaskCreationModal(),
         );
-        this.createTaskBtn = document.getElementById('btn-create-task');
-        this.createTaskBtn.addEventListener('click', () =>
+        this.createTaskBtn = document.getElementById("btn-create-task");
+        this.createTaskBtn.addEventListener("click", () =>
             this.validateInputToCreateTheTask(),
         );
-        this.titleInput = document.querySelector('.task-create__input-title');
+        this.titleInput = document.querySelector(".task-create__input-title");
         this.descriptionInput = document.querySelector(
-            '.task-create__input-description',
+            ".task-create__input-description",
         );
         this.importanceAccordingToColor = document.getElementById(
-            'importance-according-to-color',
+            "importance-according-to-color",
         );
         this.importanceAccordingToColorEdit = document.getElementById(
-            'importance-according-to-color-edit',
+            "importance-according-to-color-edit",
         );
-        this.modalEdit = document.querySelector('.modal-edit-task');
-        this.selectCategory = document.querySelector('.select-categorias');
-        this.dateOfTask = document.getElementById('date-of-the-task');
-        this.dateOfTaskEdit = document.getElementById('date-of-the-task-edit');
+        this.modalEdit = document.querySelector(".modal-edit-task");
+        this.selectCategory = document.querySelector(".select-categorias");
+        this.dateOfTask = document.getElementById("date-of-the-task");
+        this.dateOfTaskEdit = document.getElementById("date-of-the-task-edit");
         this.taskOfThePresent = [];
         this.taskOfThePast = [];
         this.taskOfTheFuture = [];
         this.completedTask = [];
         this.taskArrayEdit;
         this.divContainerColors;
-        this.colorOfTheTask = 'red'; //default is red.
+        this.colorOfTheTask = "red"; //default is red.
         this.divContainerColors = null;
         this.divContainerInfoColor = null;
-        this.arrowColors = document.querySelector('.arrow-down-title');
+        this.arrowColors = document.querySelector(".arrow-down-title");
         this.btnColorsImportantTask =
-            document.querySelector('.container-circulo');
+            document.querySelector(".container-circulo");
         this.btnColorsImportantTaskEdit = document.querySelector(
-            '.container-circulo-edit',
+            ".container-circulo-edit",
         );
         this.modalColorsIsVisible = false;
-        this.modalView = document.getElementById('modal-eyes');
+        this.modalView = document.getElementById("modal-eyes");
         this.btnCloseView = this.modalView.firstElementChild.firstElementChild;
         this.btnCloseView.addEventListener(
-            'click',
-            () => (this.modalView.style.display = 'none'),
+            "click",
+            () => (this.modalView.style.display = "none"),
         );
-        this.btnColorsImportantTask.addEventListener('click', () => {
+        this.btnColorsImportantTask.addEventListener("click", () => {
             if (!this.modalColorsIsVisible) {
                 this.modalColorsIsVisible = true;
-                this.showOrCloseModalOfColors('task');
+                this.showOrCloseModalOfColors("task");
             } else {
                 this.modalColorsIsVisible = false;
-                this.arrowColors.style.transform = 'rotate(90deg)';
+                this.arrowColors.style.transform = "rotate(90deg)";
                 this.divContainerInfoColor.remove();
             }
         });
-        this.btnColorsImportantTaskEdit.addEventListener('click', () => {
+        this.btnColorsImportantTaskEdit.addEventListener("click", () => {
             if (!this.modalColorsIsVisible) {
                 this.modalColorsIsVisible = true;
-                this.showOrCloseModalOfColors('edit');
+                this.showOrCloseModalOfColors("edit");
             } else {
                 this.modalColorsIsVisible = false;
-                document.getElementById('arrow-down-edit').style.transform =
-                    'rotate(90deg)';
+                document.getElementById("arrow-down-edit").style.transform =
+                    "rotate(90deg)";
                 this.divContainerInfoColor.remove();
             }
         });
         if (window.innerWidth <= 610) {
-            this.addTaskBtn.innerHTML = '<p>+</p>';
+            this.addTaskBtn.innerHTML = "<p>+</p>";
         }
-        window.addEventListener('resize', () => {
+        window.addEventListener("resize", () => {
             window.innerWidth <= 610
-                ? (this.addTaskBtn.innerHTML = '<p>+</p>')
-                : (this.addTaskBtn.innerHTML = '<p>+</p><p>Add Task</p');
+                ? (this.addTaskBtn.innerHTML = "<p>+</p>")
+                : (this.addTaskBtn.innerHTML = "<p>+</p><p>Add Task</p");
         });
-        this.arrowRight = document.querySelector('.div-arrow-right');
-        this.sliderCategorias = document.querySelector('.div__categorias');
-        this.arrowLeft = document.querySelector('.div-arrow-left');
-        this.arrowRight.addEventListener('click', () => {
+        this.arrowRight = document.querySelector(".div-arrow-right");
+        this.sliderCategorias = document.querySelector(".div__categorias");
+        this.arrowLeft = document.querySelector(".div-arrow-left");
+        this.arrowRight.addEventListener("click", () => {
             this.sliderCategorias.scrollBy(110, 0);
         });
 
-        this.arrowLeft.addEventListener('click', () => {
+        this.arrowLeft.addEventListener("click", () => {
             this.sliderCategorias.scrollBy(-110, 0);
         });
         this.hideTasks = {
@@ -135,18 +135,18 @@ export class TodoList {
             taskPast: false,
             taskCompleted: false,
         };
-        this.btnConfTodoList = document.getElementById('config-list-todo');
+        this.btnConfTodoList = document.getElementById("config-list-todo");
         this.btnConfTodoList.addEventListener(
-            'click',
+            "click",
             (e) => (this.hideTasks = toggleButtonsTodosTask(e.target)),
         );
-        this.categoryButtons = document.querySelectorAll('.div__categoria');
+        this.categoryButtons = document.querySelectorAll(".div__categoria");
         this.categoryButtons.forEach((categoryButton) =>
-            categoryButton.addEventListener('click', (e) =>
+            categoryButton.addEventListener("click", (e) =>
                 this.handlersFilters(categoryButton.firstElementChild),
             ),
         );
-        this.currentFilters = 'Todas';
+        this.currentFilters = "Todas";
         this.renderTodoList();
     }
 
@@ -159,9 +159,9 @@ export class TodoList {
         dataFilters = categoryButton.textContent; // example Escuela, Trabajo , etc.
         this.currentFilters = dataFilters;
         this.categoryButtons.forEach((categoryButton) => {
-            categoryButton.classList.remove('div__categoria-active');
+            categoryButton.classList.remove("div__categoria-active");
             if (categoryButton.firstElementChild.textContent === dataFilters) {
-                categoryButton.classList.add('div__categoria-active');
+                categoryButton.classList.add("div__categoria-active");
             }
         });
         const filtersDataArray = filters(this.currentFilters);
@@ -171,7 +171,7 @@ export class TodoList {
                 tasksTimes.forEach((tasksTime) => {
                     if (tasksTime.id == task.id)
                         document.getElementById(tasksTime.id).style.display =
-                            'flex';
+                            "flex";
                 });
             });
         }
@@ -179,7 +179,7 @@ export class TodoList {
         function hideAllTasks(tasksArray) {
             tasksArray.forEach(
                 (task) =>
-                    (document.getElementById(task.id).style.display = 'none'),
+                    (document.getElementById(task.id).style.display = "none"),
             );
         }
 
@@ -201,34 +201,34 @@ export class TodoList {
     }
 
     openTaskCreationModal() {
-        this.body.style.overflowY = 'hidden';
+        this.body.style.overflowY = "hidden";
         const modalForCreatingTask = document.querySelector(
-            '.container-task-create',
+            ".container-task-create",
         );
-        modalForCreatingTask.style.display = 'flex';
+        modalForCreatingTask.style.display = "flex";
         const fecha = new Date();
         this.dateOfTask.value = fecha.toJSON().slice(0, 10);
     }
 
     openTaskEditingModal(todoList) {
-        const idOfTodoList = todoList.getAttribute('id');
+        const idOfTodoList = todoList.getAttribute("id");
         const containerTodosLists = todoList.parentElement.parentElement;
         let taskArray;
-        if (containerTodosLists.className == 'homework-from-the-past')
+        if (containerTodosLists.className == "homework-from-the-past")
             taskArray = this.taskOfThePast;
-        else if (containerTodosLists.className == 'todo-list-today')
+        else if (containerTodosLists.className == "todo-list-today")
             taskArray = this.taskOfThePresent;
-        else if (containerTodosLists.className == 'tasks-to-future')
+        else if (containerTodosLists.className == "tasks-to-future")
             taskArray = this.taskOfTheFuture;
         const todoListJson = taskArray.find((task) => task.id == idOfTodoList);
-        this.body.style.overflowY = 'hidden';
-        this.modalEdit.style.display = 'flex';
+        this.body.style.overflowY = "hidden";
+        this.modalEdit.style.display = "flex";
         this.inputTitleEdit.value = todoListJson.title;
         this.inputDescriptionEdit.value = todoListJson.description;
         this.importanceAccordingToColorEdit.style.background =
             todoListJson.importanceAccordingToColor;
         this.selectedCategoriasEdit.value = todoListJson.category;
-        const parts = todoListJson.dateTime.split('/');
+        const parts = todoListJson.dateTime.split("/");
         const fecha = `${parts[2]}-${parts[1]}-${parts[0]}`;
         this.timeOfTheTaskEdit.value = fecha;
         todoListJson.inTime = containerTodosLists.className;
@@ -237,26 +237,26 @@ export class TodoList {
     }
 
     closeEditModal() {
-        this.body.style.overflowY = 'auto';
-        this.modalEdit.style.display = 'none';
-        this.inputTitleEdit.value = '';
-        this.inputDescriptionEdit.value = '';
-        this.selectedCategoriasEdit.value = '';
-        this.timeOfTheTaskEdit.value = '';
+        this.body.style.overflowY = "auto";
+        this.modalEdit.style.display = "none";
+        this.inputTitleEdit.value = "";
+        this.inputDescriptionEdit.value = "";
+        this.selectedCategoriasEdit.value = "";
+        this.timeOfTheTaskEdit.value = "";
     }
 
     closeTaskCreationModal() {
         const modalForCreatingTask = document.querySelector(
-            '.container-task-create',
+            ".container-task-create",
         );
-        modalForCreatingTask.style.display = 'none';
-        this.body.style.overflowY = 'auto';
+        modalForCreatingTask.style.display = "none";
+        this.body.style.overflowY = "auto";
         if (this.divContainerInfoColor) this.divContainerInfoColor.remove();
         this.modalColorsIsVisible = false;
-        this.arrowColors.style.transform = 'rotate(90deg)';
-        this.titleInput.value = '';
-        this.descriptionInput.value = '';
-        this.btnColorsImportantTask.firstElementChild.style.background = 'red';
+        this.arrowColors.style.transform = "rotate(90deg)";
+        this.titleInput.value = "";
+        this.descriptionInput.value = "";
+        this.btnColorsImportantTask.firstElementChild.style.background = "red";
     }
 
     handlerTasks(
@@ -278,29 +278,29 @@ export class TodoList {
             containerBtnTrash,
             containerBtnEyes,
         ] = CreateTaskHTML(title, color, date, id);
-        containerCircle.addEventListener('click', () =>
+        containerCircle.addEventListener("click", () =>
             this.createTaskOfCompleted(div, id),
         );
-        containerBtnEyes.addEventListener('click', (e) =>
+        containerBtnEyes.addEventListener("click", (e) =>
             this.openViewTask(
                 e.target.parentElement.parentElement.parentElement
                     .parentElement,
             ),
         );
-        btnEyes.addEventListener('click', (e) =>
+        btnEyes.addEventListener("click", (e) =>
             this.openViewTask(e.target.parentElement.parentElement),
         );
-        btnEdit.addEventListener('click', (e) =>
+        btnEdit.addEventListener("click", (e) =>
             this.openTaskEditingModal(e.target.parentElement.parentElement),
         );
-        containerBtnTrash.addEventListener('click', () =>
+        containerBtnTrash.addEventListener("click", () =>
             this.deleteTask(div, id),
         );
-        btnTrash.addEventListener('click', () => this.deleteTask(div, id));
-        divOptionsResponsive.firstElementChild.addEventListener('click', (e) =>
+        btnTrash.addEventListener("click", () => this.deleteTask(div, id));
+        divOptionsResponsive.firstElementChild.addEventListener("click", (e) =>
             this.driverOptionsTodoList.toggleOptions(e.target),
         );
-        todoListContainer.children[2].insertAdjacentElement('afterbegin', div);
+        todoListContainer.children[2].insertAdjacentElement("afterbegin", div);
     }
 
     createTaskOfCompleted(element, idTask) {
@@ -314,7 +314,7 @@ export class TodoList {
                 id,
             } = taskArray[indexTask];
             const [todayTask, monthsTask, ageTask] = dateTime
-                .split('/')
+                .split("/")
                 .map(Number);
             let date = `${todayTask}/${monthsTask}`;
             const [divCompleted, divCircle] = CreateTaskCompletedHTML(
@@ -326,11 +326,11 @@ export class TodoList {
 
             // Agregar el elemento al contenedor de tareas completadas
             this.todoListCompleted.children[2].insertAdjacentElement(
-                'afterbegin',
+                "afterbegin",
                 divCompleted,
             );
 
-            this.todoListCompleted.style.display = 'flex';
+            this.todoListCompleted.style.display = "flex";
             this.completedTask = [
                 ...this.completedTask,
                 {
@@ -342,36 +342,36 @@ export class TodoList {
                 },
             ];
             localStorage.setItem(
-                'taskCompleted',
+                "taskCompleted",
                 JSON.stringify(this.completedTask),
             );
             this.deleteTask(element, id);
         };
         const containerTasksTime = element.parentElement.parentElement;
-        if (containerTasksTime.className == 'homework-from-the-past')
+        if (containerTasksTime.className == "homework-from-the-past")
             insertTaskCompleted(this.taskOfThePast);
-        else if (containerTasksTime.className == 'todo-list-today')
+        else if (containerTasksTime.className == "todo-list-today")
             insertTaskCompleted(this.taskOfThePresent);
-        else if (containerTasksTime.className == 'tasks-to-future')
+        else if (containerTasksTime.className == "tasks-to-future")
             insertTaskCompleted(this.taskOfTheFuture);
     }
 
     showColorWhenHoveringOver(colorCircle) {
-        if (colorCircle.classList.contains('circulo-important')) {
-            const infoText = document.createElement('p');
+        if (colorCircle.classList.contains("circulo-important")) {
+            const infoText = document.createElement("p");
             infoText.textContent = colorCircle.style.background;
-            infoText.classList.add('info-color__p');
+            infoText.classList.add("info-color__p");
 
-            const divInfoColor = document.createElement('div');
-            divInfoColor.classList.add('info-color');
+            const divInfoColor = document.createElement("div");
+            divInfoColor.classList.add("info-color");
             divInfoColor.appendChild(infoText);
 
-            const triangulo = document.createElement('div');
-            triangulo.classList.add('triangulo-info-color');
+            const triangulo = document.createElement("div");
+            triangulo.classList.add("triangulo-info-color");
 
-            const divContainerInfoColor = document.createElement('div');
-            divContainerInfoColor.classList.add('container-color-info');
-            divContainerInfoColor.setAttribute('id', 'container-info-color');
+            const divContainerInfoColor = document.createElement("div");
+            divContainerInfoColor.classList.add("container-color-info");
+            divContainerInfoColor.setAttribute("id", "container-info-color");
             divContainerInfoColor.appendChild(divInfoColor);
             divInfoColor.appendChild(triangulo);
 
@@ -384,7 +384,7 @@ export class TodoList {
                 colorCircleRect.top + 30 + scrollY
             }px`;
 
-            colorCircle.addEventListener('mouseout', () =>
+            colorCircle.addEventListener("mouseout", () =>
                 divContainerInfoColor.remove(),
             );
 
@@ -393,7 +393,7 @@ export class TodoList {
     }
 
     openViewTask(element) {
-        let idElement = element.getAttribute('id');
+        let idElement = element.getAttribute("id");
         const containerTasksTime = element.parentElement.parentElement;
         const modalViewTitleContent =
             this.modalView.firstElementChild.children[1].lastElementChild;
@@ -409,68 +409,68 @@ export class TodoList {
                 taskArray[index].description;
             modalViewDateTime.textContent = taskArray[index].dateTime;
         };
-        if (containerTasksTime.className == 'homework-from-the-past')
+        if (containerTasksTime.className == "homework-from-the-past")
             searchIndexAndShowInfo(this.taskOfThePast);
-        else if (containerTasksTime.className == 'todo-list-today')
+        else if (containerTasksTime.className == "todo-list-today")
             searchIndexAndShowInfo(this.taskOfThePresent);
-        else if (containerTasksTime.className == 'tasks-to-future')
+        else if (containerTasksTime.className == "tasks-to-future")
             searchIndexAndShowInfo(this.taskOfTheFuture);
-        this.modalView.style.display = 'flex';
-        this.modalView.style.animation = 'animation-modal-view 0.1s ease';
+        this.modalView.style.display = "flex";
+        this.modalView.style.animation = "animation-modal-view 0.1s ease";
     }
 
     showOrCloseModalOfColors(modeTaskOrEdit) {
         const arrowElement =
-            modeTaskOrEdit === 'task'
+            modeTaskOrEdit === "task"
                 ? this.arrowColors
-                : document.getElementById('arrow-down-edit');
+                : document.getElementById("arrow-down-edit");
 
-        arrowElement.style.transform = 'rotate(-90deg)';
+        arrowElement.style.transform = "rotate(-90deg)";
 
         const colors = [
-            'red',
-            'goldenrod',
-            'orange',
-            'rebeccapurple',
-            'yellow',
-            'brown',
-            'blue',
-            'lightblue',
-            'green',
+            "red",
+            "goldenrod",
+            "orange",
+            "rebeccapurple",
+            "yellow",
+            "brown",
+            "blue",
+            "lightblue",
+            "green",
         ];
 
-        const divContainerColors = document.createElement('div');
-        divContainerColors.classList.add('container-colors');
+        const divContainerColors = document.createElement("div");
+        divContainerColors.classList.add("container-colors");
         this.divContainerInfoColor = divContainerColors;
 
         const fragmento = document.createDocumentFragment();
-        const triangulo = document.createElement('div');
-        triangulo.classList.add('triangulo');
+        const triangulo = document.createElement("div");
+        triangulo.classList.add("triangulo");
         fragmento.appendChild(triangulo);
 
         colors.forEach((color) => {
-            const divColor = document.createElement('div');
-            divColor.classList.add('circulo-important');
+            const divColor = document.createElement("div");
+            divColor.classList.add("circulo-important");
             divColor.style.background = color;
-            divColor.addEventListener('click', () => {
+            divColor.addEventListener("click", () => {
                 const targetElement =
-                    modeTaskOrEdit === 'task'
+                    modeTaskOrEdit === "task"
                         ? this.btnColorsImportantTask.firstElementChild
                         : this.importanceAccordingToColorEdit;
                 targetElement.style.background = color;
                 this.infoTextColor.remove();
                 this.divContainerColors.remove();
                 this.modalColorsIsVisible = false;
-                arrowElement.style.transform = 'rotate(90deg)';
+                arrowElement.style.transform = "rotate(90deg)";
             });
             fragmento.appendChild(divColor);
         });
 
         divContainerColors.appendChild(fragmento);
-        divContainerColors.style.display = 'grid';
+        divContainerColors.style.display = "grid";
 
         const btnColorsRect =
-            modeTaskOrEdit === 'task'
+            modeTaskOrEdit === "task"
                 ? this.btnColorsImportantTask.getBoundingClientRect()
                 : this.importanceAccordingToColorEdit.getBoundingClientRect();
         divContainerColors.style.left = `${btnColorsRect.left - 69.7}px`;
@@ -479,7 +479,7 @@ export class TodoList {
         divContainerColors.style.bottom = `${btnColorsRect.bottom}px`;
 
         this.divContainerColors = divContainerColors;
-        this.divContainerColors.addEventListener('mouseover', (e) =>
+        this.divContainerColors.addEventListener("mouseover", (e) =>
             this.showColorWhenHoveringOver(e.target),
         );
         this.body.appendChild(divContainerColors);
@@ -488,20 +488,20 @@ export class TodoList {
     validateEntryToEditTheFields() {
         const showErrorPlaceholder = (input, placeholder, clickHandler) => {
             input.placeholder = placeholder;
-            input.classList.add('color-placeholder-red');
-            input.addEventListener('click', clickHandler);
+            input.classList.add("color-placeholder-red");
+            input.addEventListener("click", clickHandler);
         };
         if (
-            this.inputTitleEdit.value == '' ||
+            this.inputTitleEdit.value == "" ||
             this.inputTitleEdit === undefined
         ) {
             showErrorPlaceholder(
                 this.inputTitleEdit,
-                'Campo obligatorio',
+                "Campo obligatorio",
                 () => {
-                    this.inputTitleEdit.placeholder = 'Añadir un titulo';
+                    this.inputTitleEdit.placeholder = "Añadir un titulo";
                     this.inputTitleEdit.classList.remove(
-                        'color-placeholder-red',
+                        "color-placeholder-red",
                     );
                 },
             );
@@ -511,30 +511,30 @@ export class TodoList {
     validateInputToCreateTheTask() {
         const showErrorPlaceholder = (input, placeholder, clickHandler) => {
             input.placeholder = placeholder;
-            input.classList.add('color-placeholder-red');
-            input.addEventListener('click', clickHandler);
+            input.classList.add("color-placeholder-red");
+            input.addEventListener("click", clickHandler);
         };
 
         if (
-            this.titleInput.value === '' ||
+            this.titleInput.value === "" ||
             this.titleInput.value === undefined
         ) {
-            showErrorPlaceholder(this.titleInput, 'Campo obligatorio', () => {
-                this.titleInput.placeholder = 'Añadir un titulo';
-                this.titleInput.classList.remove('color-placeholder-red');
+            showErrorPlaceholder(this.titleInput, "Campo obligatorio", () => {
+                this.titleInput.placeholder = "Añadir un titulo";
+                this.titleInput.classList.remove("color-placeholder-red");
             });
         } else if (
-            this.descriptionInput.value === '' ||
+            this.descriptionInput.value === "" ||
             this.descriptionInput.value === undefined
         ) {
             showErrorPlaceholder(
                 this.descriptionInput,
-                'te menti es obligatorio',
+                "te menti es obligatorio",
                 () => {
                     this.descriptionInput.placeholder =
-                        'Añadir un descripcion (opcional)';
+                        "Añadir un descripcion (opcional)";
                     this.descriptionInput.classList.remove(
-                        'color-placeholder-red',
+                        "color-placeholder-red",
                     );
                 },
             );
@@ -546,10 +546,10 @@ export class TodoList {
 
     getTodosOfTheDB() {
         let todos = [
-            JSON.parse(localStorage.getItem('taskPresent')),
-            JSON.parse(localStorage.getItem('taskPast')),
-            JSON.parse(localStorage.getItem('taskFuture')),
-            JSON.parse(localStorage.getItem('taskCompleted')),
+            JSON.parse(localStorage.getItem("taskPresent")),
+            JSON.parse(localStorage.getItem("taskPast")),
+            JSON.parse(localStorage.getItem("taskFuture")),
+            JSON.parse(localStorage.getItem("taskCompleted")),
         ];
         return todos;
     }
@@ -562,13 +562,13 @@ export class TodoList {
             todo.id,
         );
         this.todoListCompleted.children[2].insertAdjacentElement(
-            'afterbegin',
+            "afterbegin",
             divCompleted,
         );
-        this.todoListCompleted.style.display = 'flex';
+        this.todoListCompleted.style.display = "flex";
         this.completedTask.push(todo);
         localStorage.setItem(
-            'taskCompleted',
+            "taskCompleted",
             JSON.stringify(this.completedTask),
         );
     }
@@ -580,16 +580,16 @@ export class TodoList {
         const futureTodos = todos[2] || [];
         const completedTodos = todos[3] || [];
         localStorage.setItem(
-            'taskPresent',
+            "taskPresent",
             JSON.stringify(this.taskOfThePresent),
         );
         localStorage.setItem(
-            'taskFuture',
+            "taskFuture",
             JSON.stringify(this.taskOfTheFuture),
         );
-        localStorage.setItem('taskPast', JSON.stringify(this.taskOfThePast));
+        localStorage.setItem("taskPast", JSON.stringify(this.taskOfThePast));
         localStorage.setItem(
-            'taskCompleted',
+            "taskCompleted",
             JSON.stringify(this.completedTask),
         );
         if (presentTodos.length >= 1)
@@ -609,19 +609,19 @@ export class TodoList {
             futureTodos.length == 0 &&
             completedTodos.length == 0
         ) {
-            localStorage.setItem('ultimateId', 0);
-            document.querySelector('.todo-list__p-note').style.display =
-                'inline';
-            document.querySelector('.todo-list__p-note').style.margin = 'auto';
-            this.todoList.classList.add('there-is-not-tasks');
+            localStorage.setItem("ultimateId", 0);
+            document.querySelector(".todo-list__p-note").style.display =
+                "inline";
+            document.querySelector(".todo-list__p-note").style.margin = "auto";
+            this.todoList.classList.add("there-is-not-tasks");
         } else {
-            this.idTask = parseInt(localStorage.getItem('ultimateId')) || 0;
+            this.idTask = parseInt(localStorage.getItem("ultimateId")) || 0;
         }
     }
 
     createTask(newTodoListData) {
         const [todayTask, monthsTask, ageTask] = newTodoListData.dateTime
-            .split('/')
+            .split("/")
             .map(Number);
         const dateToday = new Date();
         const age = dateToday.getFullYear();
@@ -644,11 +644,11 @@ export class TodoList {
             );
             this.taskOfThePast.push(newTodoListData);
             localStorage.setItem(
-                'taskPast',
+                "taskPast",
                 JSON.stringify(this.taskOfThePast),
             );
             if (!this.hideTasks.taskPast) {
-                this.todoListPast.style.display = 'block';
+                this.todoListPast.style.display = "block";
             }
         } else if (
             ageTask === age &&
@@ -667,11 +667,11 @@ export class TodoList {
             );
             this.taskOfThePresent.push(newTodoListData);
             localStorage.setItem(
-                'taskPresent',
+                "taskPresent",
                 JSON.stringify(this.taskOfThePresent),
             );
             if (!this.hideTasks.taskToday) {
-                this.todoListToday.style.display = 'block';
+                this.todoListToday.style.display = "block";
             }
         } else {
             // La tarea es del futuro
@@ -686,11 +686,11 @@ export class TodoList {
             );
             this.taskOfTheFuture.push(newTodoListData);
             localStorage.setItem(
-                'taskFuture',
+                "taskFuture",
                 JSON.stringify(this.taskOfTheFuture),
             );
             if (!this.hideTasks.taskFuture) {
-                this.todoListFuture.style.display = 'block';
+                this.todoListFuture.style.display = "block";
             }
         }
 
@@ -699,15 +699,15 @@ export class TodoList {
             this.taskOfThePast.length > 0 ||
             this.taskOfTheFuture.length > 0
         ) {
-            this.todoList.classList.remove('there-is-not-tasks');
-            document.querySelector('.todo-list__p-note').style.display = 'none';
+            this.todoList.classList.remove("there-is-not-tasks");
+            document.querySelector(".todo-list__p-note").style.display = "none";
         }
     }
 
     createNewTask() {
         const dateOfTheTime = this.dateOfTask.value;
         const [ageTask, monthsTask, todayTask] = dateOfTheTime
-            .split('-')
+            .split("-")
             .map(Number);
         const newTodoListData = {
             title: this.titleInput.value,
@@ -717,14 +717,14 @@ export class TodoList {
             category:
                 this.selectCategory.children[this.selectCategory.selectedIndex]
                     .textContent,
-            dateTime: `${todayTask.toString().padStart(2, '0')}/${monthsTask
+            dateTime: `${todayTask.toString().padStart(2, "0")}/${monthsTask
                 .toString()
-                .padStart(2, '0')}/${ageTask.toString().padStart(2, '0')}`,
+                .padStart(2, "0")}/${ageTask.toString().padStart(2, "0")}`,
             id: this.idTask,
         };
         this.createTask(newTodoListData);
         this.idTask = this.idTask + 1;
-        localStorage.setItem('ultimateId', this.idTask);
+        localStorage.setItem("ultimateId", this.idTask);
     }
 
     deleteTask(todo, id) {
@@ -735,26 +735,26 @@ export class TodoList {
                     finish = true;
                     taskArray.splice(index, 1);
                     localStorage.setItem(
-                        'taskPresent',
+                        "taskPresent",
                         JSON.stringify(this.taskOfThePresent),
                     );
                     localStorage.setItem(
-                        'taskPast',
+                        "taskPast",
                         JSON.stringify(this.taskOfThePast),
                     );
                     localStorage.setItem(
-                        'taskFuture',
+                        "taskFuture",
                         JSON.stringify(this.taskOfTheFuture),
                     );
                     this.taskOfThePresent.length < 1
-                        ? (this.todoListToday.style.display = 'none')
-                        : (this.todoListToday.style.display = 'block');
+                        ? (this.todoListToday.style.display = "none")
+                        : (this.todoListToday.style.display = "block");
                     this.taskOfThePast.length < 1
-                        ? (this.todoListPast.style.display = 'none')
-                        : (this.todoListPast.style.display = 'block');
+                        ? (this.todoListPast.style.display = "none")
+                        : (this.todoListPast.style.display = "block");
                     this.taskOfTheFuture.length < 1
-                        ? (this.todoListFuture.style.display = 'none')
-                        : (this.todoListFuture.style.display = 'block');
+                        ? (this.todoListFuture.style.display = "none")
+                        : (this.todoListFuture.style.display = "block");
                     return;
                 }
             });
@@ -769,9 +769,9 @@ export class TodoList {
             this.taskOfTheFuture.length == 0 &&
             this.completedTask.length == 0
         ) {
-            this.todoList.classList.add('there-is-not-tasks');
-            document.querySelector('.todo-list__p-note').style.display =
-                'inline';
+            this.todoList.classList.add("there-is-not-tasks");
+            document.querySelector(".todo-list__p-note").style.display =
+                "inline";
         }
     }
 
@@ -785,25 +785,25 @@ export class TodoList {
         const titleValue = this.inputTitleEdit.value.trim();
         const descriptionValue = this.inputDescriptionEdit.value.trim();
 
-        if (titleValue === '') {
-            this.inputTitleEdit.placeholder = 'Campo obligatorio';
-            this.inputTitleEdit.style.borderColor = 'red';
-            this.inputTitleEdit.style.borderWidth = '2px';
+        if (titleValue === "") {
+            this.inputTitleEdit.placeholder = "Campo obligatorio";
+            this.inputTitleEdit.style.borderColor = "red";
+            this.inputTitleEdit.style.borderWidth = "2px";
         } else {
-            this.inputTitleEdit.placeholder = ''; // Restablece el placeholder si es válido
-            this.inputTitleEdit.style.borderColor = ''; // Restablece el color del borde
-            if (descriptionValue === '') {
-                this.inputDescriptionEdit.placeholder = 'Campo obligatorio';
-                this.inputDescriptionEdit.style.borderColor = 'red';
-                this.inputDescriptionEdit.style.borderWidth = '2px';
+            this.inputTitleEdit.placeholder = ""; // Restablece el placeholder si es válido
+            this.inputTitleEdit.style.borderColor = ""; // Restablece el color del borde
+            if (descriptionValue === "") {
+                this.inputDescriptionEdit.placeholder = "Campo obligatorio";
+                this.inputDescriptionEdit.style.borderColor = "red";
+                this.inputDescriptionEdit.style.borderWidth = "2px";
             } else {
-                this.inputDescriptionEdit.placeholder = ''; // Restablece el placeholder si es válido
-                this.inputDescriptionEdit.style.borderColor = ''; // Restablece el color del borde
-                if (this.taskArrayEdit.inTime == 'homework-from-the-past')
+                this.inputDescriptionEdit.placeholder = ""; // Restablece el placeholder si es válido
+                this.inputDescriptionEdit.style.borderColor = ""; // Restablece el color del borde
+                if (this.taskArrayEdit.inTime == "homework-from-the-past")
                     this.editTask(this.taskOfThePast);
-                else if (this.taskArrayEdit.inTime == 'tasks-to-future')
+                else if (this.taskArrayEdit.inTime == "tasks-to-future")
                     this.editTask(this.taskOfTheFuture);
-                else if (this.taskArrayEdit.inTime == 'todo-list-today')
+                else if (this.taskArrayEdit.inTime == "todo-list-today")
                     this.editTask(this.taskOfThePresent); // Llama a la función editTask si ambos campos son válidos
             }
         }
@@ -818,7 +818,7 @@ export class TodoList {
             const todo = document.getElementById(idTask);
             let dateTimeOld = taskArray[indexElement].dateTime;
             let [ageTask, monthsTask, todayTask] = this.dateOfTaskEdit.value
-                .split('-')
+                .split("-")
                 .map(Number);
             todayTask = this.formatNum(todayTask);
             monthsTask = this.formatNum(monthsTask);
@@ -846,7 +846,7 @@ export class TodoList {
                     this.importanceAccordingToColorEdit.style.background;
                 taskArray[indexElement].category =
                     this.selectedCategoriasEdit.value;
-                localStorage.setItem('taskPresent', JSON.stringify(taskArray));
+                localStorage.setItem("taskPresent", JSON.stringify(taskArray));
                 this.currentFilters = this.selectedCategoriasEdit.value;
                 let categoryButton;
                 this.categoryButtons.forEach((category) => {
